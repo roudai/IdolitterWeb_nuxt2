@@ -23,11 +23,9 @@
 
 <script>
 export default {
-  async asyncData({ $axios }) {
-    const baseUrl =
-      'https://sheets.googleapis.com/v4/spreadsheets/1U6dXI2B5EOI8f8h2t20BIVbIznLbNtDegNwHHODda_8/values/' +
-      'アイドル一覧?'
-    const params = { key: 'AIzaSyBQEWQ-vMAmzRi2tmnRP2po7UL78NCI7qc' }
+  async asyncData({ $axios, $config }) {
+    const baseUrl = $config.baseURL + 'アイドル一覧?'
+    const params = { key: $config.apiKey }
     const queryParams = new URLSearchParams(params)
     const response = await $axios.$get(baseUrl + queryParams)
     return response

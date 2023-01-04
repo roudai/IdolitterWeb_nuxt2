@@ -9,7 +9,7 @@ export default {
   head: {
     title: 'idolitter',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'ja',
     },
     meta: [
       { charset: 'utf-8' },
@@ -24,7 +24,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '~/plugins/vue-good-table', ssr: false }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

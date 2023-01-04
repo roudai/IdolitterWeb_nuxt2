@@ -1,77 +1,94 @@
 <template>
   <div>
     <section class="section">
-      <vue-good-table :columns="columns" :rows="rows" />
+      <vue-good-table
+        :columns="columns"
+        :rows="rows"
+        compact-mode
+        :pagination-options="{
+          enabled: true,
+          mode: 'pages',
+          perPage: 20,
+          perPageDropdown: [10, 20, 50, 100],
+          dropdownAllowAll: false,
+        }"
+        :search-options="{
+          enabled: true,
+        }"
+        @on-cell-click="onCellClick"
+      />
     </section>
   </div>
 </template>
 
 <script>
 export default {
+  async asyncData({ $axios }) {
+    const baseUrl =
+      'https://sheets.googleapis.com/v4/spreadsheets/1U6dXI2B5EOI8f8h2t20BIVbIznLbNtDegNwHHODda_8/values/' +
+      'アイドル一覧?'
+    const params = { key: 'AIzaSyBQEWQ-vMAmzRi2tmnRP2po7UL78NCI7qc' }
+    const queryParams = new URLSearchParams(params)
+    const response = await $axios.$get(baseUrl + queryParams)
+    return response
+  },
   data() {
     return {
       columns: [
         {
-          label: 'Name',
+          label: 'グループ',
+          field: 'group',
+        },
+        {
+          label: '名前',
           field: 'name',
         },
         {
-          label: 'Age',
-          field: 'age',
+          label: '読み',
+          field: 'yomi',
+        },
+        {
+          label: 'TwitterID',
+          field: 'twitterId',
+        },
+        {
+          label: 'フォロワー',
+          field: 'follower',
           type: 'number',
         },
         {
-          label: 'Created On',
-          field: 'createdAt',
-          type: 'date',
-          dateInputFormat: 'yyyy-MM-dd',
-          dateOutputFormat: 'MMM do yy',
-        },
-        {
-          label: 'Percent',
-          field: 'score',
-          type: 'percentage',
+          label: 'ツイート',
+          field: 'tweet',
+          type: 'number',
         },
       ],
-      rows: [
-        { id: 1, name: 'John', age: 20, createdAt: '', score: 0.03343 },
-        {
-          id: 2,
-          name: 'Jane',
-          age: 24,
-          createdAt: '2011-10-31',
-          score: 0.03343,
-        },
-        {
-          id: 3,
-          name: 'Susan',
-          age: 16,
-          createdAt: '2011-10-30',
-          score: 0.03343,
-        },
-        {
-          id: 4,
-          name: 'Chris',
-          age: 55,
-          createdAt: '2011-10-11',
-          score: 0.03343,
-        },
-        {
-          id: 5,
-          name: 'Dan',
-          age: 40,
-          createdAt: '2011-10-21',
-          score: 0.03343,
-        },
-        {
-          id: 6,
-          name: 'John',
-          age: 20,
-          createdAt: '2011-10-31',
-          score: 0.03343,
-        },
-      ],
+      rows: [],
     }
+  },
+  created() {
+    let firstFlag = true
+    for (const idol of this.$data.values) {
+      if (firstFlag) {
+        firstFlag = false
+        continue
+      }
+      this.rows.push({
+        group: idol[0],
+        twitterId: idol[5],
+        name: idol[1] + ' ' + idol[2],
+        yomi: idol[3] + ' ' + idol[4],
+        follower: parseInt(idol[7]),
+        tweet: parseInt(idol[8]),
+      })
+    }
+  },
+  methods: {
+    onCellClick(params) {
+      if (params.column.field === 'twitterId') {
+        const url = 'https://twitter.com/' + params.row.twitterId
+        window.open(url, '_blank')
+      }
+    },
   },
 }
 </script>

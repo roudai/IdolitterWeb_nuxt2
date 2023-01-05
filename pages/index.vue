@@ -13,14 +13,17 @@
       :compact-mode="compactMode"
       :pagination-options="{
         enabled: true,
-        perPage: 20,
+        perPage: perPage,
+        setCurrentPage: currentPage,
         perPageDropdown: [10, 20, 50, 100],
         dropdownAllowAll: false,
-        nextLabel: '次へ',
-        prevLabel: '前へ',
+        jumpFirstOrLast: true,
+        firstLabel: '',
+        lastLabel: '',
+        nextLabel: '次',
+        prevLabel: '前',
         rowsPerPageLabel: '表示数',
-        infoFn: (params) =>
-          `${params.currentPage} / ${params.totalPage} ページ`,
+        infoFn: (params) => `${params.currentPage} / ${params.totalPage}`,
       }"
       :search-options="{
         enabled: true,
@@ -28,6 +31,7 @@
       }"
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
+      @on-per-page-change="onPerPageChange"
     />
   </div>
 </template>
@@ -43,6 +47,8 @@ export default {
   },
   data() {
     return {
+      perPage: 20,
+      currentPage: 200,
       windowWidth: '',
       compactMode: false,
       columns: [
@@ -79,6 +85,9 @@ export default {
   },
   mounted() {
     window.addEventListener('resize', this.resizeWindow)
+    this.windowWidth = window.innerWidth
+    const totalPage = Math.ceil(this.$data.values.length / this.perPage)
+    this.currentPage = Math.floor(Math.random() * totalPage) + 1
   },
   created() {
     let firstFlag = true
@@ -94,6 +103,7 @@ export default {
         yomi: idol[3] + ' ' + idol[4],
         follower: parseInt(idol[7]),
         tweet: parseInt(idol[8]),
+        delete: idol[15],
       })
     }
   },
@@ -106,6 +116,10 @@ export default {
         const url = 'https://twitter.com/' + params.row.twitterId
         window.open(url, '_blank')
       }
+    },
+    onPerPageChange(params) {
+      this.perPage = params.currentPerPage
+      this.currentPage = Math.floor(Math.random() * params.total + 1) + 1
     },
     resizeWindow() {
       this.windowWidth = window.innerWidth
@@ -127,5 +141,13 @@ table {
   -webkit-overflow-scrolling: touch;
   width: 100%;
   display: table;
+}
+
+.vgt-wrap__footer .footer__navigation > button:first-of-type {
+  margin-right: 0px;
+}
+
+.vgt-wrap__footer .footer__navigation__page-btn {
+  margin-left: 0px;
 }
 </style>

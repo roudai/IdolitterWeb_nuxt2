@@ -19,9 +19,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-        env:
-          API_URL: ${{ secrets.API_URL }}
-          API_KEY: ${{ secrets.API_KEY }}
+
+      - name: Create .env file
+        run: |
+          touch .env
+          echo API_URL=${{ secrets.API_URL}} > .env
+          echo API_KEY=${{ secrets.API_KEY}} >> .env
+        working-directory: ./src
 
       - name: Install dependencies
         run: yarn

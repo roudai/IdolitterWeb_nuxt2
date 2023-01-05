@@ -2,7 +2,7 @@
   <div>
     <button
       v-show="windowWidth <= 576"
-      class="button"
+      class="button mb-2"
       @click="compactModeChange"
     >
       表示変更
@@ -13,14 +13,20 @@
       :compact-mode="compactMode"
       :pagination-options="{
         enabled: true,
-        mode: 'pages',
         perPage: 20,
         perPageDropdown: [10, 20, 50, 100],
         dropdownAllowAll: false,
+        nextLabel: '次へ',
+        prevLabel: '前へ',
+        rowsPerPageLabel: '表示数',
+        infoFn: (params) =>
+          `${params.currentPage} / ${params.totalPage} ページ`,
       }"
       :search-options="{
         enabled: true,
+        skipDiacritics: true,
       }"
+      style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
     />
   </div>

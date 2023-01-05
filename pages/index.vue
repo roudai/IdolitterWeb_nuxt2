@@ -27,6 +27,7 @@ export default {
     const baseUrl = $axios.defaults.baseURL + 'アイドル一覧?'
     const params = { key: $config.apiKey }
     const queryParams = new URLSearchParams(params)
+    console.log(baseUrl + queryParams)
     const response = await $axios.$get(baseUrl + queryParams)
     return response
   },

@@ -46,6 +46,7 @@ export default {
         {
           label: 'TwitterID',
           field: 'twitterId',
+          tdClass: 'twitter-id',
         },
         {
           label: 'フォロワー',
@@ -88,3 +89,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.twitter-id {
+  text-decoration: underline;
+  cursor: pointer;
+}
+</style>

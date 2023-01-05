@@ -47,7 +47,7 @@ export default {
   },
   data() {
     return {
-      perPage: 20,
+      perPage: 10,
       currentPage: 200,
       windowWidth: '',
       compactMode: false,

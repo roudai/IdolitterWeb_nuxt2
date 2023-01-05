@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { API_KEY } = process.env
+const { BASE_URL, API_KEY } = process.env
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -49,7 +49,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: BASE_URL,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -59,7 +59,6 @@ export default {
     apiKey: API_KEY,
   },
   publicRuntimeConfig: {
-    baseURL: process.env.baseURL,
     apiKey: process.env.NODE_ENV !== 'production' ? API_KEY : undefined,
   },
 }

@@ -24,7 +24,7 @@
 <script>
 export default {
   async asyncData({ $axios, $config }) {
-    const baseUrl = $config.baseURL + 'アイドル一覧?'
+    const baseUrl = $axios.defaults.baseURL + 'アイドル一覧?'
     const params = { key: $config.apiKey }
     const queryParams = new URLSearchParams(params)
     const response = await $axios.$get(baseUrl + queryParams)

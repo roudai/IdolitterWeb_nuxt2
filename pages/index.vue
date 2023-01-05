@@ -1,23 +1,21 @@
 <template>
   <div>
-    <section class="section">
-      <vue-good-table
-        :columns="columns"
-        :rows="rows"
-        compact-mode
-        :pagination-options="{
-          enabled: true,
-          mode: 'pages',
-          perPage: 20,
-          perPageDropdown: [10, 20, 50, 100],
-          dropdownAllowAll: false,
-        }"
-        :search-options="{
-          enabled: true,
-        }"
-        @on-cell-click="onCellClick"
-      />
-    </section>
+    <vue-good-table
+      :columns="columns"
+      :rows="rows"
+      compact-mode
+      :pagination-options="{
+        enabled: true,
+        mode: 'pages',
+        perPage: 20,
+        perPageDropdown: [10, 20, 50, 100],
+        dropdownAllowAll: false,
+      }"
+      :search-options="{
+        enabled: true,
+      }"
+      @on-cell-click="onCellClick"
+    />
   </div>
 </template>
 
@@ -27,7 +25,6 @@ export default {
     const baseUrl = $axios.defaults.baseURL + 'アイドル一覧?'
     const params = { key: $config.apiKey }
     const queryParams = new URLSearchParams(params)
-    console.log(baseUrl + queryParams)
     const response = await $axios.$get(baseUrl + queryParams)
     return response
   },

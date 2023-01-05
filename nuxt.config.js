@@ -1,6 +1,3 @@
-require('dotenv').config()
-const { BASE_URL, API_KEY } = process.env
-
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -55,10 +52,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
-  privateRuntimeConfig: {
-    apiKey: API_KEY,
-  },
   publicRuntimeConfig: {
-    apiKey: process.env.NODE_ENV !== 'production' ? API_KEY : undefined,
+    apiKey: process.env.API_KEY,
   },
 }

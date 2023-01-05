@@ -25,7 +25,6 @@ jobs:
           touch .env
           echo API_URL=${{ secrets.API_URL}} > .env
           echo API_KEY=${{ secrets.API_KEY}} >> .env
-        working-directory: ./src
 
       - name: Install dependencies
         run: yarn

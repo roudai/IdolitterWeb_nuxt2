@@ -1,9 +1,16 @@
 <template>
   <div>
+    <button
+      v-show="windowWidth <= 576"
+      class="button"
+      @click="compactModeChange"
+    >
+      表示変更
+    </button>
     <vue-good-table
       :columns="columns"
       :rows="rows"
-      compact-mode
+      :compact-mode="compactMode"
       :pagination-options="{
         enabled: true,
         mode: 'pages',
@@ -30,6 +37,8 @@ export default {
   },
   data() {
     return {
+      windowWidth: '',
+      compactMode: false,
       columns: [
         {
           label: 'グループ',
@@ -62,6 +71,9 @@ export default {
       rows: [],
     }
   },
+  mounted() {
+    window.addEventListener('resize', this.resizeWindow)
+  },
   created() {
     let firstFlag = true
     for (const idol of this.$data.values) {
@@ -80,11 +92,17 @@ export default {
     }
   },
   methods: {
+    compactModeChange() {
+      this.compactMode = !this.compactMode
+    },
     onCellClick(params) {
       if (params.column.field === 'twitterId') {
         const url = 'https://twitter.com/' + params.row.twitterId
         window.open(url, '_blank')
       }
+    },
+    resizeWindow() {
+      this.windowWidth = window.innerWidth
     },
   },
 }
@@ -94,5 +112,14 @@ export default {
 .twitter-id {
   text-decoration: underline;
   cursor: pointer;
+}
+
+table {
+  display: block;
+  overflow-x: scroll;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  display: table;
 }
 </style>

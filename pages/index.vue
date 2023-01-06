@@ -6,7 +6,7 @@
       class="button mb-2"
       @click="compactModeChange"
     >
-      表示変更
+      表示切替
     </button>
     <vue-good-table
       :columns="columns"

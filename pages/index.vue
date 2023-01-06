@@ -82,6 +82,10 @@ export default {
           field: 'tweet',
           type: 'number',
         },
+        {
+          label: '卒業解散予定',
+          field: 'delete',
+        },
       ],
       rows: [],
     }
@@ -107,7 +111,7 @@ export default {
         yomi: idol[3] + ' ' + idol[4],
         follower: parseInt(idol[7]),
         tweet: parseInt(idol[8]),
-        delete: idol[15],
+        delete: idol[14],
       })
     }
   },
@@ -124,13 +128,14 @@ export default {
     onPerPageChange(params) {
       this.perPage = params.currentPerPage
       this.perPageChangeFlag = !this.perPageChangeFlag
-      this.toralPage = params.total
+      this.totalPage = params.total
       if (this.perPageChangeFlag) {
-        this.currentPage = Math.floor(Math.random() * this.toralPage + 1) + 1
+        this.currentPage = Math.floor(Math.random() * this.totalPage + 1) + 1
       }
     },
     randomView() {
-      this.currentPage = Math.floor(Math.random() * this.totalPage) + 1
+      console.log(this.totalPage)
+      this.currentPage = Math.floor(Math.random() * this.totalPage + 1) + 1
     },
     resizeWindow() {
       this.windowWidth = window.innerWidth

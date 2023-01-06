@@ -24,7 +24,7 @@
         nextLabel: '次',
         prevLabel: '前',
         rowsPerPageLabel: '表示数',
-        infoFn: (params) => `${params.currentPage} / ${params.totalPage}`,
+        infoFn: (params) => `${params.currentPage}/${params.totalPage}`,
       }"
       :search-options="{
         enabled: true,

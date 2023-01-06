@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button class="button mb-2" @click="randomView">ランダム表示</button>
     <button
       v-show="windowWidth <= 576"
       class="button mb-2"
@@ -48,7 +49,9 @@ export default {
   data() {
     return {
       perPage: 10,
-      currentPage: 200,
+      perPageChangeFlag: false,
+      totalPage: '',
+      currentPage: '',
       windowWidth: '',
       compactMode: false,
       columns: [
@@ -86,10 +89,10 @@ export default {
   mounted() {
     window.addEventListener('resize', this.resizeWindow)
     this.windowWidth = window.innerWidth
-    const totalPage = Math.ceil(this.$data.values.length / this.perPage)
-    this.currentPage = Math.floor(Math.random() * totalPage) + 1
   },
   created() {
+    this.totalPage = Math.ceil(this.$data.values.length / this.perPage)
+    this.currentPage = Math.floor(Math.random() * this.totalPage) + 1
     let firstFlag = true
     for (const idol of this.$data.values) {
       if (firstFlag) {
@@ -119,7 +122,14 @@ export default {
     },
     onPerPageChange(params) {
       this.perPage = params.currentPerPage
-      this.currentPage = Math.floor(Math.random() * params.total + 1) + 1
+      this.perPageChangeFlag = !this.perPageChangeFlag
+      this.toralPage = params.total
+      if (this.perPageChangeFlag) {
+        this.currentPage = Math.floor(Math.random() * this.toralPage + 1) + 1
+      }
+    },
+    randomView() {
+      this.currentPage = Math.floor(Math.random() * this.totalPage) + 1
     },
     resizeWindow() {
       this.windowWidth = window.innerWidth

@@ -29,6 +29,7 @@
       :search-options="{
         enabled: true,
         skipDiacritics: true,
+        placeholder: '検索',
       }"
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
@@ -134,7 +135,6 @@ export default {
       }
     },
     randomView() {
-      console.log(this.totalPage)
       this.currentPage = Math.floor(Math.random() * this.totalPage + 1) + 1
     },
     resizeWindow() {

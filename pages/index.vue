@@ -89,6 +89,7 @@ export default {
   mounted() {
     window.addEventListener('resize', this.resizeWindow)
     this.windowWidth = window.innerWidth
+    window.innerHeight < 1080 ? (this.perPage = 10) : (this.perPage = 20)
   },
   created() {
     this.totalPage = Math.ceil(this.$data.values.length / this.perPage)

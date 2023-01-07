@@ -14,7 +14,7 @@
       :pagination-options="{
         enabled: true,
         perPage: perPage,
-        setCurrentPage: currentPage,
+        setCurrentPage: 1,
         perPageDropdown: [10, 20, 50, 100],
         dropdownAllowAll: false,
         jumpFirstOrLast: true,
@@ -31,7 +31,6 @@
       }"
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
-      @on-per-page-change="onPerPageChange"
     />
   </div>
 </template>
@@ -61,7 +60,7 @@ export default {
         },
         {
           label: '新TwitterID',
-          field: 'newId',
+          field: this.newIdFn,
           tdClass: 'twitter-id',
         },
         {
@@ -70,7 +69,7 @@ export default {
         },
         {
           label: '卒業解散予定',
-          field: 'delete',
+          field: this.deleteFn,
         },
         {
           label: '内容',
@@ -112,10 +111,16 @@ export default {
       this.compactMode = !this.compactMode
     },
     onCellClick(params) {
-      if (params.column.field === 'newId') {
+      if (params.column.tdClass === 'twitter-id' && params.row.newId !== '') {
         const url = 'https://twitter.com/' + params.row.newId
         window.open(url, '_blank')
       }
+    },
+    newIdFn(rowObj) {
+      return !rowObj.newId ? '-' : rowObj.newId
+    },
+    deleteFn(rowObj) {
+      return !rowObj.delete ? '-' : rowObj.delete
     },
     resizeWindow() {
       this.windowWidth = window.innerWidth
@@ -123,3 +128,14 @@ export default {
   },
 }
 </script>
+
+<style>
+.vgt-wrap__footer .footer__navigation > button:first-of-type {
+  margin-right: 0px;
+}
+
+.vgt-wrap__footer .footer__navigation__page-btn {
+  margin-left: 0px;
+  padding: 0px;
+}
+</style>

@@ -47,13 +47,4 @@ table {
   width: 100%;
   display: table;
 }
-
-.vgt-wrap__footer .footer__navigation > button:first-of-type {
-  margin-right: 0px;
-}
-
-.vgt-wrap__footer .footer__navigation__page-btn {
-  margin-left: 0px;
-  padding: 0px;
-}
 </style>

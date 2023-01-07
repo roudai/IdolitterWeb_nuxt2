@@ -77,15 +77,18 @@ export default {
           label: 'フォロワー',
           field: 'follower',
           type: 'number',
+          firstSortType: 'desc',
         },
         {
           label: 'ツイート',
           field: 'tweet',
           type: 'number',
+          firstSortType: 'desc',
         },
         {
           label: '卒業解散予定',
-          field: 'delete',
+          field: this.deleteFn,
+          firstSortType: 'desc',
         },
       ],
       rows: [],
@@ -137,9 +140,23 @@ export default {
     randomView() {
       this.currentPage = Math.floor(Math.random() * this.totalPage + 1) + 1
     },
+    deleteFn(rowObj) {
+      return !rowObj.delete ? '-' : rowObj.delete
+    },
     resizeWindow() {
       this.windowWidth = window.innerWidth
     },
   },
 }
 </script>
+
+<style>
+.vgt-wrap__footer .footer__navigation > button:first-of-type {
+  margin-right: 0px;
+}
+
+.vgt-wrap__footer .footer__navigation__page-btn {
+  margin-left: 0px;
+  padding: 0px;
+}
+</style>

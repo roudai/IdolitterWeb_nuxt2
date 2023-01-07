@@ -25,6 +25,7 @@
     <div id="navbarMenu" class="navbar-menu" :class="nav_class">
       <div class="navbar-start">
         <a class="navbar-item" href="/"> アイドル一覧 </a>
+        <a class="navbar-item" href="/history"> 履歴 </a>
       </div>
 
       <div class="navbar-end">

@@ -143,11 +143,6 @@ export default {
       rows_tweet: [],
     }
   },
-  mounted() {
-    window.addEventListener('resize', this.resizeWindow)
-    this.windowWidth = window.innerWidth
-    window.innerHeight < 1080 ? (this.perPage = 10) : (this.perPage = 20)
-  },
   created() {
     this.createRank(this.$data.follower.values, 'follower')
     this.createRank(this.$data.tweet.values, 'tweet')
@@ -200,9 +195,6 @@ export default {
         const url = 'https://twitter.com/' + params.row.twitterId
         window.open(url, '_blank')
       }
-    },
-    resizeWindow() {
-      this.windowWidth = window.innerWidth
     },
   },
 }

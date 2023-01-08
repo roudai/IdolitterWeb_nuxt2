@@ -1,16 +1,12 @@
 <template>
   <div>
-    <button
-      v-show="windowWidth <= 576"
-      class="button mb-2"
-      @click="compactModeChange"
-    >
-      表示切替
-    </button>
+    <h5>
+      <p v-text="$dayjs().subtract(1, 'day').format('YYYY年M月D日（dd）')" />
+    </h5>
+    <h5>フォロワー数増ランキング</h5>
     <vue-good-table
       :columns="columns"
       :rows="rows"
-      :compact-mode="compactMode"
       :sort-options="{
         enabled: false,
       }"
@@ -45,7 +41,6 @@ export default {
   data() {
     return {
       windowWidth: '',
-      compactMode: false,
       columns: [
         {
           label: '順位',
@@ -53,8 +48,8 @@ export default {
           type: 'number',
         },
         {
-          label: 'グループ',
-          field: 'group',
+          label: 'TwitterName',
+          field: 'name',
         },
         {
           label: 'TwitterID',
@@ -62,8 +57,8 @@ export default {
           tdClass: 'twitter-id',
         },
         {
-          label: 'TwitterName',
-          field: 'name',
+          label: 'グループ',
+          field: 'group',
         },
         {
           label: '前フォロワー数',

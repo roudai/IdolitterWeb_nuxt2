@@ -1,9 +1,97 @@
 <template>
-  <div>Idolitter</div>
+  <div>
+    <div>Idolitterは、<b>日本最大</b>のアイドル情報データベースです。</div>
+    <h5 class="mt-3">現在の登録数</h5>
+    <div class="m-3 is-size-5">
+      アイドル <b>{{ idolNum }} 人</b>
+    </div>
+    <div class="m-3 is-size-5">
+      グループ <b>{{ groupNum }} 組</b>
+    </div>
+
+    <h3><nuxt-link to="idol">アイドル一覧</nuxt-link></h3>
+    <div>登録されているアイドルを確認できます。</div>
+    <div>
+      <ul>
+        <li>
+          女性アイドルグループを対象としています。ただし、男性が女性として活動している場合はこの限りではありません。
+        </li>
+        <li>
+          俗に言う地下アイドル、ライブアイドルと呼ばれる方達を対象としているため、48グループ等は含みません。また、アーティストや声優を名乗っており、アイドルと分類されない方たちも含まれているかもしれません。
+        </li>
+        <li>
+          運営の方針でメンバーがTwitterの個人アカウントを所有していないグループは対象外となっています。また、ソロアイドルも対象外としています。
+        </li>
+        <li>
+          Twitterアカウント、名前の読み方はすべて手動で調べ上げているため、既に脱退しているメンバーが含まれている、新しいメンバーが含まれていない、名前の読み方が間違っている、という場合があります。
+        </li>
+        <li>
+          グループを兼任している場合、重複を避けるためいずれかひとつだけのグループとして扱っています。
+        </li>
+        <li>
+          フォロワー、ツイート数は、毎日0時過ぎに集計した時点のもののため、現在の数字とは異なる場合があります。
+        </li>
+      </ul>
+    </div>
+
+    <h3><nuxt-link to="ranking">ランキング</nuxt-link></h3>
+    <div>
+      前日のフォロワー数増ランキング、ツイート数増ランキングを100位まで見ることができます。
+      <ul>
+        <li>
+          前日から3倍以上増えた場合、異常データとしてランキングから除外されます。
+        </li>
+      </ul>
+    </div>
+
+    <h3><nuxt-link to="history">履歴</nuxt-link></h3>
+    <div>
+      Twitterアカウント名の変更、アカウントの削除（不明）、データの自動削除の履歴を見ることができます。
+      <ul>
+        <li>
+          約 1 時間に 1 回、リスト内全アイドルの Twitter
+          アカウントが生存しているか、またはアカウント名が変わっているかを確認します。
+        </li>
+        <li>
+          卒業解散予定日から14日過ぎたとき、または卒業解散予定日以降にアカウントの削除があった場合、「削除済」となりデータが削除されます。
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {}
+export default {
+  async asyncData({ $axios, $config }) {
+    const baseUrl = $axios.defaults.baseURL + '統計?'
+    const params = {
+      key: $config.apiKey,
+      range: '統計!B1:B2',
+    }
+    const queryParams = new URLSearchParams(params)
+    const response = await $axios.$get(baseUrl + queryParams)
+    return response
+  },
+  data() {
+    return {
+      idolNum: 0,
+      groupNum: 0,
+    }
+  },
+  created() {
+    this.idolNum = parseInt(this.$data.values[0])
+    this.groupNum = parseInt(this.$data.values[1])
+  },
+}
 </script>
 
-<style></style>
+<style>
+ul.none {
+  padding-left: 0;
+}
+
+li.none {
+  list-style: none;
+  margin-left: -1rem;
+}
+</style>

@@ -61,6 +61,19 @@
         </li>
       </ul>
     </div>
+
+    <h3>情報提供のお願い</h3>
+    <div>
+      アイドルグループ、所属アイドルの情報を随時募集しています。スプレッドシートに記載されていない、または既に解散してしまったグループ、脱退、卒業、解雇等で既にいないメンバー、新メンバーの情報等募集しています。
+      下記投稿フォーム、またはツイッターアカウントへの返信、DM
+      でも情報提供をお待ちしています。
+    </div>
+    <div class="mt-2">
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeTQqBbtt936OCTaQeCRJgy4K_N78JF9JrtLcH8ZzZTSQ9I5g/viewform"
+        >投稿フォーム</a
+      >
+    </div>
   </div>
 </template>
 

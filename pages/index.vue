@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div>Idolitterは、<b>日本最大</b>のアイドル情報データベースです。</div>
-    <h5 class="mt-3">現在の登録数</h5>
+    <div>Idolitterは、日本最大のアイドル情報データベースです。</div>
+    <div>
+      Twitterアカウント :
+      <a href="https://twitter.com/Idol_itter" target="_blank">@idol_itter</a>
+    </div>
+    <h5 class="mt-3">現在の登録データ数</h5>
     <div class="m-3 is-size-5">
       アイドル <b>{{ idolNum }} 人</b>
     </div>

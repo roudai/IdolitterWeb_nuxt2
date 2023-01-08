@@ -44,12 +44,28 @@ export default {
     'nuxt-buefy',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/firebase',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
+  },
+
+  firebase: {
+    config: {
+      apiKey: 'AIzaSyAKYSs2c7mrtmESfvcE0TQAVCAy3YtKaV8',
+      authDomain: 'idolitter-373101.firebaseapp.com',
+      projectId: 'idolitter-373101',
+      storageBucket: 'idolitter-373101.appspot.com',
+      messagingSenderId: '553829081488',
+      appId: '1:553829081488:web:a7d8eb0943fcc640fed315',
+      measurementId: 'G-6S8735L47V',
+    },
+    services: {
+      auth: true,
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

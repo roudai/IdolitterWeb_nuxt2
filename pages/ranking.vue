@@ -52,14 +52,14 @@ export default {
     const baseUrl = $axios.defaults.baseURL + '取得差分?'
     const params1 = {
       key: $config.apiKey,
-      range: '取得差分!I2:N201',
+      range: '取得差分!I2:N301',
     }
     const queryParams1 = new URLSearchParams(params1)
     const response1 = await $axios.$get(baseUrl + queryParams1)
 
     const params2 = {
       key: $config.apiKey,
-      range: '取得差分!P2:U201',
+      range: '取得差分!P2:U301',
     }
     const queryParams2 = new URLSearchParams(params2)
     const response2 = await $axios.$get(baseUrl + queryParams2)
@@ -154,12 +154,11 @@ export default {
   },
   methods: {
     createRank(rankData, type) {
-      console.log(rankData)
       const rows = []
       let rank = 1
       let rankup = 0
       for (let i = 0; i < rankData.length; i++) {
-        if (rank > 50) {
+        if (rank > 100) {
           break
         }
 

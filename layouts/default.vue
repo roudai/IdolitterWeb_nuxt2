@@ -6,6 +6,7 @@
         <div class="content m-3">
           <Nuxt />
         </div>
+        <footer-bar></footer-bar>
       </div>
     </div>
   </div>

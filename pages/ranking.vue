@@ -36,7 +36,7 @@ export default {
     const baseUrl = $axios.defaults.baseURL + '取得差分?'
     const params = {
       key: $config.apiKey,
-      range: '取得差分!I2:N100',
+      range: '取得差分!I2:N201',
     }
     const queryParams = new URLSearchParams(params)
     const response = await $axios.$get(baseUrl + queryParams)
@@ -90,24 +90,36 @@ export default {
     window.innerHeight < 1080 ? (this.perPage = 10) : (this.perPage = 20)
   },
   created() {
+    const rankData = this.$data.values
     let rank = 1
-    for (const idol of this.$data.values) {
-      const oldFollower = idol[3]
-      const newFollower = idol[4]
+    let rankup = 0
+    for (let i = 0; i < rankData.length; i++) {
+      if (rank > 50) {
+        break
+      }
+
+      const oldFollower = rankData[i][3]
+      const newFollower = rankData[i][4]
       if (oldFollower === 0 || newFollower / oldFollower >= 3) {
         continue
       }
 
       this.rows.push({
         rank,
-        group: idol[0],
-        twitterId: idol[1],
-        name: idol[2],
+        group: rankData[i][0],
+        twitterId: rankData[i][1],
+        name: rankData[i][2],
         oldFollower,
         newFollower,
-        increase: idol[5],
+        increase: rankData[i][5],
       })
-      rank += 1
+
+      if (rankData[i][5] === rankData[i + 1][5]) {
+        rankup = rankup + 1
+      } else {
+        rank = rank + rankup + 1
+        rankup = 0
+      }
     }
   },
   methods: {

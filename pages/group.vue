@@ -83,7 +83,7 @@ export default {
           firstSortType: 'desc',
         },
         {
-          label: '卒業休止予定',
+          label: '解散休止予定',
           field: this.deleteFn,
           firstSortType: 'desc',
         },

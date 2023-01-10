@@ -26,8 +26,7 @@
         infoFn: (params) => `${params.currentPage} / ${params.totalPage}`,
       }"
       :sort-options="{
-        enabled: true,
-        initialSortBy: { field: 'execution', type: 'desc' },
+        enabled: false,
       }"
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"

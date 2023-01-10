@@ -38,7 +38,7 @@
       </ul>
     </div>
 
-    <h3><nuxt-link to="idol">アイドル一覧</nuxt-link></h3>
+    <h3><nuxt-link to="group">グループ一覧</nuxt-link></h3>
     <div>登録されているグループを確認できます。</div>
     <div>
       <ul>

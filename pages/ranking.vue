@@ -1,48 +1,53 @@
 <template>
   <div>
-    <h5>
-      <p v-text="$dayjs().subtract(1, 'day').format('YYYY年M月D日（dd）')" />
-    </h5>
-    <h5>フォロワー数増ランキング</h5>
-    <vue-good-table
-      :columns="columns_follower"
-      :rows="rows_follower"
-      :sort-options="{
-        enabled: false,
-      }"
-      :pagination-options="{
-        enabled: true,
-        perPage: 10,
-        setCurrentPage: 1,
-        perPageDropdownEnabled: false,
-        nextLabel: '次',
-        prevLabel: '前',
-        rowsPerPageLabel: '表示数',
-        infoFn: (params) => `${params.currentPage} / ${params.totalPage}`,
-      }"
-      style-class="vgt-table striped condensed"
-      @on-cell-click="onCellClick"
-    />
-    <h5 class="mt-5">ツイート数増ランキング</h5>
-    <vue-good-table
-      :columns="columns_tweet"
-      :rows="rows_tweet"
-      :sort-options="{
-        enabled: false,
-      }"
-      :pagination-options="{
-        enabled: true,
-        perPage: 10,
-        setCurrentPage: 1,
-        perPageDropdownEnabled: false,
-        nextLabel: '次',
-        prevLabel: '前',
-        rowsPerPageLabel: '表示数',
-        infoFn: (params) => `${params.currentPage} / ${params.totalPage}`,
-      }"
-      style-class="vgt-table striped condensed"
-      @on-cell-click="onCellClick"
-    />
+    <div v-if="process === '集計中'" class="is-size-5 has-text-weight-semibold">
+      現在ランキング集計中です。
+    </div>
+    <div v-else>
+      <h5>
+        <p v-text="$dayjs().subtract(1, 'day').format('YYYY年M月D日（dd）')" />
+      </h5>
+      <h5>フォロワー数増ランキング</h5>
+      <vue-good-table
+        :columns="columns_follower"
+        :rows="rows_follower"
+        :sort-options="{
+          enabled: false,
+        }"
+        :pagination-options="{
+          enabled: true,
+          perPage: 10,
+          setCurrentPage: 1,
+          perPageDropdownEnabled: false,
+          nextLabel: '次',
+          prevLabel: '前',
+          rowsPerPageLabel: '表示数',
+          infoFn: (params) => `${params.currentPage} / ${params.totalPage}`,
+        }"
+        style-class="vgt-table striped condensed"
+        @on-cell-click="onCellClick"
+      />
+      <h5 class="mt-5">ツイート数増ランキング</h5>
+      <vue-good-table
+        :columns="columns_tweet"
+        :rows="rows_tweet"
+        :sort-options="{
+          enabled: false,
+        }"
+        :pagination-options="{
+          enabled: true,
+          perPage: 10,
+          setCurrentPage: 1,
+          perPageDropdownEnabled: false,
+          nextLabel: '次',
+          prevLabel: '前',
+          rowsPerPageLabel: '表示数',
+          infoFn: (params) => `${params.currentPage} / ${params.totalPage}`,
+        }"
+        style-class="vgt-table striped condensed"
+        @on-cell-click="onCellClick"
+      />
+    </div>
   </div>
 </template>
 
@@ -50,6 +55,13 @@
 export default {
   async asyncData({ $axios, $config }) {
     const baseUrl = $axios.defaults.baseURL + '取得差分?'
+    const params0 = {
+      key: $config.apiKey,
+      range: '取得差分!W1',
+    }
+    const queryParams0 = new URLSearchParams(params0)
+    const response0 = await $axios.$get(baseUrl + queryParams0)
+
     const params1 = {
       key: $config.apiKey,
       range: '取得差分!I2:N301',
@@ -64,10 +76,11 @@ export default {
     const queryParams2 = new URLSearchParams(params2)
     const response2 = await $axios.$get(baseUrl + queryParams2)
 
-    return { follower: response1, tweet: response2 }
+    return { process: response0, follower: response1, tweet: response2 }
   },
   data() {
     return {
+      process: '',
       windowWidth: '',
       columns_follower: [
         {
@@ -144,6 +157,7 @@ export default {
     }
   },
   created() {
+    this.process = this.$data.process.values[0][0]
     this.createRank(this.$data.follower.values, 'follower')
     this.createRank(this.$data.tweet.values, 'tweet')
   },

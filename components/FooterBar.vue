@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="content has-text-centered">
-      &copy; {{ now }} {{ copyright }}
+      &copy;{{ now }} {{ copyright }}
       <a href="https://github.com/roudai/IdolitterWeb">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,7 @@ export default {
   data: () => {
     return {
       now: '',
-      copyright: 'Idolitter',
+      copyright: 'アイドリッター',
     }
   },
   created() {

@@ -5,7 +5,9 @@
     aria-label="main navigation"
   >
     <div class="navbar-brand ml-1">
-      <a class="navbar-item" href="/"> Idolitter Web </a>
+      <a class="navbar-item has-text-info-light is-size-5" href="/">
+        アイドリッター
+      </a>
 
       <a
         role="button"

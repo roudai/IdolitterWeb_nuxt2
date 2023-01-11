@@ -16,6 +16,9 @@
           />
         </svg>
       </a>
+      <div class="mt-2">
+        <nuxt-link to="/policy">プライバシーポリシー</nuxt-link>
+      </div>
     </div>
   </footer>
 </template>

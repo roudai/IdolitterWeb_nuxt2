@@ -45,6 +45,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/firebase',
+    '@nuxtjs/google-adsense',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -66,6 +67,11 @@ export default {
     services: {
       auth: true,
     },
+  },
+
+  'google-adsense': {
+    id: 'ca-pub-3099989327540541',
+    pageLevelAds: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

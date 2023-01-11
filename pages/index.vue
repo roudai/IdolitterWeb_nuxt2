@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div>Idolitterは、日本最大のアイドル情報データベースです。</div>
+    <div>
+      Idolitter（アイドリッター）は、日本最大のアイドル情報データベースです。
+    </div>
     <div>
       Twitterアカウント :
       <a href="https://twitter.com/Idol_itter" target="_blank">@idol_itter</a>
@@ -13,7 +15,7 @@
       グループ <b>{{ groupNum }} 組</b>
     </div>
 
-    <h3><nuxt-link to="idol">アイドル一覧</nuxt-link></h3>
+    <h3><nuxt-link to="idol" class="is-underlined">アイドル一覧</nuxt-link></h3>
     <div>登録されているアイドルを確認できます。</div>
     <div>
       <ul>
@@ -38,7 +40,9 @@
       </ul>
     </div>
 
-    <h3><nuxt-link to="group">グループ一覧</nuxt-link></h3>
+    <h3>
+      <nuxt-link to="group" class="is-underlined">グループ一覧</nuxt-link>
+    </h3>
     <div>登録されているグループを確認できます。</div>
     <div>
       <ul>
@@ -48,7 +52,9 @@
       </ul>
     </div>
 
-    <h3><nuxt-link to="ranking">ランキング</nuxt-link></h3>
+    <h3>
+      <nuxt-link to="ranking" class="is-underlined">ランキング</nuxt-link>
+    </h3>
     <div>
       前日のフォロワー数増ランキング、ツイート数増ランキングを100位まで見ることができます。
       <ul>
@@ -58,7 +64,7 @@
       </ul>
     </div>
 
-    <h3><nuxt-link to="history">履歴</nuxt-link></h3>
+    <h3><nuxt-link to="history" class="is-underlined">履歴</nuxt-link></h3>
     <div>
       Twitterアカウント名の変更、アカウントの削除（不明）、データの自動削除の履歴を見ることができます。
       <ul>
@@ -81,6 +87,8 @@
     <div class="mt-2">
       <a
         href="https://docs.google.com/forms/d/e/1FAIpQLSeTQqBbtt936OCTaQeCRJgy4K_N78JF9JrtLcH8ZzZTSQ9I5g/viewform"
+        class="is-underlined"
+        target="_blank"
         >投稿フォーム</a
       >
     </div>

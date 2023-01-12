@@ -47,10 +47,3 @@ export default {
   },
 }
 </script>
-
-<style>
-/* .navbar-burger {
-  margin-left: 0;
-  margin-right: auto !important;
-} */
-</style>

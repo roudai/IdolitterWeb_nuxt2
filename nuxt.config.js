@@ -70,7 +70,13 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
+    '@nuxtjs/google-gtag',
   ],
+
+  'google-gtag': {
+    id: 'G-6S8735L47V',
+    debug: false,
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [

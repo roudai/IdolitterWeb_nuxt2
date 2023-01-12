@@ -1,17 +1,9 @@
 <template>
-  <nav
-    class="navbar is-dark p-2"
-    role="navigation"
-    aria-label="main navigation"
-  >
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand ml-1">
-      <a class="navbar-item has-text-info-light is-size-5" href="/">
-        アイドリッター
-      </a>
-
       <a
         role="button"
-        class="navbar-burger"
+        class="navbar-burger ml-0"
         aria-label="menu"
         aria-expanded="false"
         data-target="navbarMenu"
@@ -21,6 +13,10 @@
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
+      </a>
+
+      <a class="navbar-item has-text-info-light is-size-5" href="/">
+        アイドリッター
       </a>
     </div>
 
@@ -51,3 +47,10 @@ export default {
   },
 }
 </script>
+
+<style>
+/* .navbar-burger {
+  margin-left: 0;
+  margin-right: auto !important;
+} */
+</style>

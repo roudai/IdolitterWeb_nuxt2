@@ -82,7 +82,7 @@
       下記投稿フォーム、またはツイッターアカウントへの返信、DM
       でも情報提供をお待ちしています。
     </div>
-    <div class="mt-2">
+    <div class="m-4">
       <a
         href="https://docs.google.com/forms/d/e/1FAIpQLSeTQqBbtt936OCTaQeCRJgy4K_N78JF9JrtLcH8ZzZTSQ9I5g/viewform"
         class="is-underlined"

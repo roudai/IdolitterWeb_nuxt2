@@ -90,6 +90,7 @@
         >投稿フォーム</a
       >
     </div>
+    <a8-index-under></a8-index-under>
   </div>
 </template>
 

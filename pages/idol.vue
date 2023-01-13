@@ -35,6 +35,7 @@
       @on-cell-click="onCellClick"
       @on-per-page-change="onPerPageChange"
     />
+    <a8-idol-under></a8-idol-under>
   </div>
 </template>
 

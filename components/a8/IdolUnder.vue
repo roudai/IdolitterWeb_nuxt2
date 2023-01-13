@@ -1,0 +1,22 @@
+<template>
+  <div class="mt-3">
+    <a
+      href="https://px.a8.net/svt/ejp?a8mat=3T04H6+2DQFW2+2GMK+60H7L"
+      rel="nofollow"
+    >
+      <img
+        border="0"
+        width="728"
+        height="90"
+        alt=""
+        src="https://www29.a8.net/svt/bgt?aid=230113194144&wid=001&eno=01&mid=s00000011486001010000&mc=1"
+    /></a>
+    <img
+      border="0"
+      width="1"
+      height="1"
+      src="https://www17.a8.net/0.gif?a8mat=3T04H6+2DQFW2+2GMK+60H7L"
+      alt=""
+    />
+  </div>
+</template>

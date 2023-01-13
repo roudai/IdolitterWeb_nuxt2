@@ -53,6 +53,7 @@
         @on-cell-click="onCellClick"
       />
     </div>
+    <a8-ranking-under></a8-ranking-under>
   </div>
 </template>
 

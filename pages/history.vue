@@ -31,6 +31,7 @@
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
     />
+    <a8-history-under></a8-history-under>
   </div>
 </template>
 

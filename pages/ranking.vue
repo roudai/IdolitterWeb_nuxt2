@@ -3,6 +3,11 @@
     <div v-if="process === '集計中'" class="is-size-5 has-text-weight-semibold">
       現在ランキング集計中です。
     </div>
+    <div v-if="process === '失敗'" class="is-size-5 has-text-weight-semibold">
+      不具合のため、
+      <span v-text="$dayjs().subtract(1, 'day').format('YYYY年M月D日（dd）')" />
+      のランキングはありません。
+    </div>
     <div v-else>
       <h5>
         <p v-text="$dayjs().subtract(1, 'day').format('YYYY年M月D日（dd）')" />

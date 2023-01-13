@@ -35,6 +35,7 @@
         style-class="vgt-table striped condensed"
         @on-cell-click="onCellClick"
       />
+      <a8-ranking-middle></a8-ranking-middle>
       <h5 class="mt-5">ツイート数増ランキング</h5>
       <vue-good-table
         :columns="columns_tweet"

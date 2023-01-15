@@ -35,8 +35,13 @@ export default {
 </script>
 
 <style>
+.group-name {
+  color: #1a0dab !important;
+  cursor: pointer;
+}
+
 .twitter-id {
-  text-decoration: underline;
+  color: #1b94e0 !important;
   cursor: pointer;
 }
 

@@ -9,6 +9,7 @@
       表示切替
     </button>
     <vue-good-table
+      ref="group-table"
       :columns="columns"
       :rows="rows"
       :compact-mode="compactMode"
@@ -60,6 +61,7 @@ export default {
         {
           label: 'グループ',
           field: 'group',
+          tdClass: 'group-name',
         },
         {
           label: 'TwitterID',
@@ -93,6 +95,7 @@ export default {
     }
   },
   mounted() {
+    this.$refs['group-table'].globalSearchTerm = this.$route.query.group
     window.addEventListener('resize', this.resizeWindow)
     this.windowWidth = window.innerWidth
     window.innerHeight < 1080 ? (this.perPage = 10) : (this.perPage = 20)
@@ -124,6 +127,8 @@ export default {
       if (params.column.field === 'twitterId') {
         const url = 'https://twitter.com/' + params.row.twitterId
         window.open(url, '_blank')
+      } else if (params.column.field === 'group') {
+        this.$router.push({ path: 'idol', query: { group: params.row.group } })
       }
     },
     onPerPageChange(params) {

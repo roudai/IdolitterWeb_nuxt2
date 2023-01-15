@@ -8,6 +8,7 @@
     >
       表示切替
     </button>
+    <button class="button mb-2" @click="clearSearch">検索クリア</button>
     <vue-good-table
       ref="group-table"
       :columns="columns"
@@ -141,6 +142,9 @@ export default {
     },
     randomView() {
       this.currentPage = Math.floor(Math.random() * this.totalPage + 1) + 1
+    },
+    clearSearch() {
+      this.$refs['group-table'].globalSearchTerm = ''
     },
     certifFn(rowObj) {
       return !rowObj.certif ? '-' : rowObj.certif

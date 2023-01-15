@@ -129,7 +129,7 @@ export default {
         const url = 'https://twitter.com/' + params.row.twitterId
         window.open(url, '_blank')
       } else if (params.column.field === 'group') {
-        this.$router.push({ path: 'idol', query: { group: params.row.group } })
+        this.$router.push({ path: '/idol', query: { group: params.row.group } })
       }
     },
     onPerPageChange(params) {

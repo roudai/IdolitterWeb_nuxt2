@@ -133,7 +133,10 @@ export default {
         const url = 'https://twitter.com/' + params.row.twitterId
         window.open(url, '_blank')
       } else if (params.column.field === 'group') {
-        this.$router.push({ path: 'group', query: { group: params.row.group } })
+        this.$router.push({
+          path: '/group',
+          query: { group: params.row.group },
+        })
       }
     },
     onPerPageChange(params) {

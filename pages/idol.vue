@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h5>アイドル一覧</h5>
     <button class="button mb-2" @click="randomView">ランダム表示</button>
     <button
       v-show="windowWidth <= 576"

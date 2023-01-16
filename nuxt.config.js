@@ -17,7 +17,8 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'アイドリッターは、日本最大のアイドル情報データベースです。',
+        content:
+          'アイドリッターは、日本最大の現役アイドル情報データベースです。',
       },
       { name: 'format-detection', content: 'telephone=no' },
       { name: 'msapplication-TileColor', content: '#da532c' },

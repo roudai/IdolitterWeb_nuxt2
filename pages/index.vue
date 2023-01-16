@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>アイドリッターは、日本最大のアイドル情報データベースです。</div>
+    <div>アイドリッターは、日本最大の現役アイドル情報データベースです。</div>
     <div>
       Twitterアカウント :
       <a href="https://twitter.com/Idol_itter" target="_blank">@idol_itter</a>

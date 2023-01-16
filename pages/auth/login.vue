@@ -6,12 +6,12 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { getAuth, TwitterAuthProvider, signInWithRedirect } from 'firebase/auth'
 
 export default {
   mounted() {
-    // this.$store.dispatch('auth/login')
+    this.$store.dispatch('auth/login')
   },
   methods: {
     socialAuth() {

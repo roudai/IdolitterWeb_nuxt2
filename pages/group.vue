@@ -129,7 +129,10 @@ export default {
         const url = 'https://twitter.com/' + params.row.twitterId
         window.open(url, '_blank')
       } else if (params.column.field === 'group') {
-        this.$router.push({ path: '/idol', query: { group: params.row.group } })
+        this.$router.push({
+          path: '/idol',
+          query: { group: this.replaceParams(params.row.group) },
+        })
       }
     },
     onPerPageChange(params) {
@@ -154,6 +157,12 @@ export default {
     },
     resizeWindow() {
       this.windowWidth = window.innerWidth
+    },
+    replaceParams(group) {
+      if (group.includes('スリジエ東京')) {
+        return 'スリジエ：'
+      }
+      return group
     },
   },
 }

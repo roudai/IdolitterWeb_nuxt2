@@ -135,7 +135,7 @@ export default {
       } else if (params.column.field === 'group') {
         this.$router.push({
           path: '/group',
-          query: { group: params.row.group },
+          query: { group: this.replaceParams(params.row.group) },
         })
       }
     },
@@ -158,6 +158,16 @@ export default {
     },
     resizeWindow() {
       this.windowWidth = window.innerWidth
+    },
+    replaceParams(group) {
+      if (group.includes('傾奇隊')) {
+        return '傾奇隊'
+      } else if (group.includes('仮面女子')) {
+        return '仮面女子'
+      } else if (group.includes('スリジエ：')) {
+        return 'スリジエ東京'
+      }
+      return group
     },
   },
 }

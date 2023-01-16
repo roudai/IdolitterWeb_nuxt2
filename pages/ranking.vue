@@ -17,6 +17,7 @@
       </h5>
       <h5>フォロワー数増ランキング</h5>
       <vue-good-table
+        ref="ranking-table"
         :columns="columns_follower"
         :rows="rows_follower"
         :sort-options="{
@@ -38,6 +39,7 @@
       <a8-ranking-middle></a8-ranking-middle>
       <h5 class="mt-5">ツイート数増ランキング</h5>
       <vue-good-table
+        ref="ranking-table"
         :columns="columns_tweet"
         :rows="rows_tweet"
         :sort-options="{
@@ -110,6 +112,7 @@ export default {
         {
           label: 'グループ',
           field: 'group',
+          tdClass: 'group-name',
         },
         {
           label: '前フォロワー数',
@@ -146,6 +149,7 @@ export default {
         {
           label: 'グループ',
           field: 'group',
+          tdClass: 'group-name',
         },
         {
           label: '前ツイート数',
@@ -218,7 +222,22 @@ export default {
       if (params.column.tdClass === 'twitter-id') {
         const url = 'https://twitter.com/' + params.row.twitterId
         window.open(url, '_blank')
+      } else if (params.column.field === 'group') {
+        this.$router.push({
+          path: '/group',
+          query: { group: this.replaceParams(params.row.group) },
+        })
       }
+    },
+    replaceParams(group) {
+      if (group.includes('傾奇隊')) {
+        return '傾奇隊'
+      } else if (group.includes('仮面女子')) {
+        return '仮面女子'
+      } else if (group.includes('スリジエ：')) {
+        return 'スリジエ東京'
+      }
+      return group
     },
   },
 }

@@ -1,9 +1,4 @@
-import {
-  getAuth,
-  getRedirectResult,
-  TwitterAuthProvider,
-  signOut,
-} from 'firebase/auth'
+import { getAuth, getRedirectResult, signOut } from 'firebase/auth'
 
 export const state = () => ({
   isLoggedIn: false,
@@ -24,17 +19,16 @@ export const mutations = {
 }
 
 export const actions = {
-  login() {
-    console.log('ログイン処理')
+  login({ commit }) {
     const auth = getAuth()
     getRedirectResult(auth)
       .then((result) => {
-        const credential = TwitterAuthProvider.credentialFromResult(result)
-        const token = credential.accessToken
-        const secret = credential.secret
-        const user = result.user
-        console.log(token, secret, user)
-
+        if (result === null) {
+          return
+        }
+        commit('setLoginState', true)
+        commit('setUid', result.user.providerData[0].uid)
+        commit('setUser', result.user.reloadUserInfo.screenName)
         this.$router.push('/mypage')
       })
       .catch((error) => {
@@ -44,4 +38,28 @@ export const actions = {
         console.log(errorCode, errorMessage)
       })
   },
+  async logout({ commit }) {
+    const auth = getAuth()
+    await signOut(auth)
+      .then(() => {
+        commit('setLoginState', false)
+        commit('setUid', '')
+        commit('setUser', '')
+        this.$router.push('/auth/login')
+      })
+      .catch((error) => {
+        alert('logout:' + error)
+      })
+  },
+  addUserInfo({ commit }, user) {
+    commit('setLoginState', true)
+    commit('setUid', user.providerData[0].uid)
+    commit('setUser', user.reloadUserInfo.screenName)
+  },
+}
+
+export const getters = {
+  getLoggedIn: (state) => !!state.isLoggedIn,
+  getUid: (state) => state.uid,
+  getUser: (state) => state.user,
 }

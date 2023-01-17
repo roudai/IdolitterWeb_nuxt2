@@ -15,7 +15,7 @@
       <h5>
         <p v-text="$dayjs().subtract(1, 'day').format('YYYY年M月D日（dd）')" />
       </h5>
-      <h5>フォロワー数増ランキング</h5>
+      <h5>フォロワー増加数ランキング</h5>
       <vue-good-table
         ref="ranking-table"
         :columns="columns_follower"

@@ -19,9 +19,9 @@ export const mutations = {
 }
 
 export const actions = {
-  login({ commit }) {
+  async login({ commit }) {
     const auth = getAuth()
-    getRedirectResult(auth)
+    await getRedirectResult(auth)
       .then((result) => {
         if (result === null) {
           return
@@ -32,7 +32,6 @@ export const actions = {
         this.$router.push('/mypage')
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code
         const errorMessage = error.message
         console.log(errorCode, errorMessage)

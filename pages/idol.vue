@@ -125,7 +125,7 @@ export default {
         delete: idol[14],
       })
     }
-    if (localStorage.user) {
+    if (this.$store.getters['auth/getUser']) {
       this.columns.unshift({
         label: '',
         field: 'add',

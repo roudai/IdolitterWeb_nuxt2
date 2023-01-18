@@ -3,11 +3,19 @@ import { getFirestore, setDoc, doc } from 'firebase/firestore'
 
 export const state = () => ({
   isLoggedIn: false,
+  uid: '',
+  user: '',
 })
 
 export const mutations = {
   setLoginState(state, loggedIn) {
     state.isLoggedIn = loggedIn
+  },
+  setUid(state, uid) {
+    state.uid = uid
+  },
+  setUser(state, user) {
+    state.user = user
   },
 }
 
@@ -20,6 +28,8 @@ export const actions = {
           return
         }
         commit('setLoginState', true)
+        commit('setUid', result.user.providerData[0].uid)
+        commit('setUser', result.user.reloadUserInfo.screenName)
         const uid = result.user.providerData[0].uid
         const user = result.user.reloadUserInfo.screenName
         const name = result.user.displayName
@@ -45,6 +55,8 @@ export const actions = {
     await signOut(auth)
       .then(() => {
         commit('setLoginState', false)
+        commit('setUid', '')
+        commit('setUser', '')
         localStorage.removeItem('uid')
         localStorage.removeItem('user')
         localStorage.removeItem('name')
@@ -56,9 +68,13 @@ export const actions = {
   },
   addUserInfo({ commit }) {
     commit('setLoginState', true)
+    commit('setUid', user.providerData[0].uid)
+    commit('setUser', user.reloadUserInfo.screenName)
   },
 }
 
 export const getters = {
   getLoggedIn: (state) => !!state.isLoggedIn,
+  getUid: (state) => state.uid,
+  getUser: (state) => state.user,
 }

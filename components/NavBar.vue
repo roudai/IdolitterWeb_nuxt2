@@ -27,14 +27,30 @@
         <a class="navbar-item" href="/ranking"> ランキング </a>
         <a class="navbar-item" href="/history"> 履歴 </a>
       </div>
+      <div class="navbar-end">
+        <!-- アイテムの配置 -->
+        <div v-show="show" class="navbar-item">
+          <button class="button mr-2" @click="toMypage">
+            <span class="icon is-small">
+              <svg viewBox="0 0 24 24">
+                <path :d="iconLogin" />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
 
 <script>
+import { mdiAccount } from '@mdi/js'
+
 export default {
   data: () => ({
     nav_class: '',
+    iconLogin: mdiAccount,
+    show: false,
   }),
   methods: {
     menuShow() {
@@ -42,6 +58,13 @@ export default {
         this.nav_class = 'is-active'
       } else {
         this.nav_class = ''
+      }
+    },
+    toMypage() {
+      if (localStorage.user) {
+        this.$router.push('/mypage')
+      } else {
+        this.$router.push('/auth/login')
       }
     },
   },

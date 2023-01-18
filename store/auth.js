@@ -66,7 +66,7 @@ export const actions = {
         alert('logout:' + error)
       })
   },
-  addUserInfo({ commit }) {
+  addUserInfo({ commit }, user) {
     commit('setLoginState', true)
     commit('setUid', user.providerData[0].uid)
     commit('setUser', user.reloadUserInfo.screenName)

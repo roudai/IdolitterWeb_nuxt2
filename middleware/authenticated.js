@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default function ({ $firebase, store, route, redirect }) {
   const auth = getAuth($firebase)
-  if (!localStorage.user) {
+  if (!store.getters['auth/getLoggedIn']) {
     // ログインされていない場合
     onAuthStateChanged(auth, (user) => {
       if (user) {

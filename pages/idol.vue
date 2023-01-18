@@ -115,6 +115,7 @@ export default {
         continue
       }
       this.rows.push({
+        add: '追加',
         group: idol[0],
         twitterId: idol[5],
         name: idol[1] + ' ' + idol[2],
@@ -122,6 +123,14 @@ export default {
         follower: parseInt(idol[7]),
         tweet: parseInt(idol[8]),
         delete: idol[14],
+      })
+    }
+    if (localStorage.user) {
+      this.columns.unshift({
+        label: '',
+        field: 'add',
+        tdClass: 'add-text',
+        sortable: false,
       })
     }
   },

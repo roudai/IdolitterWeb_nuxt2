@@ -45,6 +45,12 @@ export default {
   cursor: pointer;
 }
 
+.add-text {
+  color: #1a0dab !important;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 table {
   display: block;
   overflow-x: scroll;

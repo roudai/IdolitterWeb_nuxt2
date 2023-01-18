@@ -1,4 +1,5 @@
 import { getAuth, getRedirectResult, signOut } from 'firebase/auth'
+import { getFirestore, setDoc, doc } from 'firebase/firestore'
 
 export const state = () => ({
   isLoggedIn: false,
@@ -11,16 +12,25 @@ export const mutations = {
 }
 
 export const actions = {
-  async login({ commit }) {
+  login({ commit }) {
     const auth = getAuth()
-    await getRedirectResult(auth)
-      .then((result) => {
+    getRedirectResult(auth)
+      .then(async (result) => {
         if (result === null) {
           return
         }
         commit('setLoginState', true)
-        localStorage.uid = result.user.providerData[0].uid
-        localStorage.user = result.user.reloadUserInfo.screenName
+        const uid = result.user.providerData[0].uid
+        const user = result.user.reloadUserInfo.screenName
+        const name = result.user.displayName
+        localStorage.uid = uid
+        localStorage.user = user
+        localStorage.name = name
+        const db = getFirestore(this.$firebase)
+        setDoc(doc(db, 'users', uid), {
+          user,
+          name,
+        })
         this.$router.push('/mypage')
       })
       .catch((error) => {

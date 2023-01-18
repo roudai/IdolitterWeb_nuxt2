@@ -1,7 +1,7 @@
 <template>
   <div>
     <h5>マイページ</h5>
-    <div>{{ user }}</div>
+    <div>{{ name }}</div>
     <button class="button is-info mb-2" @click="socialAuth()">
       ログアウトする
     </button>
@@ -12,11 +12,11 @@
 export default {
   data() {
     return {
-      user: '',
+      name: '',
     }
   },
   created() {
-    this.user = localStorage.getItem('user')
+    this.name = localStorage.getItem('name')
   },
   methods: {
     socialAuth() {

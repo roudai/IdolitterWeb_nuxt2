@@ -47,6 +47,7 @@ export const actions = {
         commit('setLoginState', false)
         localStorage.removeItem('uid')
         localStorage.removeItem('user')
+        localStorage.removeItem('name')
         this.$router.push('/auth/login')
       })
       .catch((error) => {

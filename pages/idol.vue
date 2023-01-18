@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { getFirestore, setDoc, doc } from 'firebase/firestore'
+
 export default {
   async asyncData({ $axios, $config }) {
     const baseUrl = $axios.defaults.baseURL + 'アイドル一覧?'
@@ -138,15 +140,29 @@ export default {
     compactModeChange() {
       this.compactMode = !this.compactMode
     },
-    onCellClick(params) {
+    async onCellClick(params) {
       if (params.column.field === 'twitterId') {
+        // Twitter ID
         const url = 'https://twitter.com/' + params.row.twitterId
         window.open(url, '_blank')
       } else if (params.column.field === 'group') {
+        // グループ名
         this.$router.push({
           path: '/group',
           query: { group: this.replaceParams(params.row.group) },
         })
+      } else if (params.column.field === 'add') {
+        // 追加ボタン
+        const db = getFirestore()
+        const document = 'users/' + this.$store.getters['auth/getUid'] + '/idol'
+        const group = params.row.group
+        const name = params.row.name
+        const twitterId = params.row.twitterId
+        await setDoc(doc(db, document, name), {
+          group,
+          twitterId,
+        })
+        this.$router.push('/mypage')
       }
     },
     onPerPageChange(params) {

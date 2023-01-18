@@ -50,7 +50,7 @@ export default {
   data: () => ({
     nav_class: '',
     iconLogin: mdiAccount,
-    show: false,
+    show: true,
   }),
   methods: {
     menuShow() {

@@ -27,7 +27,7 @@ export const actions = {
         localStorage.user = user
         localStorage.name = name
         const db = getFirestore(this.$firebase)
-        setDoc(doc(db, 'users', uid), {
+        await setDoc(doc(db, 'users', uid), {
           user,
           name,
         })

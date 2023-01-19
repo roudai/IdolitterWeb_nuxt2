@@ -36,6 +36,7 @@
                 <path :d="iconLogin" />
               </svg>
             </span>
+            <span>{{ mypage }}</span>
           </button>
         </div>
       </div>
@@ -50,8 +51,20 @@ export default {
   data: () => ({
     nav_class: '',
     iconLogin: mdiAccount,
-    show: true,
+    show: false,
+    mypage: '',
   }),
+  created() {
+    setTimeout(() => {
+      const isLoggedIn = this.$store.getters['auth/isLoggedIn']
+      if (isLoggedIn) {
+        this.show = true
+        this.mypage = 'マイページ'
+      } else {
+        this.mypage = 'ログイン'
+      }
+    }, 0)
+  },
   methods: {
     menuShow() {
       if (this.nav_class === '') {

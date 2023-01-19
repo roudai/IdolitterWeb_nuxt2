@@ -102,6 +102,12 @@ export default {
           field: 'forSearch',
           hidden: true,
         },
+        {
+          label: 'Twitter UID',
+          field: 'uid',
+          hidden: true,
+          globalSearchDisabled: false,
+        },
       ],
       rows: [],
     }
@@ -131,6 +137,7 @@ export default {
         tweet: parseInt(idol[8]),
         delete: idol[14],
         forSearch: this.setForSearch(idol),
+        uid: idol[11],
       })
     }
     setTimeout(() => {
@@ -166,7 +173,9 @@ export default {
         const group = params.row.group
         const name = params.row.name
         const twitterId = params.row.twitterId
-        await setDoc(doc(db, document, name), {
+        const uid = params.row.uid
+        await setDoc(doc(db, document, uid), {
+          name,
           group,
           twitterId,
         })

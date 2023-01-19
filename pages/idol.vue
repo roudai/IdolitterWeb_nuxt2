@@ -127,14 +127,16 @@ export default {
         delete: idol[14],
       })
     }
-    if (this.$store.getters['auth/User']) {
-      this.columns.unshift({
-        label: '',
-        field: 'add',
-        tdClass: 'add-text',
-        sortable: false,
-      })
-    }
+    setTimeout(() => {
+      if (this.$store.getters['auth/isLoggedIn']) {
+        this.columns.unshift({
+          label: '',
+          field: 'add',
+          tdClass: 'add-text',
+          sortable: false,
+        })
+      }
+    }, 0)
   },
   methods: {
     compactModeChange() {
@@ -154,7 +156,7 @@ export default {
       } else if (params.column.field === 'add') {
         // 追加ボタン
         const db = getFirestore()
-        const document = 'users/' + this.$store.getters['auth/getUid'] + '/idol'
+        const document = 'users/' + this.$store.getters['auth/uid'] + '/idol'
         const group = params.row.group
         const name = params.row.name
         const twitterId = params.row.twitterId

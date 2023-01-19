@@ -97,6 +97,11 @@ export default {
           field: this.deleteFn,
           firstSortType: 'desc',
         },
+        {
+          label: '検索用',
+          field: 'forSearch',
+          hidden: true,
+        },
       ],
       rows: [],
     }
@@ -125,6 +130,7 @@ export default {
         follower: parseInt(idol[7]),
         tweet: parseInt(idol[8]),
         delete: idol[14],
+        forSearch: this.setForSearch(idol),
       })
     }
     setTimeout(() => {
@@ -196,6 +202,14 @@ export default {
         return 'スリジエ東京'
       }
       return group
+    },
+    setForSearch(idol) {
+      let forSearch = ''
+      forSearch = idol[1] + idol[2]
+      forSearch += ' ' + idol[3] + idol[4]
+      forSearch += ' @' + idol[5]
+      forSearch += ' ' + idol[0].replace(/\s+/g, '')
+      return forSearch
     },
   },
 }

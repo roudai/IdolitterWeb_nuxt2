@@ -122,7 +122,7 @@ export default {
         continue
       }
       this.rows.push({
-        add: '追加',
+        add: '登録',
         group: idol[0],
         twitterId: idol[5],
         name: idol[1] + ' ' + idol[2],

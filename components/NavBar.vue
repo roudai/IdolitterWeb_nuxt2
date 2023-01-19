@@ -61,7 +61,8 @@ export default {
       }
     },
     toMypage() {
-      if (localStorage.user) {
+      console.log(this.$store.getters['auth/isLoggedIn'])
+      if (this.$store.getters['auth/isLoggedIn']) {
         this.$router.push('/mypage')
       } else {
         this.$router.push('/auth/login')

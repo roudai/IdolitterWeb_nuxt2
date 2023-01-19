@@ -5,6 +5,7 @@ export const state = () => ({
   isLoggedIn: false,
   uid: '',
   user: '',
+  displayName: '',
 })
 
 export const mutations = {
@@ -17,6 +18,9 @@ export const mutations = {
   setUser(state, user) {
     state.user = user
   },
+  setName(state, displayName) {
+    state.displayName = displayName
+  },
 }
 
 export const actions = {
@@ -27,19 +31,18 @@ export const actions = {
         if (result === null) {
           return
         }
-        commit('setLoginState', true)
-        commit('setUid', result.user.providerData[0].uid)
-        commit('setUser', result.user.reloadUserInfo.screenName)
         const uid = result.user.providerData[0].uid
         const user = result.user.reloadUserInfo.screenName
-        const name = result.user.displayName
-        localStorage.uid = uid
-        localStorage.user = user
-        localStorage.name = name
+        const displayName = result.user.displayName
+        commit('setLoginState', true)
+        commit('setUid', uid)
+        commit('setUser', user)
+        commit('setName', displayName)
+
         const db = getFirestore(this.$firebase)
         await setDoc(doc(db, 'users', uid), {
           user,
-          name,
+          displayName,
         })
         this.$router.push('/mypage')
       })
@@ -57,24 +60,18 @@ export const actions = {
         commit('setLoginState', false)
         commit('setUid', '')
         commit('setUser', '')
-        localStorage.removeItem('uid')
-        localStorage.removeItem('user')
-        localStorage.removeItem('name')
+        commit('setName', '')
         this.$router.push('/auth/login')
       })
       .catch((error) => {
         alert('logout:' + error)
       })
   },
-  addUserInfo({ commit }, user) {
-    commit('setLoginState', true)
-    commit('setUid', user.providerData[0].uid)
-    commit('setUser', user.reloadUserInfo.screenName)
-  },
 }
 
 export const getters = {
-  LoggedIn: (state) => !!state.isLoggedIn,
-  Uid: (state) => state.uid,
-  User: (state) => state.user,
+  isLoggedIn: (state) => !!state.isLoggedIn,
+  uid: (state) => state.uid,
+  user: (state) => state.user,
+  displayName: (state) => state.displayName,
 }

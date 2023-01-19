@@ -16,7 +16,7 @@ export default {
     }
   },
   created() {
-    this.name = localStorage.getItem('name')
+    this.name = this.$store.getters['auth/displayName']
   },
   methods: {
     socialAuth() {

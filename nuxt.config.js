@@ -2,10 +2,6 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
-  router: {
-    middleware: 'authenticated',
-  },
-
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -66,6 +62,7 @@ export default {
   plugins: [
     { src: '~/plugins/vue-good-table', ssr: false },
     '~/plugins/day.js',
+    '~/plugins/localStorage.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

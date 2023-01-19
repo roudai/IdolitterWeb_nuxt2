@@ -61,7 +61,6 @@ export default {
       }
     },
     toMypage() {
-      console.log(this.$store.getters['auth/isLoggedIn'])
       if (this.$store.getters['auth/isLoggedIn']) {
         this.$router.push('/mypage')
       } else {

@@ -74,7 +74,7 @@ export const actions = {
 }
 
 export const getters = {
-  getLoggedIn: (state) => !!state.isLoggedIn,
-  getUid: (state) => state.uid,
-  getUser: (state) => state.user,
+  LoggedIn: (state) => !!state.isLoggedIn,
+  Uid: (state) => state.uid,
+  User: (state) => state.user,
 }

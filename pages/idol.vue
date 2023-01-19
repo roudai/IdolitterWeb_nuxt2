@@ -127,7 +127,7 @@ export default {
         delete: idol[14],
       })
     }
-    if (this.$store.getters['auth/getUser']) {
+    if (this.$store.getters['auth/User']) {
       this.columns.unshift({
         label: '',
         field: 'add',

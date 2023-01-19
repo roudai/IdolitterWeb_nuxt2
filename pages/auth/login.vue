@@ -8,6 +8,13 @@
       </span>
       <span>ログインする</span>
     </button>
+    <div class="notification is-success is-light">
+      アイドリッターのツイッター認証は、ユーザーの識別のために使用されます。
+      アプリケーションは読み取り権限しか取得しないため、ツイート、フォロー、DM送信等を勝手に行うことはありません。
+      個人情報の取り扱いについては、<nuxt-link to="/policy"
+        >プライバシーポリシー</nuxt-link
+      >をご参照ください。
+    </div>
   </div>
 </template>
 

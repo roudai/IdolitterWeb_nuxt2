@@ -54,18 +54,37 @@ export default {
       compactMode: false,
       columns: [
         {
+          label: '',
+          field: 'add',
+          tdClass: 'add-text',
+          sortable: false,
+        },
+        {
+          label: '',
+          field: 'edit',
+          tdClass: 'add-text',
+          sortable: false,
+        },
+        {
+          label: '名前',
+          field: 'name',
+          tdClass: 'twitter-id',
+        },
+        {
           label: 'グループ',
           field: 'group',
           tdClass: 'group-name',
         },
         {
-          label: '名前',
-          field: 'name',
-        },
-        {
           label: 'TwitterID',
           field: 'twitterId',
-          tdClass: 'twitter-id',
+          hidden: true,
+        },
+        {
+          label: 'Twitter UID',
+          field: 'uid',
+          hidden: true,
+          globalSearchDisabled: false,
         },
       ],
       rows: [],
@@ -81,16 +100,19 @@ export default {
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc) => {
         this.rows.push({
+          add: '追加',
+          edit: '編集',
+          name: doc.data().name,
           group: doc.data().group,
-          name: doc.id,
           twitterId: doc.data().twitterId,
+          uid: doc.id,
         })
       })
     }, 0)
   },
   methods: {
     onCellClick(params) {
-      if (params.column.field === 'twitterId') {
+      if (params.column.field === 'name') {
         // Twitter ID
         const url = `https://twitter.com/${params.row.twitterId}`
         window.open(url, '_blank')
@@ -100,6 +122,10 @@ export default {
           path: '/group',
           query: { group: this.replaceParams(params.row.group) },
         })
+      } else if (params.column.field === 'add') {
+        // 追加ボタン
+      } else if (params.column.field === 'edit') {
+        // 編集ボタン
       }
     },
     socialAuth() {

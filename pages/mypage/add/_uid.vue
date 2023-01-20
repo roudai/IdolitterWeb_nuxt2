@@ -5,11 +5,11 @@
       <h4>{{ group }}</h4>
       <b-field label="日付">
         <b-datepicker
-          v-model="selected"
+          v-model="selectDate"
           locale="ja-JP"
           placeholder="日付を選択してください"
           icon="calendar-today"
-          :icon-right="selected ? 'close-circle' : ''"
+          :icon-right="selectDate ? 'close-circle' : ''"
           icon-right-clickable
           trap-focus
           @icon-right-click="clearDate"
@@ -33,14 +33,20 @@
     </div>
 
     <div class="buttons">
-      <b-button type="is-link is-light">登録</b-button>
+      <b-button type="is-link is-light" @click="register">登録</b-button>
       <b-button type="is-link is-light" @click="$router.go(-1)">戻る</b-button>
     </div>
   </div>
 </template>
 
 <script>
-import { getFirestore, doc, getDoc } from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  addDoc,
+} from 'firebase/firestore'
 
 export default {
   data() {
@@ -48,9 +54,9 @@ export default {
       show: true,
       group: '',
       name: '',
-      url: '',
-      selected: new Date(),
+      selectDate: new Date(),
       number: 1,
+      url: '',
     }
   },
   created() {
@@ -70,8 +76,23 @@ export default {
     }, 0)
   },
   methods: {
+    async register() {
+      const db = getFirestore()
+      const collectPath =
+        'users/' +
+        this.$store.getters['auth/uid'] +
+        '/idol/' +
+        this.$route.params.uid +
+        '/instax'
+      await addDoc(collection(db, collectPath), {
+        date: this.selectDate,
+        number: this.number,
+        url: this.url,
+      })
+      this.$router.push('/mypage')
+    },
     clearDate() {
-      this.selected = null
+      this.selectDate = null
     },
   },
 }

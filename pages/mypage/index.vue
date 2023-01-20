@@ -123,9 +123,9 @@ export default {
           query: { group: this.replaceParams(params.row.group) },
         })
       } else if (params.column.field === 'add') {
-        // 追加ボタン
+        this.$router.push('/mypage/add/' + params.row.uid)
       } else if (params.column.field === 'edit') {
-        // 編集ボタン
+        this.$router.push('/mypage/edit')
       }
     },
     socialAuth() {

@@ -55,8 +55,6 @@ export default {
   },
   created() {
     setTimeout(async () => {
-      this.name = this.$store.getters['auth/displayName']
-
       const db = getFirestore()
       const collection = 'users/' + this.$store.getters['auth/uid'] + '/idol/'
       const document = this.$route.params.uid

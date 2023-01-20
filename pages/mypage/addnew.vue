@@ -16,6 +16,10 @@
       <b-button type="is-link is-light" @click="register">登録</b-button>
       <b-button type="is-link is-light" @click="$router.go(-1)">戻る</b-button>
     </div>
+    <div class="notification is-warning is-light">
+      <nuxt-link to="/idol">アイドル一覧</nuxt-link>
+      に登録されているアイドルは、そちらから登録できます。
+    </div>
   </div>
 </template>
 

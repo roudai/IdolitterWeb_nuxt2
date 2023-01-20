@@ -37,13 +37,20 @@
       <b-button type="is-primary is-light" @click="$router.push('/mypage/add')"
         >アイドル登録</b-button
       >
-      <b-button label="ログアウトする" type="is-info" @click="confirmCustom" />
+      <b-button label="ログアウトする" type="is-info" @click="confirmLogout" />
     </div>
   </div>
 </template>
 
 <script>
-import { getFirestore, collection, query, getDocs } from 'firebase/firestore'
+import {
+  getFirestore,
+  collection,
+  query,
+  getDocs,
+  doc,
+  deleteDoc,
+} from 'firebase/firestore'
 
 export default {
   data() {
@@ -89,6 +96,12 @@ export default {
           hidden: true,
           globalSearchDisabled: false,
         },
+        {
+          label: '',
+          field: 'delete',
+          tdClass: 'add-text',
+          sortable: false,
+        },
       ],
       rows: [],
     }
@@ -104,11 +117,12 @@ export default {
       querySnapshot.forEach((doc) => {
         this.rows.push({
           add: '追加',
-          edit: '編集',
+          edit: '参照',
           name: doc.data().name,
           group: doc.data().group,
           twitterId: doc.data().twitterId,
           uid: doc.id,
+          delete: '削除',
         })
       })
     }, 0)
@@ -132,19 +146,40 @@ export default {
         this.$router.push('/mypage/add/' + params.row.uid)
       } else if (params.column.field === 'edit') {
         this.$router.push('/mypage/edit')
+      } else if (params.column.field === 'delete') {
+        this.confirmDelete(params)
       }
     },
-    confirmCustom() {
+    confirmDelete(params) {
       this.$buefy.dialog.confirm({
-        message: `ログアウトしても良いですか？`,
-        cancelText: 'OK',
-        confirmText: 'キャンセル',
-        type: 'is-white',
-        onCancel: () => this.socialAuth(),
+        title: 'アイドルの情報を削除します',
+        message:
+          '登録しているチェキの情報もすべて削除され、復元はできません。『' +
+          params.row.name +
+          '』の情報を本当に削除してもよろしいですか？',
+        cancelText: 'キャンセル',
+        confirmText: 'OK',
+        type: 'is-primary',
+        onConfirm: () => this.deleteIdol(params),
       })
     },
-    socialAuth() {
-      this.$store.dispatch('auth/logout')
+    confirmLogout() {
+      this.$buefy.dialog.confirm({
+        message: `ログアウトしても良いですか？`,
+        cancelText: 'キャンセル',
+        confirmText: 'OK',
+        type: 'is-primary',
+        onConfirm: () => this.$store.dispatch('auth/logout'),
+      })
+    },
+    async deleteIdol(params) {
+      const db = getFirestore()
+      const collectPath = 'users/' + this.$store.getters['auth/uid'] + '/idol'
+      await deleteDoc(doc(db, collectPath, params.row.uid))
+      this.$buefy.dialog.alert({
+        message: '『' + params.row.name + '』の情報を削除しました。',
+        onConfirm: () => location.reload(),
+      })
     },
     replaceParams(group) {
       if (group.includes('傾奇隊')) {

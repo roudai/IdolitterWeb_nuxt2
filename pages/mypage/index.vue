@@ -33,15 +33,12 @@
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
     />
-    <!-- <button class="button is-info mb-2 mt-5" @click="socialAuth()">
-      ログアウトする
-    </button> -->
-    <b-button
-      label="ログアウトする"
-      type="is-info"
-      class="mt-5"
-      @click="confirmCustom"
-    />
+    <div class="buttons mt-3">
+      <b-button type="is-primary is-light" @click="$router.push('/mypage/add')"
+        >アイドル登録</b-button
+      >
+      <b-button label="ログアウトする" type="is-info" @click="confirmCustom" />
+    </div>
   </div>
 </template>
 
@@ -124,6 +121,9 @@ export default {
         window.open(url, '_blank')
       } else if (params.column.field === 'group') {
         // グループ名
+        if (params.row.group === '') {
+          return
+        }
         this.$router.push({
           path: '/group',
           query: { group: this.replaceParams(params.row.group) },

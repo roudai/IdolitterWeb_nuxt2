@@ -67,7 +67,6 @@ export default {
       } else {
         this.show = false
       }
-      console.log(this.show)
     }, 0)
   },
   methods: {

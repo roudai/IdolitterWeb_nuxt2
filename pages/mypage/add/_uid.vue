@@ -52,8 +52,8 @@ export default {
   data() {
     return {
       show: true,
-      group: '',
       name: '',
+      group: '',
       selectDate: new Date(),
       number: 1,
       url: '',

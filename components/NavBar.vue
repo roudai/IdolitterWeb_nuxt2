@@ -75,8 +75,10 @@ export default {
     },
     toMypage() {
       if (this.$store.getters['auth/isLoggedIn']) {
+        this.nav_class = ''
         this.$router.push('/mypage')
       } else {
+        this.nav_class = ''
         this.$router.push('/auth/login')
       }
     },

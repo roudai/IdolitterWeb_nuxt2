@@ -31,7 +31,9 @@
       @on-cell-click="onCellClick"
     />
     <div class="buttons mt-3">
-      <b-button type="is-primary is-light" @click="$router.push('/mypage/add')"
+      <b-button
+        type="is-primary is-light"
+        @click="$router.push('/mypage/addnew')"
         >アイドル登録</b-button
       >
       <b-button label="ログアウトする" type="is-info" @click="confirmLogout" />

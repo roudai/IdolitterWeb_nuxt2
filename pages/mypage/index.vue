@@ -144,7 +144,7 @@ export default {
       } else if (params.column.field === 'add') {
         this.$router.push('/mypage/add/' + params.row.uid)
       } else if (params.column.field === 'edit') {
-        this.$router.push('/mypage/edit')
+        this.$router.push('/mypage/edit/' + params.row.uid)
       } else if (params.column.field === 'delete') {
         this.confirmDelete(params)
       }

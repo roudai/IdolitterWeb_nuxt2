@@ -33,9 +33,15 @@
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
     />
-    <button class="button is-info mb-2 mt-5" @click="socialAuth()">
+    <!-- <button class="button is-info mb-2 mt-5" @click="socialAuth()">
       ログアウトする
-    </button>
+    </button> -->
+    <b-button
+      label="ログアウトする"
+      type="is-info"
+      class="mt-5"
+      @click="confirmCustom"
+    />
   </div>
 </template>
 
@@ -127,6 +133,15 @@ export default {
       } else if (params.column.field === 'edit') {
         this.$router.push('/mypage/edit')
       }
+    },
+    confirmCustom() {
+      this.$buefy.dialog.confirm({
+        message: `ログアウトしても良いですか？`,
+        cancelText: 'OK',
+        confirmText: 'キャンセル',
+        type: 'is-white',
+        onCancel: () => this.socialAuth(),
+      })
     },
     socialAuth() {
       this.$store.dispatch('auth/logout')

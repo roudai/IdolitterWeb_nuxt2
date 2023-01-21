@@ -110,8 +110,8 @@ export default {
       this.name = this.$store.getters['auth/displayName']
 
       const db = getFirestore()
-      const document = 'users/' + this.$store.getters['auth/uid'] + '/idol'
-      const q = query(collection(db, document))
+      const collectPath = 'users/' + this.$store.getters['auth/uid'] + '/idol'
+      const q = query(collection(db, collectPath))
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc) => {
         this.rows.push({
@@ -144,7 +144,7 @@ export default {
       } else if (params.column.field === 'add') {
         this.$router.push('/mypage/add/' + params.row.uid)
       } else if (params.column.field === 'edit') {
-        this.$router.push('/mypage/edit/' + params.row.uid)
+        this.$router.push('/mypage/' + params.row.uid)
       } else if (params.column.field === 'delete') {
         this.confirmDelete(params)
       }

@@ -40,6 +40,7 @@ import {
   getDocs,
   doc,
   getDoc,
+  deleteDoc,
 } from 'firebase/firestore'
 
 export default {
@@ -81,6 +82,12 @@ export default {
           tdClass: 'add-text',
           sortable: false,
         },
+        {
+          label: 'Document ID',
+          field: 'docId',
+          hidden: true,
+          globalSearchDisabled: false,
+        },
       ],
       rows: [],
     }
@@ -114,13 +121,42 @@ export default {
           date: this.$dayjs(doc.data().date.toDate()).format('YYYY/MM/DD'),
           number: doc.data().number,
           url: doc.data().url,
+          docId: doc.id,
         })
       })
     }, 0)
   },
   methods: {
     onCellClick(params) {
-      console.log(params)
+      if (params.column.field === 'url') {
+        window.open(params.row.url, '_blank')
+      } else if (params.column.field === 'edit') {
+        this.$router.push('/mypage/' + params.row.uid)
+      } else if (params.column.field === 'delete') {
+        this.$buefy.dialog.confirm({
+          title: 'チェキの情報を削除します',
+          message: '情報の復元はできません。削除しても良いですか？',
+          cancelText: 'キャンセル',
+          confirmText: 'OK',
+          type: 'is-danger',
+          hasIcon: true,
+          onConfirm: () => this.deleteInstax(params),
+        })
+      }
+    },
+    async deleteInstax(params) {
+      const db = getFirestore()
+      const collectPath =
+        'users/' +
+        this.$store.getters['auth/uid'] +
+        '/idol/' +
+        this.$route.params.uid +
+        '/instax'
+      await deleteDoc(doc(db, collectPath, params.row.docId))
+      this.$buefy.dialog.alert({
+        message: '削除しました。',
+        onConfirm: () => location.reload(),
+      })
     },
   },
 }

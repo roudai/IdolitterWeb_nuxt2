@@ -28,11 +28,25 @@
       </b-field>
 
       <b-field label="会場名">
-        <b-input v-model="place" placeholder="会場名"></b-input>
+        <b-autocomplete
+          v-model="place"
+          :data="filteredPlaceArray"
+          placeholder="会場名"
+          clearable
+        >
+          <template #empty>入力候補はありません</template>
+        </b-autocomplete>
       </b-field>
 
       <b-field label="イベント名">
-        <b-input v-model="event" placeholder="イベント名"></b-input>
+        <b-autocomplete
+          v-model="event"
+          :data="filteredEventArray"
+          placeholder="イベント名"
+          clearable
+        >
+          <template #empty>入力候補はありません</template>
+        </b-autocomplete>
       </b-field>
 
       <b-field label="URL">
@@ -52,6 +66,8 @@ import {
   getFirestore,
   doc,
   getDoc,
+  query,
+  getDocs,
   collection,
   addDoc,
 } from 'firebase/firestore'
@@ -67,14 +83,34 @@ export default {
       url: '',
       place: '',
       event: '',
+      placeData: [],
+      eventData: [],
     }
+  },
+  computed: {
+    filteredPlaceArray() {
+      return this.placeData.filter((option) => {
+        return option
+          .toString()
+          .toLowerCase()
+          .includes(this.place.toLowerCase())
+      })
+    },
+    filteredEventArray() {
+      return this.eventData.filter((option) => {
+        return option
+          .toString()
+          .toLowerCase()
+          .includes(this.event.toLowerCase())
+      })
+    },
   },
   created() {
     setTimeout(async () => {
       const db = getFirestore()
-      const collection = 'users/' + this.$store.getters['auth/uid'] + '/idol/'
+      const collectPath = 'users/' + this.$store.getters['auth/uid'] + '/idol/'
       const document = this.$route.params.uid
-      const docRef = doc(db, collection, document)
+      const docRef = doc(db, collectPath, document)
       const docSnap = await getDoc(docRef)
 
       if (docSnap.exists()) {
@@ -83,6 +119,20 @@ export default {
       } else {
         this.show = false
       }
+
+      // 会場名オートコンプリート
+      const collectPathAutoComplete =
+        'users/' +
+        this.$store.getters['auth/uid'] +
+        '/idol/' +
+        this.$route.params.uid +
+        '/instax'
+      const q = query(collection(db, collectPathAutoComplete))
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach((doc) => {
+        this.placeData.push(doc.data().place)
+        this.eventData.push(doc.data().event)
+      })
     }, 0)
   },
   methods: {

@@ -77,6 +77,14 @@ export default {
           field: 'number',
         },
         {
+          label: '会場名',
+          field: 'place',
+        },
+        {
+          label: 'イベント名',
+          field: 'event',
+        },
+        {
           label: 'URL',
           field: 'url',
           tdClass: 'add-text',
@@ -121,6 +129,8 @@ export default {
           date: this.$dayjs(doc.data().date.toDate()).format('YYYY/MM/DD'),
           number: doc.data().number,
           url: doc.data().url,
+          place: doc.data().place,
+          event: doc.data().event,
           docId: doc.id,
         })
       })

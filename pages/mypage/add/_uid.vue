@@ -27,6 +27,14 @@
         ></b-numberinput>
       </b-field>
 
+      <b-field label="会場名">
+        <b-input v-model="place" placeholder="会場名"></b-input>
+      </b-field>
+
+      <b-field label="イベント名">
+        <b-input v-model="event" placeholder="イベント名"></b-input>
+      </b-field>
+
       <b-field label="URL">
         <b-input v-model="url" placeholder="https://"></b-input>
       </b-field>
@@ -57,6 +65,8 @@ export default {
       selectDate: new Date(),
       number: 1,
       url: '',
+      place: '',
+      event: '',
     }
   },
   created() {
@@ -88,6 +98,8 @@ export default {
         date: this.selectDate,
         number: this.number,
         url: this.url,
+        place: this.place,
+        event: this.event,
       })
       this.$router.push('/mypage')
     },

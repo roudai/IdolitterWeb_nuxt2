@@ -1,7 +1,24 @@
 <template>
   <div>
-    <h3>{{ name }}</h3>
-    <h4>{{ group }}</h4>
+    <div v-if="profileShow">
+      <h3>{{ name }}</h3>
+      <h4>{{ group }}</h4>
+      <div class="buttons mt-3 mb-3">
+        <b-button type="is-link is-light" @click="clickEdit">編集</b-button>
+      </div>
+    </div>
+    <div v-else>
+      <b-field>
+        <b-input v-model="name" expanded></b-input>
+        <b-input v-model="twitterId" expanded></b-input>
+      </b-field>
+      <b-field>
+        <b-input v-model="group"></b-input>
+      </b-field>
+      <div class="buttons mt-3 mb-3">
+        <b-button type="is-link is-light" @click="clickUpdate">更新</b-button>
+      </div>
+    </div>
 
     <vue-good-table
       ref="idol-table"
@@ -41,14 +58,17 @@ import {
   doc,
   getDoc,
   deleteDoc,
+  setDoc,
 } from 'firebase/firestore'
 
 export default {
   data() {
     return {
       show: true,
+      profileShow: true,
       name: '',
       group: '',
+      twitterId: '',
       perPage: 10,
       perPageChangeFlag: false,
       totalPage: '',
@@ -110,6 +130,7 @@ export default {
       if (docSnap.exists()) {
         this.group = docSnap.data().group
         this.name = docSnap.data().name
+        this.twitterId = docSnap.data().twitterId
       } else {
         this.show = false
       }
@@ -153,6 +174,21 @@ export default {
           onConfirm: () => this.deleteInstax(params),
         })
       }
+    },
+    clickEdit() {
+      this.profileShow = false
+    },
+    async clickUpdate() {
+      const db = getFirestore()
+      const collectPath = 'users/' + this.$store.getters['auth/uid'] + '/idol/'
+      const document = this.$route.params.uid
+
+      await setDoc(doc(db, collectPath, document), {
+        name: this.name,
+        group: this.group,
+        twitterId: this.twitterId,
+      })
+      this.profileShow = true
     },
     async deleteInstax(params) {
       const db = getFirestore()

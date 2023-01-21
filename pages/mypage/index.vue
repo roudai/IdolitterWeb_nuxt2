@@ -158,7 +158,8 @@ export default {
           '』の情報を本当に削除してもよろしいですか？',
         cancelText: 'キャンセル',
         confirmText: 'OK',
-        type: 'is-primary',
+        type: 'is-danger',
+        hasIcon: true,
         onConfirm: () => this.deleteIdol(params),
       })
     },

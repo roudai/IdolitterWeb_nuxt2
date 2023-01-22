@@ -108,12 +108,11 @@ export default {
   },
   created() {
     setTimeout(async () => {
+      // アイドル・グループ名
       const db = getFirestore()
-      const collectPath = 'users/' + this.$store.getters['auth/uid'] + '/idol/'
-      const document = this.$route.params.uid
-      const docRef = doc(db, collectPath, document)
-      const docSnap = await getDoc(docRef)
-
+      const userId = this.$store.getters['auth/uid']
+      const idolId = this.$route.params.uid
+      const docSnap = await getDoc(doc(db, 'users', userId, 'idol', idolId))
       if (docSnap.exists()) {
         this.group = docSnap.data().group
         this.name = docSnap.data().name
@@ -122,8 +121,7 @@ export default {
       }
 
       // 会場名オートコンプリート
-      const queryIdol = query(collectionGroup(db, 'instax'))
-      const querySnapshot = await getDocs(queryIdol)
+      const querySnapshot = await getDocs(query(collectionGroup(db, 'instax')))
       querySnapshot.forEach((doc) => {
         this.placeData.push(doc.data().place)
         this.eventData.push(doc.data().event)
@@ -133,13 +131,9 @@ export default {
   methods: {
     async register() {
       const db = getFirestore()
-      const collectPath =
-        'users/' +
-        this.$store.getters['auth/uid'] +
-        '/idol/' +
-        this.$route.params.uid +
-        '/instax'
-      await addDoc(collection(db, collectPath), {
+      const userId = this.$store.getters['auth/uid']
+      const idolId = this.$route.params.uid
+      await addDoc(collection(db, 'users', userId, 'idol', idolId, 'instax'), {
         date: this.selectDate,
         number: this.number,
         url: this.url,

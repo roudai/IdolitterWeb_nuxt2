@@ -39,8 +39,8 @@ export default {
   methods: {
     async register() {
       const db = getFirestore()
-      const collectPath = 'users/' + this.$store.getters['auth/uid'] + '/idol'
-      await addDoc(collection(db, collectPath), {
+      const userId = this.$store.getters['auth/uid']
+      await addDoc(collection(db, 'users', userId, 'idol'), {
         name: this.name,
         group: this.group,
         twitterId: this.twitterId

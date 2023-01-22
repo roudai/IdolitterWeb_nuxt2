@@ -1,7 +1,6 @@
 <template>
   <div>
     <h5>マイページ</h5>
-    <div>{{ name }}</div>
     <vue-good-table
       ref="idol-table"
       :columns="columns"
@@ -45,7 +44,6 @@
 import {
   getFirestore,
   collection,
-  query,
   getDocs,
   doc,
   deleteDoc,
@@ -107,12 +105,11 @@ export default {
   },
   created() {
     setTimeout(async () => {
-      this.name = this.$store.getters['auth/displayName']
-
       const db = getFirestore()
-      const collectPath = 'users/' + this.$store.getters['auth/uid'] + '/idol'
-      const q = query(collection(db, collectPath))
-      const querySnapshot = await getDocs(q)
+      const userId = this.$store.getters['auth/uid']
+      const querySnapshot = await getDocs(
+        collection(db, 'users', userId, 'idol')
+      )
       querySnapshot.forEach((doc) => {
         this.rows.push({
           add: '追加',
@@ -174,8 +171,9 @@ export default {
     },
     async deleteIdol(params) {
       const db = getFirestore()
-      const collectPath = 'users/' + this.$store.getters['auth/uid'] + '/idol'
-      await deleteDoc(doc(db, collectPath, params.row.uid))
+      const userId = this.$store.getters['auth/uid']
+      const idolId = params.row.uid
+      await deleteDoc(doc(db, 'users', userId, 'idol', idolId))
       this.$buefy.dialog.alert({
         message: '『' + params.row.name + '』の情報を削除しました。',
         onConfirm: () => location.reload(),

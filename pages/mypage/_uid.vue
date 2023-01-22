@@ -53,7 +53,6 @@
 import {
   getFirestore,
   collection,
-  query,
   getDocs,
   doc,
   getDoc,
@@ -123,10 +122,9 @@ export default {
   created() {
     setTimeout(async () => {
       const db = getFirestore()
-      const collectPath = 'users/' + this.$store.getters['auth/uid'] + '/idol/'
-      const document = this.$route.params.uid
-      const docRef = doc(db, collectPath, document)
-      const docSnap = await getDoc(docRef)
+      const userId = this.$store.getters['auth/uid']
+      const idolId = this.$route.params.uid
+      const docSnap = await getDoc(doc(db, 'users', userId, 'idol', idolId))
       if (docSnap.exists()) {
         this.group = docSnap.data().group
         this.name = docSnap.data().name
@@ -135,14 +133,9 @@ export default {
         this.show = false
       }
 
-      const collectPath2 =
-        'users/' +
-        this.$store.getters['auth/uid'] +
-        '/idol/' +
-        this.$route.params.uid +
-        '/instax'
-      const q = query(collection(db, collectPath2))
-      const querySnapshot = await getDocs(q)
+      const querySnapshot = await getDocs(
+        collection(db, 'users', userId, 'idol', idolId, 'instax')
+      )
       querySnapshot.forEach((doc) => {
         this.rows.push({
           edit: '編集',
@@ -180,10 +173,9 @@ export default {
     },
     async clickUpdate() {
       const db = getFirestore()
-      const collectPath = 'users/' + this.$store.getters['auth/uid'] + '/idol/'
-      const document = this.$route.params.uid
-
-      await setDoc(doc(db, collectPath, document), {
+      const userId = this.$store.getters['auth/uid']
+      const idolId = this.$route.params.uid
+      await setDoc(doc(db, 'users', userId, 'idol', idolId), {
         name: this.name,
         group: this.group,
         twitterId: this.twitterId,
@@ -192,13 +184,10 @@ export default {
     },
     async deleteInstax(params) {
       const db = getFirestore()
-      const collectPath =
-        'users/' +
-        this.$store.getters['auth/uid'] +
-        '/idol/' +
-        this.$route.params.uid +
-        '/instax'
-      await deleteDoc(doc(db, collectPath, params.row.docId))
+      const userId = this.$store.getters['auth/uid']
+      const idolId = this.$route.params.uid
+      const docId = params.row.docId
+      await deleteDoc(doc(db, 'users', userId, 'idol', idolId, 'instax', docId))
       this.$buefy.dialog.alert({
         message: '削除しました。',
         onConfirm: () => location.reload(),

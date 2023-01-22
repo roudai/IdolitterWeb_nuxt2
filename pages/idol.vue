@@ -169,15 +169,12 @@ export default {
       } else if (params.column.field === 'add') {
         // 追加ボタン
         const db = getFirestore()
-        const document = 'users/' + this.$store.getters['auth/uid'] + '/idol'
-        const group = params.row.group
-        const name = params.row.name
-        const twitterId = params.row.twitterId
-        const uid = params.row.uid
-        await setDoc(doc(db, document, uid), {
-          name,
-          group,
-          twitterId,
+        const userId = this.$store.getters['auth/uid']
+        const idolId = params.row.uid
+        await setDoc(doc(db, 'users', userId, 'idol', idolId), {
+          name: params.row.name,
+          group: params.row.group,
+          twitterId: params.row.group,
         })
         this.$router.push('/mypage')
       }

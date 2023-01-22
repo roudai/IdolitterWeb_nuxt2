@@ -121,17 +121,23 @@ export default {
       }
 
       // 会場名オートコンプリート
-      const collectPathAutoComplete =
-        'users/' +
-        this.$store.getters['auth/uid'] +
-        '/idol/' +
-        this.$route.params.uid +
-        '/instax'
-      const q = query(collection(db, collectPathAutoComplete))
-      const querySnapshot = await getDocs(q)
-      querySnapshot.forEach((doc) => {
-        this.placeData.push(doc.data().place)
-        this.eventData.push(doc.data().event)
+      const collectPathIdol =
+        'users/' + this.$store.getters['auth/uid'] + '/idol/'
+      const queryIdol = query(collection(db, collectPathIdol))
+      const querySnapshotIdol = await getDocs(queryIdol)
+      querySnapshotIdol.forEach(async (doc) => {
+        const collectPathAutoComplete =
+          'users/' +
+          this.$store.getters['auth/uid'] +
+          '/idol/' +
+          doc.id +
+          '/instax'
+        const queryAutoComplte = query(collection(db, collectPathAutoComplete))
+        const querySnapshotAutoComplete = await getDocs(queryAutoComplte)
+        querySnapshotAutoComplete.forEach((doc) => {
+          this.placeData.push(doc.data().place)
+          this.eventData.push(doc.data().event)
+        })
       })
     }, 0)
   },

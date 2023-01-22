@@ -106,7 +106,7 @@ export default {
       })
     },
   },
-  created() {
+  beforeCreate() {
     setTimeout(async () => {
       // アイドル・グループ名
       const db = getFirestore()

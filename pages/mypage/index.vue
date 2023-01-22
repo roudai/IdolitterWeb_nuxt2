@@ -103,7 +103,7 @@ export default {
       rows: [],
     }
   },
-  created() {
+  beforeCreate() {
     setTimeout(async () => {
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']

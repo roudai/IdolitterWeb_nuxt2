@@ -35,7 +35,7 @@ export default {
       number: 1,
     }
   },
-  created() {},
+  beforeCreate() {},
   methods: {
     async register() {
       const db = getFirestore()

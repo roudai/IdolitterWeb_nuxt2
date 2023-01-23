@@ -8,7 +8,7 @@
       :compact-mode="compactMode"
       :sort-options="{
         enabled: true,
-        initialSortBy: { field: 'group', type: 'name' },
+        initialSortBy: { field: 'number', type: 'desc' },
       }"
       :pagination-options="{
         enabled: true,
@@ -47,6 +47,8 @@ import {
   getDocs,
   doc,
   deleteDoc,
+  query,
+  collectionGroup,
 } from 'firebase/firestore'
 
 export default {
@@ -71,6 +73,11 @@ export default {
           field: 'edit',
           tdClass: 'add-text',
           sortable: false,
+        },
+        {
+          label: '枚数',
+          field: 'number',
+          type: 'number',
         },
         {
           label: '名前',
@@ -114,11 +121,20 @@ export default {
         this.rows.push({
           add: '追加',
           edit: '参照',
+          number: 0,
           name: doc.data().name,
           group: doc.data().group,
           twitterId: doc.data().twitterId,
           uid: doc.id,
           delete: '削除',
+        })
+      })
+
+      const groupSnapshot = await getDocs(query(collectionGroup(db, 'instax')))
+      groupSnapshot.forEach((doc) => {
+        const parentRef = doc.ref.parent.parent
+        this.rows.forEach((doc) => {
+          if (parentRef.id === doc.uid) doc.number += 1
         })
       })
     }, 0)

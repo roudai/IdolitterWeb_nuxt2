@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="created">
     <div v-show="show" class="mb-3">
       <h3>{{ name }}</h3>
       <h4>{{ group }}</h4>
@@ -76,6 +76,7 @@ import {
 export default {
   data() {
     return {
+      created: false,
       show: true,
       name: '',
       group: '',
@@ -128,6 +129,7 @@ export default {
         if (!this.eventData.includes(doc.data().event))
           this.eventData.push(doc.data().event)
       })
+      this.created = true
     }, 0)
   },
   methods: {

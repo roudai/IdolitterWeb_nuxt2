@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="created">
     <div v-if="profileShow">
       <h3>{{ name }}</h3>
       <h4>{{ group }}</h4>
@@ -65,6 +65,7 @@ import {
 export default {
   data() {
     return {
+      created: false,
       show: true,
       profileShow: true,
       name: '',
@@ -151,6 +152,7 @@ export default {
           docId: doc.id,
         })
       })
+      this.created = true
     }, 0)
   },
   methods: {

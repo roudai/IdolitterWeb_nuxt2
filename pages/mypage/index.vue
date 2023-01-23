@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="created">
     <h5>マイページ</h5>
     <vue-good-table
       ref="idol-table"
@@ -54,6 +54,7 @@ import {
 export default {
   data() {
     return {
+      created: false,
       name: '',
       perPage: 10,
       perPageChangeFlag: false,
@@ -137,6 +138,7 @@ export default {
           if (parentRef.id === doc.uid) doc.number += 1
         })
       })
+      this.created = true
     }, 0)
   },
   methods: {

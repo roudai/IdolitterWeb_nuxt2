@@ -66,11 +66,10 @@ import {
   getFirestore,
   doc,
   getDoc,
-  query,
-  getDocs,
   collection,
   addDoc,
-  collectionGroup,
+  updateDoc,
+  arrayUnion,
 } from 'firebase/firestore'
 
 export default {
@@ -122,13 +121,10 @@ export default {
       }
 
       // 会場名オートコンプリート
-      const querySnapshot = await getDocs(query(collectionGroup(db, 'instax')))
-      querySnapshot.forEach((doc) => {
-        if (!this.placeData.includes(doc.data().place))
-          this.placeData.push(doc.data().place)
-        if (!this.eventData.includes(doc.data().event))
-          this.eventData.push(doc.data().event)
-      })
+      const AutoComplete = await getDoc(doc(db, 'users', userId))
+      this.placeData = AutoComplete.data().place_list
+      this.eventData = AutoComplete.data().event_list
+
       this.created = true
     }, 0)
   },
@@ -143,6 +139,10 @@ export default {
         url: this.url,
         place: this.place,
         event: this.event,
+      })
+      await updateDoc(doc(db, 'users', userId), {
+        place_list: arrayUnion(this.place),
+        event_list: arrayUnion(this.event),
       })
       this.$router.push('/mypage/' + idolId)
     },

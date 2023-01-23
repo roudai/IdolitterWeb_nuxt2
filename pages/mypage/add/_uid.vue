@@ -123,8 +123,10 @@ export default {
       // 会場名オートコンプリート
       const querySnapshot = await getDocs(query(collectionGroup(db, 'instax')))
       querySnapshot.forEach((doc) => {
-        this.placeData.push(doc.data().place)
-        this.eventData.push(doc.data().event)
+        if (!this.placeData.includes(doc.data().place))
+          this.placeData.push(doc.data().place)
+        if (!this.eventData.includes(doc.data().event))
+          this.eventData.push(doc.data().event)
       })
     }, 0)
   },

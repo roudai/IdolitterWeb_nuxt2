@@ -155,7 +155,9 @@ export default {
       if (params.column.field === 'url') {
         window.open(params.row.url, '_blank')
       } else if (params.column.field === 'edit') {
-        this.$router.push('/mypage/edit/' + params.row.docId)
+        this.$router.push(
+          '/mypage/' + this.$route.params.uid + '/' + params.row.docId
+        )
       } else if (params.column.field === 'delete') {
         this.$buefy.dialog.confirm({
           title: 'チェキの情報を削除します',

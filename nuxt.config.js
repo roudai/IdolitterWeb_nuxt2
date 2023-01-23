@@ -63,6 +63,7 @@ export default {
     { src: '~/plugins/vue-good-table', ssr: false },
     '~/plugins/day.js',
     '~/plugins/localStorage.js',
+    { src: '~/plugins/apex-chart.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

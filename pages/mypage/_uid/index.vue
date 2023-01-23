@@ -44,7 +44,9 @@
       @on-cell-click="onCellClick"
     />
     <div class="buttons mt-3">
-      <b-button type="is-link is-light" @click="$router.go(-1)">戻る</b-button>
+      <b-button type="is-link is-light" @click="$router.push('/mypage')"
+        >戻る</b-button
+      >
     </div>
   </div>
 </template>
@@ -94,6 +96,7 @@ export default {
         {
           label: '枚数',
           field: 'number',
+          type: 'number',
         },
         {
           label: '会場名',
@@ -153,7 +156,7 @@ export default {
   methods: {
     onCellClick(params) {
       if (params.column.field === 'url') {
-        window.open(params.row.url, '_blank')
+        if (params.row.url !== '') window.open(params.row.url, '_blank')
       } else if (params.column.field === 'edit') {
         this.$router.push(
           '/mypage/' + this.$route.params.uid + '/' + params.row.docId

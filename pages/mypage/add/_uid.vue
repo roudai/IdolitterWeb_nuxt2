@@ -142,7 +142,7 @@ export default {
         place: this.place,
         event: this.event,
       })
-      this.$router.push('/mypage')
+      this.$router.push('/mypage/' + idolId)
     },
     clearDate() {
       this.selectDate = null

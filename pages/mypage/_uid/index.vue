@@ -85,12 +85,6 @@ export default {
           sortable: false,
         },
         {
-          label: '',
-          field: 'delete',
-          tdClass: 'add-text',
-          sortable: false,
-        },
-        {
           label: '日付',
           field: 'date',
         },

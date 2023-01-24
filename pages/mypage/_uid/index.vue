@@ -143,7 +143,6 @@ export default {
       querySnapshot.forEach((doc) => {
         this.rows.push({
           edit: '編集',
-          delete: '削除',
           date: this.$dayjs(doc.data().date.toDate()).format('YYYY/MM/DD'),
           number: doc.data().number,
           url: doc.data().url,
@@ -163,16 +162,6 @@ export default {
         this.$router.push(
           '/mypage/' + this.$route.params.uid + '/' + params.row.docId
         )
-      } else if (params.column.field === 'delete') {
-        this.$buefy.dialog.confirm({
-          title: 'チェキの情報を削除します',
-          message: '情報の復元はできません。削除しても良いですか？',
-          cancelText: 'キャンセル',
-          confirmText: 'OK',
-          type: 'is-danger',
-          hasIcon: true,
-          onConfirm: () => this.deleteInstax(params),
-        })
       }
     },
     clickEdit() {

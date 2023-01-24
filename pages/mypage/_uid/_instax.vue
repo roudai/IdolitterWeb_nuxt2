@@ -56,6 +56,7 @@
 
     <div class="buttons">
       <b-button type="is-link is-light" @click="register">登録</b-button>
+      <b-button type="is-link is-light" @click="deleteDocument">削除</b-button>
       <b-button type="is-link is-light" @click="$router.go(-1)">戻る</b-button>
     </div>
   </div>
@@ -68,6 +69,7 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  deleteDoc,
   arrayUnion,
 } from 'firebase/firestore'
 
@@ -152,6 +154,28 @@ export default {
       await updateDoc(doc(db, 'users', userId), {
         place_list: arrayUnion(this.place),
         event_list: arrayUnion(this.event),
+      })
+      this.$router.push('/mypage/' + idolId)
+    },
+    deleteDocument() {
+      this.$buefy.dialog.confirm({
+        title: 'チェキの情報を削除します',
+        message: '情報の復元はできません。削除しても良いですか？',
+        cancelText: 'キャンセル',
+        confirmText: 'OK',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.deleteInstax(),
+      })
+    },
+    async deleteInstax() {
+      const db = getFirestore()
+      const userId = this.$store.getters['auth/uid']
+      const idolId = this.$route.params.uid
+      const docId = this.$route.params.instax
+      await deleteDoc(doc(db, 'users', userId, 'idol', idolId, 'instax', docId))
+      this.$buefy.dialog.alert({
+        message: '削除しました。',
       })
       this.$router.push('/mypage/' + idolId)
     },

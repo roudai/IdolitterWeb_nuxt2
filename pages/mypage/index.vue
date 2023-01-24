@@ -43,12 +43,10 @@
 <script>
 import {
   getFirestore,
+  doc,
   collection,
   getDocs,
-  doc,
   deleteDoc,
-  query,
-  collectionGroup,
 } from 'firebase/firestore'
 
 export default {
@@ -113,22 +111,20 @@ export default {
         collection(db, 'users', userId, 'idol')
       )
       querySnapshot.forEach((doc) => {
+        let instax
+        if (doc.data().instax_totalling) {
+          instax = doc.data().instax_totalling.total
+        } else {
+          instax = 0
+        }
         this.rows.push({
           edit: '参照',
-          number: 0,
+          number: instax,
           name: doc.data().name,
           group: doc.data().group,
           twitterId: doc.data().twitterId,
           uid: doc.id,
           delete: '削除',
-        })
-      })
-
-      const groupSnapshot = await getDocs(query(collectionGroup(db, 'instax')))
-      groupSnapshot.forEach((doc) => {
-        const parentRef = doc.ref.parent.parent
-        this.rows.forEach((doc) => {
-          if (parentRef.id === doc.uid) doc.number += 1
         })
       })
       this.created = true

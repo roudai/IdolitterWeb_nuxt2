@@ -71,6 +71,7 @@ import {
   updateDoc,
   deleteDoc,
   arrayUnion,
+  increment,
 } from 'firebase/firestore'
 
 export default {
@@ -82,6 +83,7 @@ export default {
       group: '',
       selectDate: new Date(),
       number: 1,
+      initialNumber: 1,
       url: '',
       place: '',
       event: '',
@@ -123,6 +125,7 @@ export default {
         this.place = docSnap.data().place
         this.event = docSnap.data().event
         this.url = docSnap.data().url
+        this.initialNumber = this.number
       } else {
         this.show = false
       }
@@ -155,6 +158,9 @@ export default {
         place_list: arrayUnion(this.place),
         event_list: arrayUnion(this.event),
       })
+      await updateDoc(doc(db, 'users', userId, 'idol', idolId), {
+        'instax_totalling.total': increment(this.number - this.initialNumber),
+      })
       this.$router.push('/mypage/' + idolId)
     },
     deleteDocument() {
@@ -174,6 +180,9 @@ export default {
       const idolId = this.$route.params.uid
       const docId = this.$route.params.instax
       await deleteDoc(doc(db, 'users', userId, 'idol', idolId, 'instax', docId))
+      await updateDoc(doc(db, 'users', userId, 'idol', idolId), {
+        'instax_totalling.total': increment(-this.initialNumber),
+      })
       this.$buefy.dialog.alert({
         message: '削除しました。',
       })

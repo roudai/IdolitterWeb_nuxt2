@@ -70,6 +70,7 @@ import {
   addDoc,
   updateDoc,
   arrayUnion,
+  increment,
 } from 'firebase/firestore'
 
 export default {
@@ -143,6 +144,9 @@ export default {
       await updateDoc(doc(db, 'users', userId), {
         place_list: arrayUnion(this.place),
         event_list: arrayUnion(this.event),
+      })
+      await updateDoc(doc(db, 'users', userId, 'idol', idolId), {
+        'instax_totalling.total': increment(this.number),
       })
       this.$router.push('/mypage/' + idolId)
     },

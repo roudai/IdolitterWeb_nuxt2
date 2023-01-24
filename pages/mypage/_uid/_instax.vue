@@ -55,7 +55,7 @@
     </div>
 
     <div class="buttons">
-      <b-button type="is-link is-light" @click="register">登録</b-button>
+      <b-button type="is-link is-light" @click="register">更新</b-button>
       <b-button type="is-link is-light" @click="deleteDocument">削除</b-button>
       <b-button type="is-link is-light" @click="$router.go(-1)">戻る</b-button>
     </div>

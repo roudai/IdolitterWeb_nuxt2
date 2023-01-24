@@ -175,6 +175,9 @@ export default {
           name: params.row.name,
           group: params.row.group,
           twitterId: params.row.group,
+          instax_totalling: {
+            total: 0,
+          },
         })
         this.$router.push('/mypage')
       }

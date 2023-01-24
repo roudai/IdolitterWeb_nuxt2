@@ -29,6 +29,15 @@
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
     />
+
+    <apex-charts
+      :options="options"
+      :series="series"
+      :labels="labels"
+      :width="350"
+      :height="500"
+    ></apex-charts>
+
     <div class="buttons mt-3">
       <b-button
         type="is-primary is-light"
@@ -43,6 +52,8 @@
 <script>
 import {
   getFirestore,
+  query,
+  orderBy,
   doc,
   collection,
   getDocs,
@@ -101,6 +112,13 @@ export default {
         },
       ],
       rows: [],
+      options: {
+        chart: {
+          type: 'donut',
+        },
+        labels: [],
+      },
+      series: [],
     }
   },
   beforeCreate() {
@@ -108,7 +126,10 @@ export default {
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
       const querySnapshot = await getDocs(
-        collection(db, 'users', userId, 'idol')
+        query(
+          collection(db, 'users', userId, 'idol'),
+          orderBy('instax_totalling.total', 'desc')
+        )
       )
       querySnapshot.forEach((doc) => {
         let instax
@@ -126,7 +147,16 @@ export default {
           uid: doc.id,
           delete: '削除',
         })
+
+        if (
+          doc.data().instax_totalling &&
+          doc.data().instax_totalling.total !== 0
+        ) {
+          this.options.labels.push(doc.data().name)
+          this.series.push(doc.data().instax_totalling.total)
+        }
       })
+
       this.created = true
     }, 0)
   },

@@ -44,6 +44,11 @@
       @on-cell-click="onCellClick"
     />
     <div class="buttons mt-3">
+      <b-button
+        type="is-link is-light"
+        @click="$router.push('/mypage/add/' + $route.params.uid)"
+        >追加</b-button
+      >
       <b-button type="is-link is-light" @click="$router.push('/mypage')"
         >戻る</b-button
       >

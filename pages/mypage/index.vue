@@ -65,12 +65,6 @@ export default {
       columns: [
         {
           label: '',
-          field: 'add',
-          tdClass: 'add-text',
-          sortable: false,
-        },
-        {
-          label: '',
           field: 'edit',
           tdClass: 'add-text',
           sortable: false,
@@ -120,7 +114,6 @@ export default {
       )
       querySnapshot.forEach((doc) => {
         this.rows.push({
-          add: '追加',
           edit: '参照',
           number: 0,
           name: doc.data().name,
@@ -156,8 +149,6 @@ export default {
           path: '/group',
           query: { group: this.replaceParams(params.row.group) },
         })
-      } else if (params.column.field === 'add') {
-        this.$router.push('/mypage/add/' + params.row.uid)
       } else if (params.column.field === 'edit') {
         this.$router.push('/mypage/' + params.row.uid)
       } else if (params.column.field === 'delete') {

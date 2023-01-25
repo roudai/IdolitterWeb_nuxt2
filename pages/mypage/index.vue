@@ -30,13 +30,26 @@
       @on-cell-click="onCellClick"
     />
 
-    <apex-charts
-      :options="options"
-      :series="series"
-      :labels="labels"
-      :width="piChartsWidth"
-      :height="piChartsHeight"
-    ></apex-charts>
+    <div class="columns">
+      <div class="column">
+        <h5 class="mt-3 ml-5">全期間</h5>
+        <apex-charts
+          :options="options"
+          :series="series"
+          :width="piChartsWidth"
+          :height="piChartsHeight"
+        ></apex-charts>
+      </div>
+      <div class="column">
+        <h5 class="mt-3 ml-5">今月</h5>
+        <apex-charts
+          :options="options_month"
+          :series="series_month"
+          :width="piChartsWidth"
+          :height="piChartsHeight"
+        ></apex-charts>
+      </div>
+    </div>
 
     <div class="buttons mt-3">
       <b-button
@@ -120,7 +133,14 @@ export default {
         },
         labels: [],
       },
+      options_month: {
+        chart: {
+          type: 'donut',
+        },
+        labels: [],
+      },
       series: [],
+      series_month: [],
     }
   },
   mounted() {
@@ -161,9 +181,12 @@ export default {
         ) {
           this.options.labels.push(doc.data().name)
           this.series.push(doc.data().instax_totalling.total)
+          if (typeof doc.data().instax_totalling.m202301 !== 'undefined') {
+            this.options_month.labels.push(doc.data().name)
+            this.series_month.push(doc.data().instax_totalling.m202301)
+          }
         }
       })
-
       this.created = true
     }, 0)
   },
@@ -239,8 +262,8 @@ export default {
         this.piChartsWidth = window.innerWidth * 0.9
         this.piChartsHeight = window.innerWidth * 0.9
       } else {
-        this.piChartsWidth = (window.innerWidth / 2) * 0.9
-        this.piChartsHeight = (window.innerWidth / 2) * 0.9
+        this.piChartsWidth = (window.innerWidth / 2) * 0.8
+        this.piChartsHeight = (window.innerWidth / 2) * 0.8
       }
     },
   },

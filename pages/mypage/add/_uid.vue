@@ -145,8 +145,15 @@ export default {
         place_list: arrayUnion(this.place),
         event_list: arrayUnion(this.event),
       })
+      const setMonth =
+        'm' +
+        String(this.selectDate.getFullYear()) +
+        String(this.selectDate.getMonth() + 1).padStart(2, '0')
       await updateDoc(doc(db, 'users', userId, 'idol', idolId), {
-        'instax_totalling.total': increment(this.number),
+        instax_totalling: {
+          total: increment(this.number),
+          [setMonth]: increment(this.number),
+        },
       })
       this.$router.push('/mypage/' + idolId)
     },

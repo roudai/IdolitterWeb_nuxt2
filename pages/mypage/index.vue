@@ -34,8 +34,8 @@
       :options="options"
       :series="series"
       :labels="labels"
-      :width="350"
-      :height="500"
+      :width="piChartsWidth"
+      :height="piChartsHeight"
     ></apex-charts>
 
     <div class="buttons mt-3">
@@ -70,6 +70,8 @@ export default {
       totalPage: '',
       currentPage: '',
       windowWidth: '',
+      piChartsWidth: 0,
+      piChartsHeight: 0,
       compactMode: false,
       columns: [
         {
@@ -120,6 +122,11 @@ export default {
       },
       series: [],
     }
+  },
+  mounted() {
+    window.addEventListener('resize', this.resizeWindow)
+    this.windowWidth = window.innerWidth
+    this.setPiChartsSize()
   },
   beforeCreate() {
     setTimeout(async () => {
@@ -223,6 +230,19 @@ export default {
         return 'スリジエ東京'
       }
       return group
+    },
+    resizeWindow() {
+      this.setPiChartsSize()
+    },
+    setPiChartsSize() {
+      if (window.innerWidth < 1080) {
+        this.piChartsWidth = window.innerWidth
+        this.piChartsHeight = window.innerWidth
+      } else {
+        this.piChartsWidth = window.innerWidth / 2
+        this.piChartsHeight = window.innerWidth / 2
+      }
+      console.log(this.piChartsWidth, this.piChartsHeight)
     },
   },
 }

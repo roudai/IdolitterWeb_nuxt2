@@ -30,9 +30,9 @@
       @on-cell-click="onCellClick"
     />
 
-    <div class="columns">
+    <div class="columns mt-3">
       <div class="column">
-        <h5 class="mt-3 ml-5">全期間</h5>
+        <h5 class="ml-5">全期間</h5>
         <apex-charts
           :options="options"
           :series="series"
@@ -41,7 +41,7 @@
         ></apex-charts>
       </div>
       <div class="column">
-        <h5 class="mt-3 ml-5">今月</h5>
+        <h5 class="ml-5">今月</h5>
         <apex-charts
           :options="options_month"
           :series="series_month"
@@ -77,6 +77,7 @@ export default {
   data() {
     return {
       created: false,
+      querySnapshot: null,
       name: '',
       perPage: 10,
       perPageChangeFlag: false,
@@ -85,6 +86,7 @@ export default {
       windowWidth: '',
       piChartsWidth: 0,
       piChartsHeight: 0,
+      selectMonth: new Date(),
       compactMode: false,
       columns: [
         {
@@ -152,13 +154,13 @@ export default {
     setTimeout(async () => {
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
-      const querySnapshot = await getDocs(
+      this.querySnapshot = await getDocs(
         query(
           collection(db, 'users', userId, 'idol'),
           orderBy('instax_totalling.total', 'desc')
         )
       )
-      querySnapshot.forEach((doc) => {
+      this.querySnapshot.forEach((doc) => {
         let instax
         if (doc.data().instax_totalling) {
           instax = doc.data().instax_totalling.total
@@ -181,9 +183,13 @@ export default {
         ) {
           this.options.labels.push(doc.data().name)
           this.series.push(doc.data().instax_totalling.total)
-          if (typeof doc.data().instax_totalling.m202301 !== 'undefined') {
+          const setMonth =
+            'm' +
+            String(this.selectMonth.getFullYear()) +
+            String(this.selectMonth.getMonth() + 1).padStart(2, '0')
+          if (typeof doc.data().instax_totalling[setMonth] !== 'undefined') {
             this.options_month.labels.push(doc.data().name)
-            this.series_month.push(doc.data().instax_totalling.m202301)
+            this.series_month.push(doc.data().instax_totalling[setMonth])
           }
         }
       })
@@ -262,12 +268,10 @@ export default {
         this.piChartsWidth = window.innerWidth * 0.9
         this.piChartsHeight = window.innerWidth * 0.9
       } else {
-        this.piChartsWidth = (window.innerWidth / 2) * 0.8
-        this.piChartsHeight = (window.innerWidth / 2) * 0.8
+        this.piChartsWidth = Math.min((window.innerWidth / 2) * 0.8, 650)
+        this.piChartsHeight = Math.min((window.innerWidth / 2) * 0.8, 650)
       }
     },
   },
 }
 </script>
-
-<style></style>

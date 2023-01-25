@@ -46,6 +46,9 @@ export default {
         twitterId: this.twitterId
           .replace('@', '')
           .replace('https://twitter.com/', ''),
+        instax_totalling: {
+          total: 0,
+        },
       })
       this.$router.push('/mypage')
     },

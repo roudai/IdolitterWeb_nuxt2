@@ -242,7 +242,6 @@ export default {
         this.piChartsWidth = window.innerWidth / 2
         this.piChartsHeight = window.innerWidth / 2
       }
-      console.log(this.piChartsWidth, this.piChartsHeight)
     },
   },
 }

@@ -93,6 +93,9 @@ export default {
   },
   computed: {
     filteredPlaceArray() {
+      if (typeof this.placeData === 'undefined') {
+        return null
+      }
       return this.placeData.filter((option) => {
         return option
           .toString()
@@ -101,6 +104,9 @@ export default {
       })
     },
     filteredEventArray() {
+      if (typeof this.eventData === 'undefined') {
+        return null
+      }
       return this.eventData.filter((option) => {
         return option
           .toString()

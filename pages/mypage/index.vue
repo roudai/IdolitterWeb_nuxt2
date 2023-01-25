@@ -236,11 +236,11 @@ export default {
     },
     setPiChartsSize() {
       if (window.innerWidth < 1080) {
-        this.piChartsWidth = window.innerWidth
-        this.piChartsHeight = window.innerWidth
+        this.piChartsWidth = window.innerWidth * 0.9
+        this.piChartsHeight = window.innerWidth * 0.9
       } else {
-        this.piChartsWidth = window.innerWidth / 2
-        this.piChartsHeight = window.innerWidth / 2
+        this.piChartsWidth = (window.innerWidth / 2) * 0.9
+        this.piChartsHeight = (window.innerWidth / 2) * 0.9
       }
     },
   },

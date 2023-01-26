@@ -148,12 +148,38 @@ export default {
       ],
       rows: [],
       options: {
+        plotOptions: {
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                total: {
+                  show: true,
+                  label: '合計',
+                },
+              },
+            },
+          },
+        },
         chart: {
           type: 'donut',
         },
         labels: [],
       },
       options_month: {
+        plotOptions: {
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                total: {
+                  show: true,
+                  label: '合計',
+                },
+              },
+            },
+          },
+        },
         chart: {
           type: 'donut',
         },

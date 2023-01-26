@@ -63,6 +63,15 @@
         <div v-else>対象月のデータがありません</div>
       </div>
     </div>
+    <div class="columns mt-3">
+      <div class="column">
+        <apex-charts
+          :options="options_bar"
+          :series="series_bar"
+          :height="300"
+        ></apex-charts>
+      </div>
+    </div>
 
     <div class="buttons mt-3">
       <b-button
@@ -166,6 +175,7 @@ export default {
         },
         labels: [],
       },
+      series: [],
       options_month: {
         plotOptions: {
           pie: {
@@ -185,8 +195,59 @@ export default {
         },
         labels: [],
       },
-      series: [],
       series_month: [],
+      options_bar: {
+        chart: {
+          type: 'bar',
+          height: 350,
+          stacked: true,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            dataLabels: {
+              total: {
+                enabled: true,
+                offsetX: 0,
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 900,
+                },
+              },
+            },
+          },
+        },
+        stroke: {
+          width: 2,
+          colors: ['#fff'],
+        },
+        xaxis: {
+          categories: ['2023年1月', '2022年12月', '2022年11月'],
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'left',
+          offsetX: 40,
+        },
+      },
+      series_bar: [
+        {
+          name: '柴田 あいこ',
+          data: [20, 15, 23],
+        },
+        {
+          name: '雨夜 憧',
+          data: [8, 5, 2],
+        },
+        {
+          name: 'ミミミユ',
+          data: [3, 2, 5],
+        },
+        {
+          name: '蒼井 輝菜',
+          data: [9, 7, 5],
+        },
+      ],
     }
   },
   mounted() {
@@ -353,6 +414,19 @@ export default {
         }
       })
       this.options_month = {
+        plotOptions: {
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                total: {
+                  show: true,
+                  label: '合計',
+                },
+              },
+            },
+          },
+        },
         chart: {
           type: 'donut',
         },

@@ -41,13 +41,26 @@
         ></apex-charts>
       </div>
       <div class="column">
-        <h5 class="ml-5">今月</h5>
-        <apex-charts
-          :options="options_month"
-          :series="series_month"
-          :width="piChartsWidth"
-          :height="piChartsHeight"
-        ></apex-charts>
+        <span class="icon" style="float: left" @click="prevClick">
+          <svg viewBox="0 0 24 24">
+            <path :d="mdiSkipPrevious" />
+          </svg>
+        </span>
+        <span style="float: left">{{ setYear }}年{{ setMonth }}月</span>
+        <span class="icon" @click="nextClick">
+          <svg viewBox="0 0 24 24">
+            <path :d="mdiSkipNext" />
+          </svg>
+        </span>
+        <div v-if="monthData">
+          <apex-charts
+            :options="options_month"
+            :series="series_month"
+            :width="piChartsWidth"
+            :height="piChartsHeight"
+          ></apex-charts>
+        </div>
+        <div v-else>対象月のデータがありません</div>
       </div>
     </div>
 
@@ -72,10 +85,14 @@ import {
   getDocs,
   deleteDoc,
 } from 'firebase/firestore'
+import { mdiSkipPrevious, mdiSkipNext } from '@mdi/js'
 
 export default {
   data() {
     return {
+      monthData: true,
+      mdiSkipPrevious,
+      mdiSkipNext,
       created: false,
       querySnapshot: null,
       name: '',
@@ -86,7 +103,8 @@ export default {
       windowWidth: '',
       piChartsWidth: 0,
       piChartsHeight: 0,
-      selectMonth: new Date(),
+      setYear: '2023',
+      setMonth: '01',
       compactMode: false,
       columns: [
         {
@@ -154,6 +172,10 @@ export default {
     setTimeout(async () => {
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
+      const today = new Date()
+      this.setYear = String(today.getFullYear())
+      this.setMonth = String(today.getMonth() + 1).padStart(2, '0')
+      const setMonth = 'm' + this.setYear + this.setMonth
       this.querySnapshot = await getDocs(
         query(
           collection(db, 'users', userId, 'idol'),
@@ -183,10 +205,6 @@ export default {
         ) {
           this.options.labels.push(doc.data().name)
           this.series.push(doc.data().instax_totalling.total)
-          const setMonth =
-            'm' +
-            String(this.selectMonth.getFullYear()) +
-            String(this.selectMonth.getMonth() + 1).padStart(2, '0')
           if (typeof doc.data().instax_totalling[setMonth] !== 'undefined') {
             this.options_month.labels.push(doc.data().name)
             this.series_month.push(doc.data().instax_totalling[setMonth])
@@ -271,6 +289,52 @@ export default {
         this.piChartsWidth = Math.min((window.innerWidth / 2) * 0.8, 650)
         this.piChartsHeight = Math.min((window.innerWidth / 2) * 0.8, 650)
       }
+    },
+    prevClick() {
+      this.options_month.labels = []
+      this.series_month = []
+      if (this.setMonth === '01') {
+        this.setMonth = '12'
+        this.setYear = String(parseInt(this.setYear) - 1)
+      } else {
+        this.setMonth = String(parseInt(this.setMonth) - 1).padStart(2, '0')
+      }
+      this.garphRedraw()
+    },
+    nextClick() {
+      this.options_month.labels = []
+      this.series_month = []
+      if (this.setMonth === '12') {
+        this.setMonth = '01'
+        this.setYear = String(parseInt(this.setYear) + 1)
+      } else {
+        this.setMonth = String(parseInt(this.setMonth) + 1).padStart(2, '0')
+      }
+      this.garphRedraw()
+    },
+    garphRedraw() {
+      const labels = []
+      const setMonth = 'm' + this.setYear + this.setMonth
+      this.querySnapshot.forEach((doc) => {
+        if (
+          doc.data().instax_totalling &&
+          doc.data().instax_totalling.total !== 0
+        ) {
+          if (typeof doc.data().instax_totalling[setMonth] !== 'undefined') {
+            labels.push(doc.data().name)
+            this.series_month.push(doc.data().instax_totalling[setMonth])
+          }
+        }
+      })
+      this.options_month = {
+        chart: {
+          type: 'donut',
+        },
+        labels,
+      }
+      this.series_month.length === 0
+        ? (this.monthData = false)
+        : (this.monthData = true)
     },
   },
 }

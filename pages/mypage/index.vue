@@ -28,7 +28,11 @@
       }"
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
-    />
+    >
+      <div slot="emptystate">
+        「アイドル一覧」から、アイドルを追加してください。
+      </div>
+    </vue-good-table>
 
     <div class="columns mt-3">
       <div class="column">

@@ -83,6 +83,7 @@ export default {
       group: '',
       selectDate: new Date(),
       number: 1,
+      initialDate: null,
       initialNumber: 1,
       url: '',
       place: '',
@@ -131,6 +132,7 @@ export default {
         this.place = docSnap.data().place
         this.event = docSnap.data().event
         this.url = docSnap.data().url
+        this.initialDate = this.selectDate
         this.initialNumber = this.number
       } else {
         this.show = false
@@ -164,8 +166,23 @@ export default {
         place_list: arrayUnion(this.place),
         event_list: arrayUnion(this.event),
       })
+
+      const initialMonth =
+        'instax_totalling.m' +
+        String(this.initialDate.getFullYear()) +
+        String(this.initialDate.getMonth() + 1).padStart(2, '0')
       await updateDoc(doc(db, 'users', userId, 'idol', idolId), {
-        'instax_totalling.total': increment(this.number - this.initialNumber),
+        'instax_totalling.total': increment(-this.initialNumber),
+        [initialMonth]: increment(-this.initialNumber),
+      })
+
+      const setMonth =
+        'instax_totalling.m' +
+        String(this.selectDate.getFullYear()) +
+        String(this.selectDate.getMonth() + 1).padStart(2, '0')
+      await updateDoc(doc(db, 'users', userId, 'idol', idolId), {
+        'instax_totalling.total': increment(this.number),
+        [setMonth]: increment(this.number),
       })
       this.$router.push('/mypage/' + idolId)
     },
@@ -185,9 +202,14 @@ export default {
       const userId = this.$store.getters['auth/uid']
       const idolId = this.$route.params.uid
       const docId = this.$route.params.instax
+      const setMonth =
+        'instax_totalling.m' +
+        String(this.selectDate.getFullYear()) +
+        String(this.selectDate.getMonth() + 1).padStart(2, '0')
       await deleteDoc(doc(db, 'users', userId, 'idol', idolId, 'instax', docId))
       await updateDoc(doc(db, 'users', userId, 'idol', idolId), {
         'instax_totalling.total': increment(-this.initialNumber),
+        [setMonth]: increment(-this.number),
       })
       this.$buefy.dialog.alert({
         message: '削除しました。',

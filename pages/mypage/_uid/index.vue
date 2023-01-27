@@ -42,7 +42,11 @@
       }"
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
-    />
+    >
+      <div slot="emptystate">
+        「追加」から、チェキの情報を追加してください。
+      </div>
+    </vue-good-table>
     <div class="buttons mt-3">
       <b-button
         type="is-link is-light"

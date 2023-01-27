@@ -297,8 +297,10 @@ export default {
           this.options.labels.push(doc.data().name)
           this.series.push(doc.data().instax_totalling.total)
           if (typeof doc.data().instax_totalling[setMonth] !== 'undefined') {
-            this.options_month.labels.push(doc.data().name)
-            this.series_month.push(doc.data().instax_totalling[setMonth])
+            if (doc.data().instax_totalling[setMonth] !== 0) {
+              this.options_month.labels.push(doc.data().name)
+              this.series_month.push(doc.data().instax_totalling[setMonth])
+            }
           }
         }
       })
@@ -412,8 +414,10 @@ export default {
           doc.data().instax_totalling.total !== 0
         ) {
           if (typeof doc.data().instax_totalling[setMonth] !== 'undefined') {
-            labels.push(doc.data().name)
-            this.series_month.push(doc.data().instax_totalling[setMonth])
+            if (doc.data().instax_totalling[setMonth] !== 0) {
+              labels.push(doc.data().name)
+              this.series_month.push(doc.data().instax_totalling[setMonth])
+            }
           }
         }
       })

@@ -226,7 +226,7 @@ export default {
           colors: ['#fff'],
         },
         xaxis: {
-          categories: ['2023年1月', '2022年12月', '2022年11月'],
+          categories: [],
         },
         legend: {
           position: 'top',
@@ -234,24 +234,7 @@ export default {
           offsetX: 40,
         },
       },
-      series_bar: [
-        {
-          name: '柴田 あいこ',
-          data: [20, 15, 23],
-        },
-        {
-          name: '雨夜 憧',
-          data: [8, 5, 2],
-        },
-        {
-          name: 'ミミミユ',
-          data: [3, 2, 5],
-        },
-        {
-          name: '蒼井 輝菜',
-          data: [9, 7, 5],
-        },
-      ],
+      series_bar: [],
     }
   },
   mounted() {
@@ -267,12 +250,19 @@ export default {
       this.setYear = String(today.getFullYear())
       this.setMonth = String(today.getMonth() + 1).padStart(2, '0')
       const setMonth = 'm' + this.setYear + this.setMonth
+      for (let i = 0; i < 5; i++) {
+        const year = this.$dayjs().subtract(i, 'month').format('YYYY')
+        const month = this.$dayjs().subtract(i, 'month').format('MM')
+        this.options_bar.xaxis.categories.push(year + '/' + month)
+      }
+
       this.querySnapshot = await getDocs(
         query(
           collection(db, 'users', userId, 'idol'),
           orderBy('instax_totalling.total', 'desc')
         )
       )
+      let i = 0
       this.querySnapshot.forEach((doc) => {
         let instax
         if (doc.data().instax_totalling) {
@@ -294,15 +284,34 @@ export default {
           doc.data().instax_totalling &&
           doc.data().instax_totalling.total !== 0
         ) {
+          // Piグラフ 全期間
           this.options.labels.push(doc.data().name)
           this.series.push(doc.data().instax_totalling.total)
+          // Piグラフ 月別
           if (typeof doc.data().instax_totalling[setMonth] !== 'undefined') {
             if (doc.data().instax_totalling[setMonth] !== 0) {
               this.options_month.labels.push(doc.data().name)
               this.series_month.push(doc.data().instax_totalling[setMonth])
             }
           }
+          // 棒グラフ
+          const data = []
+          for (let i = 0; i < 5; i++) {
+            const year = this.$dayjs().subtract(i, 'month').format('YYYY')
+            const month = this.$dayjs().subtract(i, 'month').format('MM')
+            const barMonth = 'm' + String(year + month)
+            if (
+              typeof doc.data().instax_totalling[barMonth] === 'undefined' ||
+              doc.data().instax_totalling[barMonth] === 0
+            ) {
+              data.push(0)
+            } else {
+              data.push(doc.data().instax_totalling[barMonth])
+            }
+          }
+          this.series_bar.push({ name: doc.data().name, data })
         }
+        i += 1
       })
       this.created = true
     }, 0)

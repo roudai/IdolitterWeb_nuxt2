@@ -262,7 +262,6 @@ export default {
           orderBy('instax_totalling.total', 'desc')
         )
       )
-      let i = 0
       this.querySnapshot.forEach((doc) => {
         let instax
         if (doc.data().instax_totalling) {

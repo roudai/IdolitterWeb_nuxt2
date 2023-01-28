@@ -69,6 +69,17 @@
     </div>
     <div class="columns mt-3">
       <div class="column">
+        <span class="icon" style="float: left" @click="prevBarClick">
+          <svg viewBox="0 0 24 24">
+            <path :d="mdiChevronDoubleLeft" />
+          </svg>
+        </span>
+        <span style="float: left"> 前 | 後 </span>
+        <span class="icon" @click="nextBarClick">
+          <svg viewBox="0 0 24 24">
+            <path :d="mdiChevronDoubleRight" />
+          </svg>
+        </span>
         <apex-charts
           :options="options_bar"
           :series="series_bar"
@@ -246,10 +257,7 @@ export default {
     setTimeout(async () => {
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
-      const today = new Date()
-      this.setYear = String(today.getFullYear())
-      this.setMonth = String(today.getMonth() + 1).padStart(2, '0')
-      const setMonth = 'm' + this.setYear + this.setMonth
+      const setMonth = 'm' + this.$dayjs().format('YYYYMM')
       for (let i = 0; i < 6; i++) {
         const year = this.$dayjs().subtract(i, 'month').format('YYYY')
         const month = this.$dayjs().subtract(i, 'month').format('MM')
@@ -296,9 +304,8 @@ export default {
           // 棒グラフ
           const data = []
           for (let i = 0; i < 6; i++) {
-            const year = this.$dayjs().subtract(i, 'month').format('YYYY')
-            const month = this.$dayjs().subtract(i, 'month').format('MM')
-            const barMonth = 'm' + String(year + month)
+            const barMonth =
+              'm' + this.options_bar.xaxis.categories[i].replace('/', '')
             if (
               typeof doc.data().instax_totalling[barMonth] === 'undefined' ||
               doc.data().instax_totalling[barMonth] === 0
@@ -399,7 +406,7 @@ export default {
       } else {
         this.setMonth = String(parseInt(this.setMonth) - 1).padStart(2, '0')
       }
-      this.garphRedraw()
+      this.piGarphRedraw()
     },
     nextClick() {
       this.options_month.labels = []
@@ -410,9 +417,21 @@ export default {
       } else {
         this.setMonth = String(parseInt(this.setMonth) + 1).padStart(2, '0')
       }
-      this.garphRedraw()
+      this.piGarphRedraw()
     },
-    garphRedraw() {
+    prevBarClick() {
+      const shifted = this.options_bar.xaxis.categories.shift()
+      const pushMonth = this.$dayjs(shifted).subtract(6, 'M').format('YYYY/MM')
+      this.options_bar.xaxis.categories.push(pushMonth)
+      this.barGraphRedraw()
+    },
+    nextBarClick() {
+      const popped = this.options_bar.xaxis.categories.pop()
+      const pushMonth = this.$dayjs(popped).add(6, 'M').format('YYYY/MM')
+      this.options_bar.xaxis.categories.unshift(pushMonth)
+      this.barGraphRedraw()
+    },
+    piGarphRedraw() {
       const labels = []
       const setMonth = 'm' + this.setYear + this.setMonth
       this.querySnapshot.forEach((doc) => {
@@ -450,6 +469,25 @@ export default {
       this.series_month.length === 0
         ? (this.monthData = false)
         : (this.monthData = true)
+    },
+    barGraphRedraw() {
+      this.series_bar = []
+      this.querySnapshot.forEach((doc) => {
+        const data = []
+        for (let i = 0; i < 6; i++) {
+          const barMonth =
+            'm' + this.options_bar.xaxis.categories[i].replace('/', '')
+          if (
+            typeof doc.data().instax_totalling[barMonth] === 'undefined' ||
+            doc.data().instax_totalling[barMonth] === 0
+          ) {
+            data.push(0)
+          } else {
+            data.push(doc.data().instax_totalling[barMonth])
+          }
+        }
+        this.series_bar.push({ name: doc.data().name, data })
+      })
     },
   },
 }

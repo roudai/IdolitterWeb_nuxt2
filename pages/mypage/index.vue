@@ -250,7 +250,7 @@ export default {
       this.setYear = String(today.getFullYear())
       this.setMonth = String(today.getMonth() + 1).padStart(2, '0')
       const setMonth = 'm' + this.setYear + this.setMonth
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 6; i++) {
         const year = this.$dayjs().subtract(i, 'month').format('YYYY')
         const month = this.$dayjs().subtract(i, 'month').format('MM')
         this.options_bar.xaxis.categories.push(year + '/' + month)
@@ -296,7 +296,7 @@ export default {
           }
           // 棒グラフ
           const data = []
-          for (let i = 0; i < 5; i++) {
+          for (let i = 0; i < 6; i++) {
             const year = this.$dayjs().subtract(i, 'month').format('YYYY')
             const month = this.$dayjs().subtract(i, 'month').format('MM')
             const barMonth = 'm' + String(year + month)

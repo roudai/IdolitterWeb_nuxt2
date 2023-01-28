@@ -47,13 +47,13 @@
       <div class="column">
         <span class="icon" style="float: left" @click="prevClick">
           <svg viewBox="0 0 24 24">
-            <path :d="mdiSkipPrevious" />
+            <path :d="mdiChevronDoubleLeft" />
           </svg>
         </span>
         <span style="float: left">{{ setYear }}年{{ setMonth }}月</span>
         <span class="icon" @click="nextClick">
           <svg viewBox="0 0 24 24">
-            <path :d="mdiSkipNext" />
+            <path :d="mdiChevronDoubleRight" />
           </svg>
         </span>
         <div v-if="monthData">
@@ -98,14 +98,14 @@ import {
   getDocs,
   deleteDoc,
 } from 'firebase/firestore'
-import { mdiSkipPrevious, mdiSkipNext } from '@mdi/js'
+import { mdiChevronDoubleLeft, mdiChevronDoubleRight } from '@mdi/js'
 
 export default {
   data() {
     return {
       monthData: true,
-      mdiSkipPrevious,
-      mdiSkipNext,
+      mdiChevronDoubleLeft,
+      mdiChevronDoubleRight,
       created: false,
       querySnapshot: null,
       name: '',

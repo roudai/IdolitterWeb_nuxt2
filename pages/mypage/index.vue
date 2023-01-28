@@ -310,7 +310,6 @@ export default {
           }
           this.series_bar.push({ name: doc.data().name, data })
         }
-        i += 1
       })
       this.created = true
     }, 0)

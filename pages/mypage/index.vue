@@ -427,8 +427,8 @@ export default {
     },
     nextBarClick() {
       const popped = this.options_bar.xaxis.categories.pop()
-      const pushMonth = this.$dayjs(popped).add(6, 'M').format('YYYY/MM')
-      this.options_bar.xaxis.categories.unshift(pushMonth)
+      const unshiftMonth = this.$dayjs(popped).add(6, 'M').format('YYYY/MM')
+      this.options_bar.xaxis.categories.unshift(unshiftMonth)
       this.barGraphRedraw()
     },
     piGarphRedraw() {
@@ -486,7 +486,9 @@ export default {
             data.push(doc.data().instax_totalling[barMonth])
           }
         }
-        this.series_bar.push({ name: doc.data().name, data })
+        if (!(data[0] === 0 && data.every((value) => value === data[0]))) {
+          this.series_bar.push({ name: doc.data().name, data })
+        }
       })
     },
   },

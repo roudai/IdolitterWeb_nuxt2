@@ -177,20 +177,7 @@ export default {
           height: 350,
           type: 'treemap',
         },
-        colors: [
-          '#3B93A5',
-          '#F7B844',
-          '#ADD8C7',
-          '#EC3C65',
-          '#CDD7B6',
-          '#C1F666',
-          '#D43F97',
-          '#1E5D8C',
-          '#421243',
-          '#7F94B0',
-          '#EF6537',
-          '#C0ADDB',
-        ],
+        colors: [],
         dataLabels: {
           enabled: true,
           style: {
@@ -230,6 +217,7 @@ export default {
         chart: {
           type: 'donut',
         },
+        colors: [],
         labels: [],
       },
       series_month: [],
@@ -266,22 +254,31 @@ export default {
           horizontalAlign: 'left',
           offsetX: 40,
         },
-        colors: [
-          '#3B93A5',
-          '#F7B844',
-          '#ADD8C7',
-          '#EC3C65',
-          '#CDD7B6',
-          '#C1F666',
-          '#D43F97',
-          '#1E5D8C',
-          '#421243',
-          '#7F94B0',
-          '#EF6537',
-          '#C0ADDB',
-        ],
+        colors: [],
       },
       series_bar: [],
+      select_colors: [
+        '#5e108c',
+        '#db7a51',
+        '#edc568',
+        '#d86436',
+        '#0c619e',
+        '#4ff7a6',
+        '#db2335',
+        '#ba9425',
+        '#2e63b2',
+        '#54b6d3',
+        '#d66753',
+        '#aeddef',
+        '#fc4b5a',
+        '#e298bd',
+        '#9c17d1',
+        '#ffdea5',
+        '#ffc1d6',
+        '#ffdfc1',
+        '#f747e8',
+        '#ef975d',
+      ],
     }
   },
   mounted() {
@@ -358,6 +355,9 @@ export default {
           this.series_bar.push({ name: doc.data().name, data })
         }
       })
+      this.options_tree.colors = this.select_colors
+      this.options_month.colors = this.select_colors
+      this.options_bar.colors = this.select_colors
       this.created = true
     }, 0)
   },
@@ -506,6 +506,7 @@ export default {
         },
         labels,
       }
+      this.options_month.colors = this.select_colors
       this.series_month.length === 0
         ? (this.monthData = false)
         : (this.monthData = true)

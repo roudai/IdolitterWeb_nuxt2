@@ -109,8 +109,9 @@ import {
   getFirestore,
   query,
   orderBy,
-  doc,
   collection,
+  doc,
+  getDoc,
   getDocs,
   deleteDoc,
 } from 'firebase/firestore'
@@ -266,7 +267,6 @@ export default {
         '#662E9B',
         '#F86624',
         '#F9C80E',
-        '#F9C80E',
         '#43BCCD',
         '#2E294E',
         '#1B998B',
@@ -283,6 +283,7 @@ export default {
         '#F9CE1D',
         '#FD6A6A',
         '#E2C044',
+        '#ED9187',
       ],
     }
   },
@@ -371,9 +372,12 @@ export default {
       if (this.pageView === 'normal' && allZero) {
         this.pageView = 'nonInstax'
       }
-      this.options_tree.colors = this.select_colors
-      this.options_month.colors = this.select_colors
-      this.options_bar.colors = this.select_colors
+      // 色取得
+      const userData = await getDoc(doc(db, 'users', userId))
+      this.options_tree.colors = userData.data().colors
+      this.options_month.colors = userData.data().colors
+      this.options_bar.colors = userData.data().colors
+
       this.created = true
     }, 0)
   },

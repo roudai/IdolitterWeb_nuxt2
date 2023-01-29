@@ -29,60 +29,72 @@
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
     >
-      <div slot="emptystate">
-        「アイドル一覧」から、アイドルを追加してください。
-      </div>
+      <div slot="emptystate">対象データがありません。</div>
     </vue-good-table>
 
-    <div class="columns mt-3">
-      <div class="column mt-3">
-        <apex-charts
-          type="treemap"
-          height="450"
-          :options="options_tree"
-          :series="series_tree"
-        ></apex-charts>
-      </div>
-      <div class="column">
-        <span class="icon" style="float: left" @click="prevClick">
-          <svg viewBox="0 0 24 24">
-            <path :d="mdiChevronDoubleLeft" />
-          </svg>
-        </span>
-        <span style="float: left">{{ setYear }}年{{ setMonth }}月</span>
-        <span class="icon" @click="nextClick">
-          <svg viewBox="0 0 24 24">
-            <path :d="mdiChevronDoubleRight" />
-          </svg>
-        </span>
-        <div v-if="monthData">
-          <apex-charts
-            :options="options_month"
-            :series="series_month"
-            height="450"
-          ></apex-charts>
-        </div>
-        <div v-else>対象月のデータがありません</div>
+    <div v-if="pageView === 'nonIdol'">
+      <div class="notification is-danger is-light mt-3">
+        【ガイダンス】<nuxt-link to="/idol">アイドル一覧</nuxt-link
+        >の「登録」ボタンから、最初のアイドルを登録してください。アイドル一覧にいないアイドルは、
+        下の「アイドル登録」から登録することができます。
       </div>
     </div>
-    <div class="columns mt-3">
-      <div class="column">
-        <span class="icon" style="float: left" @click="prevBarClick">
-          <svg viewBox="0 0 24 24">
-            <path :d="mdiChevronDoubleLeft" />
-          </svg>
-        </span>
-        <span style="float: left"> 前 | 後 </span>
-        <span class="icon" @click="nextBarClick">
-          <svg viewBox="0 0 24 24">
-            <path :d="mdiChevronDoubleRight" />
-          </svg>
-        </span>
-        <apex-charts
-          :options="options_bar"
-          :series="series_bar"
-          :height="300"
-        ></apex-charts>
+    <div v-else-if="pageView === 'nonInstax'">
+      <div class="notification is-danger is-light mt-3">
+        登録したアイドルの「参照」⇒「追加」から、チェキの情報を登録してください。
+      </div>
+    </div>
+    <div v-else>
+      <div class="columns mt-3">
+        <div class="column mt-3">
+          <apex-charts
+            type="treemap"
+            height="450"
+            :options="options_tree"
+            :series="series_tree"
+          ></apex-charts>
+        </div>
+        <div class="column">
+          <span class="icon" style="float: left" @click="prevClick">
+            <svg viewBox="0 0 24 24">
+              <path :d="mdiChevronDoubleLeft" />
+            </svg>
+          </span>
+          <span style="float: left">{{ setYear }}年{{ setMonth }}月</span>
+          <span class="icon" @click="nextClick">
+            <svg viewBox="0 0 24 24">
+              <path :d="mdiChevronDoubleRight" />
+            </svg>
+          </span>
+          <div v-if="monthData">
+            <apex-charts
+              :options="options_month"
+              :series="series_month"
+              height="450"
+            ></apex-charts>
+          </div>
+          <div v-else>対象月のデータがありません</div>
+        </div>
+      </div>
+      <div class="columns mt-3">
+        <div class="column">
+          <span class="icon" style="float: left" @click="prevBarClick">
+            <svg viewBox="0 0 24 24">
+              <path :d="mdiChevronDoubleLeft" />
+            </svg>
+          </span>
+          <span style="float: left"> 前 | 後 </span>
+          <span class="icon" @click="nextBarClick">
+            <svg viewBox="0 0 24 24">
+              <path :d="mdiChevronDoubleRight" />
+            </svg>
+          </span>
+          <apex-charts
+            :options="options_bar"
+            :series="series_bar"
+            :height="300"
+          ></apex-charts>
+        </div>
       </div>
     </div>
 
@@ -112,6 +124,7 @@ import { mdiChevronDoubleLeft, mdiChevronDoubleRight } from '@mdi/js'
 export default {
   data() {
     return {
+      pageView: 'normal',
       monthData: true,
       mdiChevronDoubleLeft,
       mdiChevronDoubleRight,
@@ -288,6 +301,7 @@ export default {
   },
   beforeCreate() {
     setTimeout(async () => {
+      let allZero = true
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
       const setMonth = 'm' + this.$dayjs().format('YYYYMM')
@@ -303,6 +317,9 @@ export default {
           orderBy('instax_totalling.total', 'desc')
         )
       )
+      if (this.querySnapshot.empty) {
+        this.pageView = 'nonIdol'
+      }
       this.querySnapshot.forEach((doc) => {
         let instax
         if (doc.data().instax_totalling) {
@@ -324,9 +341,8 @@ export default {
           doc.data().instax_totalling &&
           doc.data().instax_totalling.total !== 0
         ) {
+          allZero = false
           // ツリーマップ
-          // this.options.labels.push(doc.data().name)
-          // this.series.push(doc.data().instax_totalling.total)
           this.series_tree[0].data.push({
             x: doc.data().name,
             y: doc.data().instax_totalling.total,
@@ -355,6 +371,9 @@ export default {
           this.series_bar.push({ name: doc.data().name, data })
         }
       })
+      if (this.pageView === 'normal' && allZero) {
+        this.pageView = 'nonInstax'
+      }
       this.options_tree.colors = this.select_colors
       this.options_month.colors = this.select_colors
       this.options_bar.colors = this.select_colors

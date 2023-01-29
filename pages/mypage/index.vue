@@ -46,54 +46,60 @@
     </div>
     <div v-else>
       <div class="columns mt-3">
-        <div class="column mt-3">
-          <apex-charts
-            type="treemap"
-            height="450"
-            :options="options_tree"
-            :series="series_tree"
-          ></apex-charts>
+        <div class="column">
+          <b-collapse class="card p-3">
+            <apex-charts
+              type="treemap"
+              height="350"
+              :options="options_tree"
+              :series="series_tree"
+            ></apex-charts>
+          </b-collapse>
         </div>
         <div class="column">
-          <span class="icon" style="float: left" @click="prevClick">
-            <svg viewBox="0 0 24 24">
-              <path :d="mdiChevronDoubleLeft" />
-            </svg>
-          </span>
-          <span style="float: left">{{ setYear }}年{{ setMonth }}月</span>
-          <span class="icon" @click="nextClick">
-            <svg viewBox="0 0 24 24">
-              <path :d="mdiChevronDoubleRight" />
-            </svg>
-          </span>
-          <div v-if="monthData">
-            <apex-charts
-              :options="options_month"
-              :series="series_month"
-              height="450"
-            ></apex-charts>
-          </div>
-          <div v-else>対象月のデータがありません</div>
+          <b-collapse class="card p-3">
+            <span class="icon" style="float: left" @click="prevClick">
+              <svg viewBox="0 0 24 24">
+                <path :d="mdiChevronDoubleLeft" />
+              </svg>
+            </span>
+            <span style="float: left">{{ setYear }}年{{ setMonth }}月</span>
+            <span class="icon" @click="nextClick">
+              <svg viewBox="0 0 24 24">
+                <path :d="mdiChevronDoubleRight" />
+              </svg>
+            </span>
+            <div v-if="monthData">
+              <apex-charts
+                :options="options_month"
+                :series="series_month"
+                height="350"
+              ></apex-charts>
+            </div>
+            <div v-else>対象月のデータがありません</div>
+          </b-collapse>
         </div>
       </div>
       <div class="columns mt-3">
         <div class="column">
-          <span class="icon" style="float: left" @click="prevBarClick">
-            <svg viewBox="0 0 24 24">
-              <path :d="mdiChevronDoubleLeft" />
-            </svg>
-          </span>
-          <span style="float: left"> 前 | 後 </span>
-          <span class="icon" @click="nextBarClick">
-            <svg viewBox="0 0 24 24">
-              <path :d="mdiChevronDoubleRight" />
-            </svg>
-          </span>
-          <apex-charts
-            :options="options_bar"
-            :series="series_bar"
-            :height="300"
-          ></apex-charts>
+          <b-collapse class="card p-3">
+            <span class="icon" style="float: left" @click="prevBarClick">
+              <svg viewBox="0 0 24 24">
+                <path :d="mdiChevronDoubleLeft" />
+              </svg>
+            </span>
+            <span style="float: left"> 前 | 後 </span>
+            <span class="icon" @click="nextBarClick">
+              <svg viewBox="0 0 24 24">
+                <path :d="mdiChevronDoubleRight" />
+              </svg>
+            </span>
+            <apex-charts
+              :options="options_bar"
+              :series="series_bar"
+              :height="350"
+            ></apex-charts>
+          </b-collapse>
         </div>
       </div>
     </div>
@@ -371,6 +377,7 @@ export default {
           this.series_bar.push({ name: doc.data().name, data })
         }
       })
+      console.log(this.series_month)
       if (this.pageView === 'normal' && allZero) {
         this.pageView = 'nonInstax'
       }

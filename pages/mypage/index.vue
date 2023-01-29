@@ -35,13 +35,12 @@
     </vue-good-table>
 
     <div class="columns mt-3">
-      <div class="column">
-        <h5 class="ml-5">全期間</h5>
+      <div class="column mt-3">
         <apex-charts
-          :options="options"
-          :series="series"
-          :width="piChartsWidth"
-          :height="piChartsHeight"
+          type="treemap"
+          height="450"
+          :options="options_tree"
+          :series="series_tree"
         ></apex-charts>
       </div>
       <div class="column">
@@ -60,8 +59,7 @@
           <apex-charts
             :options="options_month"
             :series="series_month"
-            :width="piChartsWidth"
-            :height="piChartsHeight"
+            height="450"
           ></apex-charts>
         </div>
         <div v-else>対象月のデータがありません</div>
@@ -171,26 +169,50 @@ export default {
         },
       ],
       rows: [],
-      options: {
-        plotOptions: {
-          pie: {
-            donut: {
-              labels: {
-                show: true,
-                total: {
-                  show: true,
-                  label: '合計',
-                },
-              },
-            },
-          },
+      options_tree: {
+        legend: {
+          show: false,
         },
         chart: {
-          type: 'donut',
+          height: 350,
+          type: 'treemap',
         },
-        labels: [],
+        colors: [
+          '#3B93A5',
+          '#F7B844',
+          '#ADD8C7',
+          '#EC3C65',
+          '#CDD7B6',
+          '#C1F666',
+          '#D43F97',
+          '#1E5D8C',
+          '#421243',
+          '#7F94B0',
+          '#EF6537',
+          '#C0ADDB',
+        ],
+        dataLabels: {
+          enabled: true,
+          style: {
+            fontSize: '12px',
+          },
+          formatter: function (text, op) {
+            return [text, op.value]
+          },
+          offsetY: -4,
+        },
+        plotOptions: {
+          treemap: {
+            distributed: true,
+            enableShades: false,
+          },
+        },
       },
-      series: [],
+      series_tree: [
+        {
+          data: [],
+        },
+      ],
       options_month: {
         plotOptions: {
           pie: {
@@ -244,6 +266,20 @@ export default {
           horizontalAlign: 'left',
           offsetX: 40,
         },
+        colors: [
+          '#3B93A5',
+          '#F7B844',
+          '#ADD8C7',
+          '#EC3C65',
+          '#CDD7B6',
+          '#C1F666',
+          '#D43F97',
+          '#1E5D8C',
+          '#421243',
+          '#7F94B0',
+          '#EF6537',
+          '#C0ADDB',
+        ],
       },
       series_bar: [],
     }
@@ -291,10 +327,14 @@ export default {
           doc.data().instax_totalling &&
           doc.data().instax_totalling.total !== 0
         ) {
-          // Piグラフ 全期間
-          this.options.labels.push(doc.data().name)
-          this.series.push(doc.data().instax_totalling.total)
-          // Piグラフ 月別
+          // ツリーマップ
+          // this.options.labels.push(doc.data().name)
+          // this.series.push(doc.data().instax_totalling.total)
+          this.series_tree[0].data.push({
+            x: doc.data().name,
+            y: doc.data().instax_totalling.total,
+          })
+          // Piグラフ
           if (typeof doc.data().instax_totalling[setMonth] !== 'undefined') {
             if (doc.data().instax_totalling[setMonth] !== 0) {
               this.options_month.labels.push(doc.data().name)
@@ -493,7 +533,6 @@ export default {
       if (this.series_bar.length === 0) {
         this.series_bar.push({ name: '', data: [0, 0, 0, 0, 0, 0] })
       }
-      console.log(this.series_bar)
     },
   },
 }

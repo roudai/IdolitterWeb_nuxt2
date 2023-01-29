@@ -34,7 +34,7 @@
 
     <div v-if="pageView === 'nonIdol'">
       <div class="notification is-danger is-light mt-3">
-        【ガイダンス】<nuxt-link to="/idol">アイドル一覧</nuxt-link
+        <nuxt-link to="/idol">アイドル一覧</nuxt-link
         >の「登録」ボタンから、最初のアイドルを登録してください。アイドル一覧にいないアイドルは、
         下の「アイドル登録」から登録することができます。
       </div>
@@ -402,9 +402,9 @@ export default {
       this.$buefy.dialog.confirm({
         title: 'アイドルの情報を削除します',
         message:
-          '登録しているチェキの情報もすべて削除され、復元はできません。『' +
+          '『' +
           params.row.name +
-          '』の情報を本当に削除してもよろしいですか？',
+          '』を削除してもよろしいですか？チェキのデータは残るため、再登録で復元します。',
         cancelText: 'キャンセル',
         confirmText: 'OK',
         type: 'is-danger',

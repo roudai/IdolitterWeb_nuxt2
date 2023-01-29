@@ -43,7 +43,14 @@
 </template>
 
 <script>
-import { getFirestore, setDoc, doc } from 'firebase/firestore'
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore'
 
 export default {
   async asyncData({ $axios, $config }) {
@@ -177,14 +184,38 @@ export default {
         const db = getFirestore()
         const userId = this.$store.getters['auth/uid']
         const idolId = params.row.uid
+        // チェキデータ集計結果の復元
+        const instaxTotalling = []
+        const querySnapshot = await getDocs(
+          collection(db, 'users', userId, 'idol', idolId, 'instax')
+        )
+        querySnapshot.forEach((doc) => {
+          isNaN(instaxTotalling.total)
+            ? (instaxTotalling.total = doc.data().number)
+            : (instaxTotalling.total += doc.data().number)
+          const setMonth =
+            'm' + this.$dayjs(doc.data().date.toDate()).format('YYYYMM')
+          isNaN(instaxTotalling[setMonth])
+            ? (instaxTotalling[setMonth] = doc.data().number)
+            : (instaxTotalling[setMonth] += doc.data().number)
+        })
+        if (!Object.keys(instaxTotalling).length) instaxTotalling.total = 0
         await setDoc(doc(db, 'users', userId, 'idol', idolId), {
           name: params.row.name,
           group: params.row.group,
           twitterId: params.row.twitterId,
           instax_totalling: {
-            total: 0,
+            total: instaxTotalling.total,
           },
         })
+        for (const key in instaxTotalling) {
+          if (key !== 'total') {
+            const setMonthPath = 'instax_totalling.' + key
+            await updateDoc(doc(db, 'users', userId, 'idol', idolId), {
+              [setMonthPath]: instaxTotalling[key],
+            })
+          }
+        }
         this.$router.push('/mypage')
       }
     },

@@ -490,6 +490,10 @@ export default {
           this.series_bar.push({ name: doc.data().name, data })
         }
       })
+      if (this.series_bar.length === 0) {
+        this.series_bar.push({ name: '', data: [0, 0, 0, 0, 0, 0] })
+      }
+      console.log(this.series_bar)
     },
   },
 }

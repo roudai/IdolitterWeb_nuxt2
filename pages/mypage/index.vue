@@ -59,15 +59,11 @@
         <div class="column">
           <b-collapse class="card p-3">
             <span class="icon" style="float: left" @click="prevClick">
-              <svg viewBox="0 0 24 24">
-                <path :d="mdiChevronDoubleLeft" />
-              </svg>
+              <b-icon icon="chevron-double-left" />
             </span>
             <span style="float: left">{{ setYear }}年{{ setMonth }}月</span>
             <span class="icon" @click="nextClick">
-              <svg viewBox="0 0 24 24">
-                <path :d="mdiChevronDoubleRight" />
-              </svg>
+              <b-icon icon="chevron-double-right" />
             </span>
             <apex-charts
               :options="options_month"
@@ -81,15 +77,11 @@
         <div class="column">
           <b-collapse class="card p-3">
             <span class="icon" style="float: left" @click="prevBarClick">
-              <svg viewBox="0 0 24 24">
-                <path :d="mdiChevronDoubleLeft" />
-              </svg>
+              <b-icon icon="chevron-double-left" />
             </span>
             <span style="float: left"> 前 | 後 </span>
             <span class="icon" @click="nextBarClick">
-              <svg viewBox="0 0 24 24">
-                <path :d="mdiChevronDoubleRight" />
-              </svg>
+              <b-icon icon="chevron-double-right" />
             </span>
             <apex-charts
               :options="options_bar"
@@ -122,15 +114,12 @@ import {
   getDocs,
   deleteDoc,
 } from 'firebase/firestore'
-import { mdiChevronDoubleLeft, mdiChevronDoubleRight } from '@mdi/js'
 
 export default {
   data() {
     return {
       pageView: 'normal',
       monthData: true,
-      mdiChevronDoubleLeft,
-      mdiChevronDoubleRight,
       created: false,
       querySnapshot: null,
       name: '',

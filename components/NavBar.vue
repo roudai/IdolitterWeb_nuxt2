@@ -31,11 +31,7 @@
         <!-- アイテムの配置 -->
         <div v-show="show" class="navbar-item">
           <button class="button mr-2" @click="toMypage">
-            <span class="icon is-small">
-              <svg viewBox="0 0 24 24">
-                <path :d="iconLogin" />
-              </svg>
-            </span>
+            <b-icon icon="account"> </b-icon>
             <span>{{ mypage }}</span>
           </button>
         </div>
@@ -45,12 +41,9 @@
 </template>
 
 <script>
-import { mdiAccount } from '@mdi/js'
-
 export default {
   data: () => ({
     nav_class: '',
-    iconLogin: mdiAccount,
     show: false,
     mypage: '',
   }),

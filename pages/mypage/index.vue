@@ -69,14 +69,11 @@
                 <path :d="mdiChevronDoubleRight" />
               </svg>
             </span>
-            <div v-if="monthData">
-              <apex-charts
-                :options="options_month"
-                :series="series_month"
-                height="350"
-              ></apex-charts>
-            </div>
-            <div v-else>対象月のデータがありません</div>
+            <apex-charts
+              :options="options_month"
+              :series="series_month"
+              height="350"
+            ></apex-charts>
           </b-collapse>
         </div>
       </div>
@@ -377,7 +374,11 @@ export default {
           this.series_bar.push({ name: doc.data().name, data })
         }
       })
-      console.log(this.series_month)
+      if (this.series_month.length === 0) {
+        this.options_month.noData = {
+          text: 'データなし',
+        }
+      }
       if (this.pageView === 'normal' && allZero) {
         this.pageView = 'nonInstax'
       }
@@ -531,6 +532,11 @@ export default {
           type: 'donut',
         },
         labels,
+      }
+      if (this.series_month.length === 0) {
+        this.options_month.noData = {
+          text: 'データなし',
+        }
       }
       this.options_month.colors = this.select_colors
       this.series_month.length === 0

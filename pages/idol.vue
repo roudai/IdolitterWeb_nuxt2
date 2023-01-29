@@ -122,13 +122,15 @@ export default {
     this.totalPage = Math.ceil(this.$data.values.length / this.perPage)
     this.currentPage = Math.floor(Math.random() * this.totalPage) + 1
     let firstFlag = true
+    let addText = '登録'
     for (const idol of this.$data.values) {
       if (firstFlag) {
         firstFlag = false
         continue
       }
+      if (typeof idol[11] === 'undefined') addText = ''
       this.rows.push({
-        add: '登録',
+        add: addText,
         group: idol[0],
         twitterId: idol[5],
         name: idol[1] + ' ' + idol[2],
@@ -139,6 +141,7 @@ export default {
         forSearch: this.setForSearch(idol),
         uid: idol[11],
       })
+      if (addText === '') addText = '登録'
     }
     setTimeout(() => {
       if (this.$store.getters['auth/isLoggedIn']) {
@@ -167,14 +170,17 @@ export default {
           query: { group: this.replaceParams(params.row.group) },
         })
       } else if (params.column.field === 'add') {
-        // 追加ボタン
+        // 登録ボタン
+        if (params.row.add === '') {
+          return
+        }
         const db = getFirestore()
         const userId = this.$store.getters['auth/uid']
         const idolId = params.row.uid
         await setDoc(doc(db, 'users', userId, 'idol', idolId), {
           name: params.row.name,
           group: params.row.group,
-          twitterId: params.row.group,
+          twitterId: params.row.twitterId,
           instax_totalling: {
             total: 0,
           },

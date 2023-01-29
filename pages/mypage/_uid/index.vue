@@ -80,6 +80,7 @@ export default {
       name: '',
       group: '',
       twitterId: '',
+      instax_totalling: [],
       perPage: 10,
       perPageChangeFlag: false,
       totalPage: '',
@@ -136,6 +137,7 @@ export default {
         this.group = docSnap.data().group
         this.name = docSnap.data().name
         this.twitterId = docSnap.data().twitterId
+        this.instax_totalling = docSnap.data().instax_totalling
       } else {
         this.show = false
       }
@@ -178,6 +180,7 @@ export default {
         name: this.name,
         group: this.group,
         twitterId: this.twitterId,
+        instax_totalling: this.instax_totalling,
       })
       this.profileShow = true
     },

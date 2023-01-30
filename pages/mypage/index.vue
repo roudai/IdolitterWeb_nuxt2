@@ -190,6 +190,9 @@ export default {
         chart: {
           height: 350,
           type: 'treemap',
+          toolbar: {
+            show: false,
+          },
         },
         colors: [],
         dataLabels: {
@@ -240,6 +243,9 @@ export default {
           type: 'bar',
           height: 350,
           stacked: true,
+          toolbar: {
+            show: false,
+          },
         },
         plotOptions: {
           bar: {
@@ -271,28 +277,6 @@ export default {
         colors: [],
       },
       series_bar: [],
-      select_colors: [
-        '#662E9B',
-        '#F86624',
-        '#F9C80E',
-        '#43BCCD',
-        '#2E294E',
-        '#1B998B',
-        '#C5D86D',
-        '#F9A3A4',
-        '#5C4742',
-        '#008FFB',
-        '#00E396',
-        '#FEB019',
-        '#FF4560',
-        '#775DD0',
-        '#00B1F2',
-        '#4CAF50',
-        '#F9CE1D',
-        '#FD6A6A',
-        '#E2C044',
-        '#ED9187',
-      ],
     }
   },
   mounted() {

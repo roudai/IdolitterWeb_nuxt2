@@ -184,11 +184,9 @@ export default {
       ],
       rows: [],
       options_tree: {
-        legend: {
-          show: false,
-        },
         chart: {
           height: 350,
+          offsetX: 10,
           type: 'treemap',
           toolbar: {
             show: false,

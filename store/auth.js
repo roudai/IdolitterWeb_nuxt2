@@ -60,6 +60,9 @@ export const actions = {
             displayName,
             colors,
           })
+          await setDoc(doc(db, 'users', 'admin'), {
+            users: { [user]: uid },
+          })
         }
         this.$router.push('/mypage')
       })

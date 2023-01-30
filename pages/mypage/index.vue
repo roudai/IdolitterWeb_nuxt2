@@ -1,6 +1,5 @@
 <template>
   <div v-if="created">
-    <h5>マイページ</h5>
     <vue-good-table
       ref="idol-table"
       :columns="columns"
@@ -32,6 +31,15 @@
       <div slot="emptystate">対象データがありません。</div>
     </vue-good-table>
 
+    <div class="has-text-right">
+      <b-button
+        class="mt-3 mb-3"
+        type="is-primary is-light"
+        @click="$router.push('/mypage/edit')"
+        >ユーザー情報編集</b-button
+      >
+    </div>
+
     <div v-if="pageView === 'nonIdol'">
       <div class="notification is-danger is-light mt-3">
         <nuxt-link to="/idol">アイドル一覧</nuxt-link
@@ -45,7 +53,7 @@
       </div>
     </div>
     <div v-else>
-      <div class="columns mt-3">
+      <div class="columns">
         <div class="column">
           <b-collapse class="card p-3">
             <apex-charts

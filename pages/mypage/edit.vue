@@ -11,12 +11,8 @@
         <b-button type="is-link is-light" @click="deleteColor">色削除</b-button>
       </div>
       <b-field grouped group-multiline>
-        <div v-for="color in colors" :key="color">
-          <b-colorpicker
-            class="mb-2 mr-2"
-            :value="color"
-            @input="changeColor"
-          />
+        <div v-for="(item, index) in colors" :key="index">
+          <b-colorpicker v-model="colors[index]" class="mb-2 mr-2" />
         </div>
       </b-field>
     </b-collapse>
@@ -72,14 +68,11 @@ export default {
         this.addDisabled = false
       }
     },
-    changeColor(value) {
-      console.log(value)
-    },
     async register() {
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
       await updateDoc(doc(db, 'users', userId), {
-        colors: this.colors,
+        colors: this.colors.map((color) => color.toString('hex')),
       })
     },
   },

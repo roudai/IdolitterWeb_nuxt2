@@ -51,24 +51,16 @@ export default {
     },
     async register() {
       if (this.colors.length === 0) {
-        this.errorDialog('最低1つの色を追加してください。')
+        this.$errorDialog(this.$buefy, '最低1つの色を追加してください。')
         return
       } else if (this.colors.length > 30) {
-        this.errorDialog('指定可能な色は30個までです。')
+        this.$errorDialog(this.$buefy, '指定可能な色は30個までです。')
         return
       }
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
       await updateDoc(doc(db, 'users', userId), {
         colors: this.colors,
-      })
-    },
-    errorDialog(message) {
-      this.$buefy.notification.open({
-        message,
-        type: 'is-danger',
-        position: 'is-top',
-        pauseOnHover: true,
       })
     },
   },

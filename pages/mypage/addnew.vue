@@ -38,6 +38,10 @@ export default {
   beforeCreate() {},
   methods: {
     async register() {
+      if (this.name === '') {
+        this.$errorDialog(this.$buefy, '名前を入力してください。')
+        return
+      }
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
       await addDoc(collection(db, 'users', userId, 'idol'), {

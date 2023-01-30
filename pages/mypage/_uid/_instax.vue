@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import isUrl from 'is-url'
 import {
   getFirestore,
   doc,
@@ -148,6 +149,10 @@ export default {
   },
   methods: {
     async register() {
+      if (this.url !== '' && !isUrl(this.url)) {
+        this.$errorDialog(this.$buefy, '正しいURLを入力してください。')
+        return
+      }
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
       const idolId = this.$route.params.uid

@@ -64,6 +64,7 @@ export default {
     '~/plugins/day.js',
     '~/plugins/localStorage.js',
     { src: '~/plugins/apex-chart.js', mode: 'client' },
+    '~/plugins/common.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -89,6 +90,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/firebase',
     '@nuxtjs/google-adsense',
+    'is-url',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

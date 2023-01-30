@@ -36,7 +36,7 @@
         class="mt-3 mb-3"
         type="is-primary is-light"
         @click="$router.push('/mypage/edit')"
-        >ユーザー情報編集</b-button
+        >ユーザー設定変更</b-button
       >
     </div>
 

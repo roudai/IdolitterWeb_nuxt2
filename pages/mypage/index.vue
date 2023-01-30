@@ -405,18 +405,35 @@ export default {
       }
     },
     confirmDelete(params) {
-      this.$buefy.dialog.confirm({
-        title: 'アイドルの情報を削除します',
-        message:
-          '『' +
-          params.row.name +
-          '』を削除してもよろしいですか？チェキのデータは残るため、再登録で復元します。',
-        cancelText: 'キャンセル',
-        confirmText: 'OK',
-        type: 'is-danger',
-        hasIcon: true,
-        onConfirm: () => this.deleteIdol(params),
-      })
+      if (!isNaN(params.row.uid)) {
+        // 一覧からの登録の場合
+        this.$buefy.dialog.confirm({
+          title: 'アイドルの情報を削除します',
+          message:
+            '『' +
+            params.row.name +
+            '』を削除してもよろしいですか？チェキのデータは残るため、再登録で復元します。',
+          cancelText: 'キャンセル',
+          confirmText: 'OK',
+          type: 'is-danger',
+          hasIcon: true,
+          onConfirm: () => this.deleteIdol(params),
+        })
+      } else {
+        // 手動登録の場合
+        this.$buefy.dialog.confirm({
+          title: 'アイドルの情報を削除します',
+          message:
+            '『' +
+            params.row.name +
+            '』を削除してもよろしいですか？手動登録したアイドルは、チェキのデータを復元することはできません。',
+          cancelText: 'キャンセル',
+          confirmText: 'OK',
+          type: 'is-danger',
+          hasIcon: true,
+          onConfirm: () => this.deleteIdol(params),
+        })
+      }
     },
     confirmLogout() {
       this.$buefy.dialog.confirm({

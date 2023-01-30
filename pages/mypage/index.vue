@@ -49,7 +49,7 @@
     </div>
     <div v-else-if="pageView === 'nonInstax'">
       <div class="notification is-danger is-light mt-3">
-        登録したアイドルの「参照」⇒「追加」から、チェキの情報を登録してください。
+        登録したアイドルの「追加」から、チェキの情報を登録してください。
       </div>
     </div>
     <div v-else>
@@ -146,6 +146,12 @@ export default {
         {
           label: '',
           field: 'edit',
+          tdClass: 'add-text',
+          sortable: false,
+        },
+        {
+          label: '',
+          field: 'add',
           tdClass: 'add-text',
           sortable: false,
         },
@@ -312,6 +318,7 @@ export default {
         }
         this.rows.push({
           edit: '参照',
+          add: '追加',
           number: instax,
           name: doc.data().name,
           group: doc.data().group,
@@ -388,6 +395,8 @@ export default {
         })
       } else if (params.column.field === 'edit') {
         this.$router.push('/mypage/' + params.row.uid)
+      } else if (params.column.field === 'add') {
+        this.$router.push('/mypage/add/' + params.row.uid)
       } else if (params.column.field === 'delete') {
         this.confirmDelete(params)
       }

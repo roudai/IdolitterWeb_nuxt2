@@ -381,6 +381,9 @@ export default {
   methods: {
     onCellClick(params) {
       if (params.column.field === 'name') {
+        if (params.row.twitterId === '') {
+          return
+        }
         // Twitter ID
         const url = `https://twitter.com/${params.row.twitterId}`
         window.open(url, '_blank')

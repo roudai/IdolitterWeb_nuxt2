@@ -1,5 +1,5 @@
 import { getAuth, getRedirectResult, signOut } from 'firebase/auth'
-import { getFirestore, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
 export const state = () => ({
   isLoggedIn: false,
@@ -36,14 +36,31 @@ export const actions = {
         const displayName = result.user.displayName
         commit('setLoginState', true)
         commit('setUid', uid)
-        commit('setUser', user)
-        commit('setName', displayName)
 
         const db = getFirestore(this.$firebase)
-        await setDoc(doc(db, 'users', uid), {
-          user,
-          displayName,
-        })
+        const userData = await getDoc(doc(db, 'users', uid))
+        if (userData.exists()) {
+          // ユーザーデータが存在する場合
+          commit('setUser', userData.data().user)
+          commit('setName', userData.data().displayName)
+        } else {
+          // ユーザーデータが存在しない場合（初回ログイン）
+          commit('setUser', user)
+          commit('setName', displayName)
+
+          // ユーザー情報をFirestoreに登録
+          const colors = []
+          for (let i = 0; i < 5; i++) {
+            const color = ((Math.random() * 0xffffff) | 0).toString(16)
+            const randomColor = '#' + ('000000' + color).slice(-6)
+            colors.push(randomColor)
+          }
+          await setDoc(doc(db, 'users', uid), {
+            user,
+            displayName,
+            colors,
+          })
+        }
         this.$router.push('/mypage')
       })
       .catch((error) => {

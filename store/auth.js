@@ -1,5 +1,11 @@
 import { getAuth, getRedirectResult, signOut } from 'firebase/auth'
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore'
 
 export const state = () => ({
   isLoggedIn: false,
@@ -60,8 +66,9 @@ export const actions = {
             displayName,
             colors,
           })
-          await setDoc(doc(db, 'users', 'admin'), {
-            users: { [user]: uid },
+          const mapKey = 'users.' + user
+          await updateDoc(doc(db, 'users', 'admin'), {
+            [mapKey]: uid,
           })
         }
         this.$router.push('/mypage')

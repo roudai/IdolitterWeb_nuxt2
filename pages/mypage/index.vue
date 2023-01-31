@@ -54,9 +54,11 @@
         登録したアイドルの「追加」から、チェキの情報を登録してください。
       </div>
     </div>
+
     <div v-else>
       <div class="columns">
         <div class="column">
+          <!-- ツリーマップ -->
           <b-collapse class="card p-3">
             <apex-charts
               type="treemap"
@@ -67,6 +69,7 @@
           </b-collapse>
         </div>
         <div class="column">
+          <!-- 円グラフ -->
           <b-collapse class="card p-3">
             <span class="icon" style="float: left" @click="prevClick">
               <b-icon icon="chevron-double-left" />
@@ -84,6 +87,7 @@
         </div>
       </div>
       <div class="columns mt-3">
+        <!-- 棒グラフ -->
         <div class="column">
           <b-collapse class="card p-3">
             <span class="icon" style="float: left" @click="prevBarClick">
@@ -189,7 +193,8 @@ export default {
       options_tree: {
         chart: {
           height: 350,
-          offsetX: 10,
+          offsetY: -3,
+          offsetX: 16,
           type: 'treemap',
           toolbar: {
             show: false,

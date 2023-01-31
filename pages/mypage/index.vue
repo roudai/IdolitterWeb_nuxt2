@@ -31,11 +31,13 @@
       <div slot="emptystate">対象データがありません。</div>
     </vue-good-table>
 
-    <div class="has-text-right">
+    <div class="buttons mt-3 has-text-right">
       <b-button
-        class="mt-3 mb-3"
         type="is-primary is-light"
-        @click="$router.push('/mypage/edit')"
+        @click="$router.push('/mypage/addnew')"
+        >アイドル登録</b-button
+      >
+      <b-button type="is-primary is-light" @click="$router.push('/mypage/edit')"
         >ユーザー設定変更</b-button
       >
     </div>
@@ -101,12 +103,7 @@
       </div>
     </div>
 
-    <div class="buttons mt-3">
-      <b-button
-        type="is-primary is-light"
-        @click="$router.push('/mypage/addnew')"
-        >アイドル登録</b-button
-      >
+    <div class="mt-3 has-text-right">
       <b-button label="ログアウトする" type="is-info" @click="confirmLogout" />
     </div>
   </div>

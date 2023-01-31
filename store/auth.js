@@ -65,6 +65,7 @@ export const actions = {
             user,
             displayName,
             colors,
+            letter_color: '#ffffff',
           })
           const mapKey = 'users.' + user
           await updateDoc(doc(db, 'users', 'admin'), {

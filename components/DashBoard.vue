@@ -46,15 +46,19 @@
     </div>
 
     <div v-if="pageView === 'nonIdol'">
-      <div class="notification is-danger is-light mt-3">
-        <nuxt-link to="/idol">アイドル一覧</nuxt-link
-        >の「登録」ボタンから、最初のアイドルを登録してください。アイドル一覧にいないアイドルは、
-        下の「アイドル登録」から登録することができます。
+      <div v-show="view === ''">
+        <div class="notification is-danger is-light mt-3">
+          <nuxt-link to="/idol">アイドル一覧</nuxt-link
+          >の「登録」ボタンから、最初のアイドルを登録してください。アイドル一覧にいないアイドルは、
+          下の「アイドル登録」から登録することができます。
+        </div>
       </div>
     </div>
     <div v-else-if="pageView === 'nonInstax'">
-      <div class="notification is-danger is-light mt-3">
-        登録したアイドルの「追加」から、チェキの情報を登録してください。
+      <div v-show="view === ''">
+        <div class="notification is-danger is-light mt-3">
+          登録したアイドルの「追加」から、チェキの情報を登録してください。
+        </div>
       </div>
     </div>
 
@@ -146,6 +150,7 @@ export default {
   },
   data() {
     return {
+      userId: '',
       pageView: 'normal',
       monthData: true,
       created: false,
@@ -304,7 +309,20 @@ export default {
     setTimeout(async () => {
       let allZero = true
       const db = getFirestore()
-      const userId = this.$store.getters['auth/uid']
+
+      // 公開用ダッシュボード
+      if (this.view !== '') {
+        const userList = await getDoc(doc(db, 'users', 'admin'))
+        if (typeof userList.data().users[this.view] === 'undefined') {
+          this.userId = 'none'
+        } else {
+          this.userId = userList.data().users[this.view]
+        }
+      } else {
+        this.userId = this.$store.getters['auth/uid']
+      }
+
+      const userId = this.userId
       const setMonth = 'm' + this.$dayjs().format('YYYYMM')
       for (let i = 0; i < 6; i++) {
         const year = this.$dayjs().subtract(i, 'month').format('YYYY')
@@ -458,7 +476,7 @@ export default {
     },
     async deleteIdol(params) {
       const db = getFirestore()
-      const userId = this.$store.getters['auth/uid']
+      const userId = this.userId
       const idolId = params.row.uid
       await deleteDoc(doc(db, 'users', userId, 'idol', idolId))
       this.$buefy.dialog.alert({

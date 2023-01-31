@@ -50,7 +50,7 @@
         <div class="notification is-danger is-light mt-3">
           <nuxt-link to="/idol">アイドル一覧</nuxt-link
           >の「登録」ボタンから、最初のアイドルを登録してください。アイドル一覧にいないアイドルは、
-          下の「アイドル登録」から登録することができます。
+          上の「アイドル登録」から登録することができます。
         </div>
       </div>
     </div>

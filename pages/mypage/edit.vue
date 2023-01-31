@@ -1,5 +1,25 @@
 <template>
   <div v-if="created">
+    <b-collapse class="card p-3 mb-5">
+      <h4>プロフィール</h4>
+      <div class="columns">
+        <div class="column is-4">
+          <b-field label="名前" horizontal>
+            <b-input v-model="name" :disabled="formDisabled"></b-input>
+          </b-field>
+          <b-field label="ID" horizontal>
+            <b-input v-model="userId" :disabled="formDisabled"></b-input>
+          </b-field>
+        </div>
+      </div>
+      <div v-if="editButton">
+        <b-button type="is-link is-light" @click="clickEdit">編集</b-button>
+      </div>
+      <div v-else>
+        <b-button type="is-link is-light" @click="clickUpdate">更新</b-button>
+      </div>
+    </b-collapse>
+
     <b-collapse class="card p-3">
       <h4>グラフ設定</h4>
       <h5>文字の色</h5>
@@ -32,13 +52,25 @@
 </template>
 
 <script>
-import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  updateDoc,
+  deleteField,
+} from 'firebase/firestore'
 
 export default {
   data() {
     return {
       created: false,
+      formDisabled: true,
+      editButton: true,
       addDisabled: false,
+      initialName: '',
+      initialUserId: '',
+      name: '',
+      userId: '',
       letterColor: '',
       colors: [],
     }
@@ -48,6 +80,8 @@ export default {
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
       const userData = await getDoc(doc(db, 'users', userId))
+      this.name = userData.data().displayName
+      this.userId = userData.data().user
       this.letterColor = userData.data().letter_color
       userData.data().colors.forEach((color) => {
         this.colors.push(color)
@@ -56,6 +90,35 @@ export default {
     })
   },
   methods: {
+    clickEdit() {
+      this.editButton = false
+      this.formDisabled = false
+      this.initialName = this.name
+      this.initialUserId = this.userId
+    },
+    async clickUpdate() {
+      this.editButton = true
+      this.formDisabled = true
+      if (
+        this.name !== this.initialName ||
+        this.userId !== this.initialUserId
+      ) {
+        const db = getFirestore()
+        const userId = this.$store.getters['auth/uid']
+        await updateDoc(doc(db, 'users', userId), {
+          displayName: this.name,
+          user: this.userId,
+        })
+        const oldMapKey = 'users.' + this.initialUserId
+        await updateDoc(doc(db, 'users', 'admin'), {
+          [oldMapKey]: deleteField(),
+        })
+        const newMapKey = 'users.' + this.userId
+        await updateDoc(doc(db, 'users', 'admin'), {
+          [newMapKey]: userId,
+        })
+      }
+    },
     resetColor() {
       this.letterColor = '#ffffff'
     },

@@ -4,7 +4,6 @@
       ref="idol-table"
       :columns="columns"
       :rows="rows"
-      :compact-mode="compactMode"
       :sort-options="{
         enabled: true,
         initialSortBy: { field: 'number', type: 'desc' },
@@ -138,11 +137,8 @@ export default {
       totalPage: '',
       currentPage: '',
       windowWidth: '',
-      piChartsWidth: 0,
-      piChartsHeight: 0,
       setYear: '2023',
       setMonth: '01',
-      compactMode: false,
       columns: [
         {
           label: '',
@@ -284,11 +280,6 @@ export default {
       },
       series_bar: [],
     }
-  },
-  mounted() {
-    window.addEventListener('resize', this.resizeWindow)
-    this.windowWidth = window.innerWidth
-    this.setPiChartsSize()
   },
   beforeCreate() {
     setTimeout(async () => {
@@ -465,18 +456,6 @@ export default {
         return 'スリジエ東京'
       }
       return group
-    },
-    resizeWindow() {
-      this.setPiChartsSize()
-    },
-    setPiChartsSize() {
-      if (window.innerWidth < 1080) {
-        this.piChartsWidth = window.innerWidth * 0.9
-        this.piChartsHeight = window.innerWidth * 0.9
-      } else {
-        this.piChartsWidth = Math.min((window.innerWidth / 2) * 0.8, 650)
-        this.piChartsHeight = Math.min((window.innerWidth / 2) * 0.8, 650)
-      }
     },
     prevClick() {
       this.options_month.labels = []

@@ -37,7 +37,7 @@ export const actions = {
         if (result === null) {
           return
         }
-        const uid = result.user.providerData[0].uid
+        const uid = result.user.uid
         const user = result.user.reloadUserInfo.screenName
         const displayName = result.user.displayName
         commit('setLoginState', true)

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="created">
     <div v-if="process === '集計中'" class="is-size-5 has-text-weight-semibold">
       現在ランキング集計中です。
     </div>
@@ -92,6 +92,7 @@ export default {
   },
   data() {
     return {
+      created: false,
       process: '',
       windowWidth: '',
       columns_follower: [
@@ -174,6 +175,7 @@ export default {
     this.process = this.$data.process.values[0][0]
     this.createRank(this.$data.follower.values, 'follower')
     this.createRank(this.$data.tweet.values, 'tweet')
+    this.created = true
   },
   methods: {
     createRank(rankData, type) {

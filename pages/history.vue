@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="created">
     <button
       v-show="windowWidth <= 576"
       class="button mb-2"
@@ -46,6 +46,7 @@ export default {
   },
   data() {
     return {
+      created: false,
       perPage: 10,
       windowWidth: '',
       compactMode: false,
@@ -105,6 +106,7 @@ export default {
         execution: idol[6],
       })
     }
+    this.created = true
   },
   methods: {
     compactModeChange() {

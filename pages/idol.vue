@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="created">
     <h5>アイドル一覧</h5>
     <button class="button mb-2" @click="randomView">ランダム表示</button>
     <button
@@ -62,6 +62,7 @@ export default {
   },
   data() {
     return {
+      created: false,
       perPage: 10,
       perPageChangeFlag: false,
       totalPage: '',
@@ -160,6 +161,7 @@ export default {
         })
       }
     }, 0)
+    this.created = true
   },
   methods: {
     compactModeChange() {

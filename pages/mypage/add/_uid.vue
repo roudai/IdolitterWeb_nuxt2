@@ -164,7 +164,7 @@ export default {
         'instax_totalling.total': increment(this.number),
         [setMonth]: increment(this.number),
       })
-      this.$router.push('/mypage/' + idolId)
+      this.$router.push('/mypage')
     },
     clearDate() {
       this.selectDate = null

@@ -138,6 +138,8 @@ import {
   getDoc,
   getDocs,
   deleteDoc,
+  updateDoc,
+  arrayRemove,
 } from 'firebase/firestore'
 
 export default {
@@ -492,6 +494,9 @@ export default {
       const db = getFirestore()
       const userId = this.userId
       const idolId = params.row.uid
+      await updateDoc(doc(db, 'users', userId), {
+        idol_list: arrayRemove(idolId),
+      })
       await deleteDoc(doc(db, 'users', userId, 'idol', idolId))
       this.$buefy.dialog.alert({
         message: '『' + params.row.name + '』の情報を削除しました。',

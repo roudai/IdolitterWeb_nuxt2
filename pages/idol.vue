@@ -50,6 +50,7 @@ import {
   getDocs,
   setDoc,
   updateDoc,
+  arrayUnion,
 } from 'firebase/firestore'
 
 export default {
@@ -202,6 +203,10 @@ export default {
             : (instaxTotalling[setMonth] += doc.data().number)
         })
         if (!Object.keys(instaxTotalling).length) instaxTotalling.total = 0
+        // ドキュメントの登録
+        await updateDoc(doc(db, 'users', userId), {
+          idol_list: arrayUnion(idolId),
+        })
         await setDoc(doc(db, 'users', userId, 'idol', idolId), {
           name: params.row.name,
           group: params.row.group,

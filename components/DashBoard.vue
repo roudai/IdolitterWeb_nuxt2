@@ -257,6 +257,12 @@ export default {
             },
           },
         },
+        dataLabels: {
+          style: {},
+          dropShadow: {
+            enabled: false,
+          },
+        },
         chart: {
           type: 'donut',
         },
@@ -287,6 +293,9 @@ export default {
               },
             },
           },
+        },
+        dataLabels: {
+          style: {},
         },
         stroke: {
           width: 2,
@@ -404,6 +413,11 @@ export default {
       this.options_tree.colors = userData.data().colors
       this.options_month.colors = userData.data().colors
       this.options_bar.colors = userData.data().colors
+      this.options_tree.dataLabels.style.colors = [userData.data().letter_color]
+      this.options_month.dataLabels.style.colors = [
+        userData.data().letter_color,
+      ]
+      this.options_bar.dataLabels.style.colors = [userData.data().letter_color]
 
       this.created = true
     }, 0)

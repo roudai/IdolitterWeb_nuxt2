@@ -1,6 +1,12 @@
 <template>
-  <div>
+  <div v-if="created">
     <b-collapse class="card p-3">
+      <h4>グラフ設定</h4>
+      <h5>文字の色</h5>
+      <b-button type="is-link is-light" @click="resetColor">リセット</b-button>
+      <b-colorpicker v-model="letterColor" class="mt-3 mb-5" />
+
+      <h5>塗りつぶし範囲の色</h5>
       <div class="buttons">
         <b-button
           type="is-link is-light"
@@ -31,9 +37,10 @@ import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore'
 export default {
   data() {
     return {
+      created: false,
       addDisabled: false,
+      letterColor: '',
       colors: [],
-      error: [],
     }
   },
   beforeCreate() {
@@ -41,12 +48,17 @@ export default {
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
       const userData = await getDoc(doc(db, 'users', userId))
+      this.letterColor = userData.data().letter_color
       userData.data().colors.forEach((color) => {
         this.colors.push(color)
       })
+      this.created = true
     })
   },
   methods: {
+    resetColor() {
+      this.letterColor = '#ffffff'
+    },
     addColor() {
       const color = ((Math.random() * 0xffffff) | 0).toString(16)
       const randomColor = '#' + ('000000' + color).slice(-6)
@@ -72,8 +84,10 @@ export default {
       const db = getFirestore()
       const userId = this.$store.getters['auth/uid']
       await updateDoc(doc(db, 'users', userId), {
+        letter_color: this.letterColor.toString('hex'),
         colors: this.colors.map((color) => color.toString('hex')),
       })
+      this.$router.push('/mypage')
     },
   },
 }

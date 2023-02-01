@@ -81,12 +81,12 @@
             <span class="icon" style="float: left" @click="prevClick">
               <b-icon icon="chevron-double-left" />
             </span>
-            <span style="float: left">{{ setYear }}年{{ setMonth }}月</span>
+            <span style="float: left">{{ viewYear }}年{{ viewMonth }}月</span>
             <span class="icon" @click="nextClick">
               <b-icon icon="chevron-double-right" />
             </span>
             <apex-charts
-              :options="options_month"
+              :options="options_pi"
               :series="series_month"
               height="350"
             ></apex-charts>
@@ -164,8 +164,8 @@ export default {
       totalPage: '',
       currentPage: '',
       windowWidth: '',
-      setYear: '',
-      setMonth: '',
+      viewYear: '',
+      viewMonth: '',
       columns: [
         {
           label: '',
@@ -246,7 +246,7 @@ export default {
           data: [],
         },
       ],
-      options_month: {
+      options_pi: {
         plotOptions: {
           pie: {
             donut: {
@@ -336,8 +336,8 @@ export default {
 
       const userId = this.userId
       const setMonth = 'm' + this.$dayjs().format('YYYYMM')
-      this.setYear = this.$dayjs().format('YYYY')
-      this.setMonth = this.$dayjs().format('MM')
+      this.viewYear = this.$dayjs().format('YYYY')
+      this.viewMonth = this.$dayjs().format('MM')
       for (let i = 0; i < 6; i++) {
         const year = this.$dayjs().subtract(i, 'month').format('YYYY')
         const month = this.$dayjs().subtract(i, 'month').format('MM')
@@ -384,7 +384,7 @@ export default {
           // Piグラフ
           if (typeof doc.data().instax_totalling[setMonth] !== 'undefined') {
             if (doc.data().instax_totalling[setMonth] !== 0) {
-              this.options_month.labels.push(doc.data().name)
+              this.options_pi.labels.push(doc.data().name)
               this.series_month.push(doc.data().instax_totalling[setMonth])
             }
           }
@@ -406,7 +406,7 @@ export default {
         }
       })
       if (this.series_month.length === 0) {
-        this.options_month.noData = {
+        this.options_pi.noData = {
           text: 'データなし',
         }
       }
@@ -416,12 +416,12 @@ export default {
       // 色取得
       this.userData = await getDoc(doc(db, 'users', userId))
       this.options_tree.colors = this.userData.data().colors
-      this.options_month.colors = this.userData.data().colors
+      this.options_pi.colors = this.userData.data().colors
       this.options_bar.colors = this.userData.data().colors
       this.options_tree.dataLabels.style.colors = [
         this.userData.data().letter_color,
       ]
-      this.options_month.dataLabels.style.colors = [
+      this.options_pi.dataLabels.style.colors = [
         this.userData.data().letter_color,
       ]
       this.options_bar.dataLabels.style.colors = [
@@ -521,24 +521,24 @@ export default {
       return group
     },
     prevClick() {
-      this.options_month.labels = []
+      this.options_pi.labels = []
       this.series_month = []
-      if (this.setMonth === '01') {
-        this.setMonth = '12'
-        this.setYear = String(parseInt(this.setYear) - 1)
+      if (this.viewMonth === '01') {
+        this.viewMonth = '12'
+        this.viewYear = String(parseInt(this.viewYear) - 1)
       } else {
-        this.setMonth = String(parseInt(this.setMonth) - 1).padStart(2, '0')
+        this.viewMonth = String(parseInt(this.viewMonth) - 1).padStart(2, '0')
       }
       this.piGarphRedraw()
     },
     nextClick() {
-      this.options_month.labels = []
+      this.options_pi.labels = []
       this.series_month = []
-      if (this.setMonth === '12') {
-        this.setMonth = '01'
-        this.setYear = String(parseInt(this.setYear) + 1)
+      if (this.viewMonth === '12') {
+        this.viewMonth = '01'
+        this.viewYear = String(parseInt(this.viewYear) + 1)
       } else {
-        this.setMonth = String(parseInt(this.setMonth) + 1).padStart(2, '0')
+        this.viewMonth = String(parseInt(this.viewMonth) + 1).padStart(2, '0')
       }
       this.piGarphRedraw()
     },
@@ -556,7 +556,7 @@ export default {
     },
     piGarphRedraw() {
       const labels = []
-      const setMonth = 'm' + this.setYear + this.setMonth
+      const setMonth = 'm' + this.viewYear + this.viewMonth
       this.querySnapshot.forEach((doc) => {
         if (
           doc.data().instax_totalling &&
@@ -570,7 +570,7 @@ export default {
           }
         }
       })
-      this.options_month = {
+      this.options_pi = {
         plotOptions: {
           pie: {
             donut: {
@@ -590,11 +590,11 @@ export default {
         labels,
       }
       if (this.series_month.length === 0) {
-        this.options_month.noData = {
+        this.options_pi.noData = {
           text: 'データなし',
         }
       }
-      this.options_month.colors = this.userData.data().colors
+      this.options_pi.colors = this.userData.data().colors
       this.series_month.length === 0
         ? (this.monthData = false)
         : (this.monthData = true)

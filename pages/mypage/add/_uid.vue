@@ -152,10 +152,21 @@ export default {
         place: this.place,
         event: this.event,
       })
-      await updateDoc(doc(db, 'users', userId), {
-        place_list: arrayUnion(this.place),
-        event_list: arrayUnion(this.event),
-      })
+      if (this.place !== '' && this.event === '') {
+        await updateDoc(doc(db, 'users', userId), {
+          place_list: arrayUnion(this.place),
+        })
+      } else if (this.place === '' && this.event !== '') {
+        await updateDoc(doc(db, 'users', userId), {
+          event_list: arrayUnion(this.event),
+        })
+      } else if (this.place !== '' && this.event !== '') {
+        await updateDoc(doc(db, 'users', userId), {
+          place_list: arrayUnion(this.place),
+          event_list: arrayUnion(this.event),
+        })
+      }
+
       const setMonth =
         'instax_totalling.m' +
         String(this.selectDate.getFullYear()) +

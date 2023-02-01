@@ -217,7 +217,7 @@ export default {
         chart: {
           height: 350,
           offsetY: -3,
-          offsetX: 16,
+          offsetX: 0,
           type: 'treemap',
           toolbar: {
             show: false,

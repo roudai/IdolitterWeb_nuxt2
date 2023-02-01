@@ -152,6 +152,7 @@ export default {
   },
   data() {
     return {
+      userData: null,
       userId: '',
       pageView: 'normal',
       monthData: true,
@@ -163,8 +164,8 @@ export default {
       totalPage: '',
       currentPage: '',
       windowWidth: '',
-      setYear: '2023',
-      setMonth: '01',
+      setYear: '',
+      setMonth: '',
       columns: [
         {
           label: '',
@@ -335,6 +336,8 @@ export default {
 
       const userId = this.userId
       const setMonth = 'm' + this.$dayjs().format('YYYYMM')
+      this.setYear = this.$dayjs().format('YYYY')
+      this.setMonth = this.$dayjs().format('MM')
       for (let i = 0; i < 6; i++) {
         const year = this.$dayjs().subtract(i, 'month').format('YYYY')
         const month = this.$dayjs().subtract(i, 'month').format('MM')
@@ -411,15 +414,19 @@ export default {
         this.pageView = 'nonInstax'
       }
       // 色取得
-      const userData = await getDoc(doc(db, 'users', userId))
-      this.options_tree.colors = userData.data().colors
-      this.options_month.colors = userData.data().colors
-      this.options_bar.colors = userData.data().colors
-      this.options_tree.dataLabels.style.colors = [userData.data().letter_color]
-      this.options_month.dataLabels.style.colors = [
-        userData.data().letter_color,
+      this.userData = await getDoc(doc(db, 'users', userId))
+      this.options_tree.colors = this.userData.data().colors
+      this.options_month.colors = this.userData.data().colors
+      this.options_bar.colors = this.userData.data().colors
+      this.options_tree.dataLabels.style.colors = [
+        this.userData.data().letter_color,
       ]
-      this.options_bar.dataLabels.style.colors = [userData.data().letter_color]
+      this.options_month.dataLabels.style.colors = [
+        this.userData.data().letter_color,
+      ]
+      this.options_bar.dataLabels.style.colors = [
+        this.userData.data().letter_color,
+      ]
 
       this.created = true
     }, 0)
@@ -587,7 +594,7 @@ export default {
           text: 'データなし',
         }
       }
-      this.options_month.colors = this.select_colors
+      this.options_month.colors = this.userData.data().colors
       this.series_month.length === 0
         ? (this.monthData = false)
         : (this.monthData = true)

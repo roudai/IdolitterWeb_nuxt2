@@ -67,9 +67,10 @@
         <div class="column">
           <!-- ツリーマップ -->
           <b-collapse class="card p-3">
+            <span>全期間マップ</span>
             <apex-charts
               type="treemap"
-              height="350"
+              height="400"
               :options="options_tree"
               :series="series_tree"
             ></apex-charts>
@@ -107,7 +108,7 @@
             <apex-charts
               :options="options_bar"
               :series="series_bar"
-              :height="350"
+              :height="400"
             ></apex-charts>
           </b-collapse>
         </div>
@@ -215,7 +216,6 @@ export default {
       rows: [],
       options_tree: {
         chart: {
-          height: 350,
           offsetY: -3,
           offsetX: 0,
           type: 'treemap',
@@ -249,6 +249,8 @@ export default {
       options_pi: {
         plotOptions: {
           pie: {
+            customScale: 1.2,
+            offsetY: 30,
             donut: {
               labels: {
                 show: true,
@@ -269,6 +271,10 @@ export default {
         chart: {
           type: 'donut',
         },
+        legend: {
+          position: 'top',
+          offsetX: 0,
+        },
         colors: [],
         labels: [],
       },
@@ -276,7 +282,6 @@ export default {
       options_bar: {
         chart: {
           type: 'bar',
-          height: 350,
           stacked: true,
           toolbar: {
             show: false,
@@ -310,7 +315,7 @@ export default {
         legend: {
           position: 'top',
           horizontalAlign: 'left',
-          offsetX: 40,
+          offsetX: 20,
         },
         colors: [],
       },

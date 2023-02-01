@@ -47,6 +47,7 @@ import {
   getFirestore,
   collection,
   doc,
+  getDoc,
   getDocs,
   setDoc,
   updateDoc,
@@ -63,6 +64,7 @@ export default {
   },
   data() {
     return {
+      idolList: [],
       created: false,
       perPage: 10,
       perPageChangeFlag: false,
@@ -127,6 +129,14 @@ export default {
     this.windowWidth = window.innerWidth
     window.innerHeight < 1080 ? (this.perPage = 10) : (this.perPage = 20)
   },
+  beforeCreate() {
+    setTimeout(async () => {
+      const db = getFirestore()
+      const userId = this.$store.getters['auth/uid']
+      const docSnap = await getDoc(doc(db, 'users', userId))
+      this.idolList = docSnap.data().idol_list
+    }, 0)
+  },
   created() {
     this.totalPage = Math.ceil(this.$data.values.length / this.perPage)
     this.currentPage = Math.floor(Math.random() * this.totalPage) + 1
@@ -182,6 +192,10 @@ export default {
       } else if (params.column.field === 'add') {
         // 登録ボタン
         if (params.row.add === '') {
+          return
+        }
+        if (this.idolList.includes(params.row.uid)) {
+          this.$errorDialog(this.$buefy, '登録済みです。')
           return
         }
         const db = getFirestore()

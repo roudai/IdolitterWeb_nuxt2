@@ -65,6 +65,7 @@ export const actions = {
             user,
             displayName,
             colors,
+            premium: false,
             letter_color: '#ffffff',
           })
           const mapKey = 'users.' + user

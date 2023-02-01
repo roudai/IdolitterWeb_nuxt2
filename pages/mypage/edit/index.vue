@@ -20,6 +20,22 @@
       </div>
     </b-collapse>
 
+    <b-collapse class="card p-3 mb-5">
+      <h4>入力候補設定</h4>
+      <div class="buttons">
+        <b-button
+          type="is-link is-light"
+          @click="$router.push('/mypage/edit/place')"
+          >会場名</b-button
+        >
+        <b-button
+          type="is-link is-light"
+          @click="$router.push('/mypage/edit/event')"
+          >イベント名</b-button
+        >
+      </div>
+    </b-collapse>
+
     <b-collapse class="card p-3">
       <h4>グラフ設定</h4>
       <h5>文字の色</h5>
@@ -41,9 +57,11 @@
           <b-colorpicker v-model="colors[index]" class="mb-2 mr-2" />
         </div>
       </b-field>
+      <b-button class="mt-3" type="is-link is-light" @click="register"
+        >更新</b-button
+      >
     </b-collapse>
     <div class="buttons mt-3">
-      <b-button type="is-link is-light" @click="register">更新</b-button>
       <b-button type="is-link is-light" @click="$router.push('/mypage')"
         >戻る</b-button
       >

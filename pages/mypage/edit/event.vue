@@ -16,6 +16,9 @@
     <div class="buttons">
       <b-button type="is-link is-light" @click="add">追加</b-button>
       <b-button type="is-link is-light" @click="register">登録</b-button>
+      <b-button type="is-link is-light" @click="$router.push('/mypage/edit')"
+        >戻る</b-button
+      >
     </div>
   </div>
 </template>

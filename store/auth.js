@@ -37,9 +37,16 @@ export const actions = {
         if (result === null) {
           return
         }
-        const uid = result.user.uid
-        const user = result.user.reloadUserInfo.screenName
-        const displayName = result.user.displayName
+        let uid, user, displayName
+        if (result.providerId === 'twitter.com') {
+          uid = result.user.uid
+          user = result.user.reloadUserInfo.screenName
+          displayName = result.user.displayName
+        } else if (result.providerId === 'google.com') {
+          uid = result.user.uid
+          user = result.user.displayName
+          displayName = result.user.displayName
+        }
         commit('setLoginState', true)
         commit('setUid', uid)
 

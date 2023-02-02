@@ -20,6 +20,8 @@ export default {
       this.provider = 'Twitter'
     } else if (provider === 'google') {
       this.provider = 'Google'
+    } else if (provider === 'github') {
+      this.provider = 'GitHub'
     } else {
       this.show = false
     }

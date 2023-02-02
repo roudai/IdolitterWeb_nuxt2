@@ -47,6 +47,10 @@ export const actions = {
           uid = result.user.uid
           user = result.user.email.split('@')[0]
           displayName = result.user.displayName
+        } else if (result.providerId === 'github.com') {
+          uid = result.user.uid
+          user = result._tokenResponse.screenName
+          displayName = result.user.displayName
         }
         const db = getFirestore(this.$firebase)
         // ID重複回避

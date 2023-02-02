@@ -12,6 +12,12 @@
         <span>Googleでログイン</span>
       </button>
     </div>
+    <div>
+      <button class="button is-light mb-2" @click="toRedirectGithub">
+        <b-icon icon="github" />
+        <span>GitHubでログイン</span>
+      </button>
+    </div>
     <div class="notification is-success is-light">
       アイドリッターの認証は、ユーザーの識別のために使用されます。
       ツイッターの認証はアプリケーションは読み取り権限しか取得しないため、ツイート、フォロー、DM送信等を勝手に行うことはありません。
@@ -27,6 +33,7 @@ import {
   getAuth,
   TwitterAuthProvider,
   GoogleAuthProvider,
+  GithubAuthProvider,
   signInWithRedirect,
 } from 'firebase/auth'
 
@@ -43,6 +50,12 @@ export default {
       const provider = new GoogleAuthProvider()
       signInWithRedirect(auth, provider)
       this.$router.push('/auth/redirect/google')
+    },
+    toRedirectGithub() {
+      const auth = getAuth()
+      const provider = new GithubAuthProvider()
+      signInWithRedirect(auth, provider)
+      this.$router.push('/auth/redirect/github')
     },
   },
 }

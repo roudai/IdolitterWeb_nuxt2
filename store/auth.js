@@ -45,7 +45,7 @@ export const actions = {
           displayName = result.user.displayName
         } else if (result.providerId === 'google.com') {
           uid = result.user.uid
-          user = result.user.displayName
+          user = result.user.email.split('@')[0]
           displayName = result.user.displayName
         }
         const db = getFirestore(this.$firebase)

@@ -12,6 +12,21 @@
           </b-field>
         </div>
       </div>
+      <h5>公開用ダッシュボード</h5>
+      <div class="columns mb-0">
+        <div class="column is-4">
+          <b-field>
+            <p class="control">
+              <b-button icon-left="content-copy" @click="linkCopy" />
+            </p>
+            <p class="control">
+              <b-button icon-left="open-in-new" @click="linkOpen" />
+            </p>
+            <b-input v-model="myUrl" expanded disabled></b-input>
+          </b-field>
+        </div>
+      </div>
+
       <div v-if="editButton">
         <b-button type="is-link is-light" @click="clickEdit">編集</b-button>
       </div>
@@ -85,6 +100,7 @@ export default {
       formDisabled: true,
       editButton: true,
       addDisabled: false,
+      myUrl: '',
       initialName: '',
       initialUserId: '',
       name: '',
@@ -101,6 +117,7 @@ export default {
       this.name = userData.data().displayName
       this.userId = userData.data().user
       this.letterColor = userData.data().letter_color
+      this.myUrl = 'https://idolitter.net/' + this.userId
       userData.data().colors.forEach((color) => {
         this.colors.push(color)
       })
@@ -129,6 +146,7 @@ export default {
           )
           return
         }
+        this.myUrl = 'https://idolitter.net/' + this.userId
         // ユーザー名、ID更新
         const userId = this.$store.getters['auth/uid']
         await updateDoc(doc(db, 'users', userId), {
@@ -147,6 +165,18 @@ export default {
       }
       this.editButton = true
       this.formDisabled = true
+    },
+    linkCopy() {
+      this.$copyText(this.myUrl)
+      this.$buefy.notification.open({
+        message: 'コピーしました。',
+        type: 'is-info',
+        position: 'is-top',
+        pauseOnHover: true,
+      })
+    },
+    linkOpen() {
+      this.$router.push('/' + this.userId)
     },
     resetColor() {
       this.letterColor = '#ffffff'

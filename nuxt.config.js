@@ -91,6 +91,7 @@ export default {
     '@nuxtjs/firebase',
     '@nuxtjs/google-adsense',
     'is-url',
+    'nuxt-clipboard2',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

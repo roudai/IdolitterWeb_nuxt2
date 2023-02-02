@@ -1,5 +1,6 @@
 <template>
   <div v-if="created">
+    <h4>{{ displayName }}</h4>
     <div v-show="view === ''">
       <vue-good-table
         ref="idol-table"
@@ -155,6 +156,7 @@ export default {
     return {
       userData: null,
       userId: '',
+      displayName: '',
       pageView: 'normal',
       monthData: true,
       created: false,
@@ -420,6 +422,7 @@ export default {
       }
       // 色取得
       this.userData = await getDoc(doc(db, 'users', userId))
+      this.displayName = this.userData.data().displayName
       this.options_tree.colors = this.userData.data().colors
       this.options_pi.colors = this.userData.data().colors
       this.options_bar.colors = this.userData.data().colors

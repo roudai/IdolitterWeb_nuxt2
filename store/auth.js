@@ -38,6 +38,7 @@ export const actions = {
           return
         }
         let uid, user, displayName
+        // プロバイダーによる判定
         if (result.providerId === 'twitter.com') {
           uid = result.user.uid
           user = result.user.reloadUserInfo.screenName
@@ -47,10 +48,22 @@ export const actions = {
           user = result.user.displayName
           displayName = result.user.displayName
         }
+        const db = getFirestore(this.$firebase)
+        // ID重複回避
+        const userList = await getDoc(doc(db, 'users', 'admin'))
+        if (Object.keys(userList.data().users).includes(user)) {
+          for (let i = 2; i < 100; i++) {
+            user = user + i
+            if (!Object.keys(userList.data().users).includes(user)) {
+              break
+            }
+          }
+        }
+
         commit('setLoginState', true)
         commit('setUid', uid)
 
-        const db = getFirestore(this.$firebase)
+        // ユーザーデータ格納
         const userData = await getDoc(doc(db, 'users', uid))
         if (userData.exists()) {
           // ユーザーデータが存在する場合

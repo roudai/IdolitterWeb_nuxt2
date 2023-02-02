@@ -1,19 +1,31 @@
 <template>
   <div>
     <div>
-      <button class="button is-info mb-2" @click="toRedirectTwitter">
+      <button
+        class="button mb-3 social"
+        style="color: #ffffff; background-color: #1da1f2"
+        @click="toRedirectTwitter"
+      >
         <b-icon icon="twitter" />
         <span>Twitterでログイン</span>
       </button>
     </div>
     <div>
-      <button class="button is-info is-light mb-2" @click="toRedirectGoogle">
+      <button
+        class="button mb-3 social"
+        style="color: #ffffff; background-color: #4285f4"
+        @click="toRedirectGoogle"
+      >
         <b-icon icon="google" />
         <span>Googleでログイン</span>
       </button>
     </div>
     <div>
-      <button class="button is-light mb-2" @click="toRedirectGithub">
+      <button
+        class="button mb-3 social"
+        style="color: #ffffff; background-color: #000000"
+        @click="toRedirectGithub"
+      >
         <b-icon icon="github" />
         <span>GitHubでログイン</span>
       </button>
@@ -61,4 +73,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+button.social {
+  width: 185px;
+}
+</style>

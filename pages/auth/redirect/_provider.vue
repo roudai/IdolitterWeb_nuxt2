@@ -1,6 +1,6 @@
 <template>
   <div v-show="show">
-    <h5>{{ provider }}にログインしています...</h5>
+    <h5>{{ provider }}でログインしています...</h5>
     <nuxt-link v-show="back" to="/auth/login">ログインページに戻る</nuxt-link>
   </div>
 </template>

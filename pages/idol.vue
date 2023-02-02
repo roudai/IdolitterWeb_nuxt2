@@ -194,7 +194,10 @@ export default {
         if (params.row.add === '') {
           return
         }
-        if (this.idolList.includes(params.row.uid)) {
+        if (
+          typeof this.idolList !== 'undefined' &&
+          this.idolList.includes(params.row.uid)
+        ) {
           this.$errorDialog(this.$buefy, '登録済みです。')
           return
         }

@@ -184,3 +184,9 @@ export default {
   },
 }
 </script>
+
+<style>
+input:disabled {
+  color: #363636 !important;
+}
+</style>

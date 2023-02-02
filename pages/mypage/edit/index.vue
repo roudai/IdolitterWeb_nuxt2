@@ -115,18 +115,27 @@ export default {
       this.initialUserId = this.userId
     },
     async clickUpdate() {
-      this.editButton = true
-      this.formDisabled = true
       if (
         this.name !== this.initialName ||
         this.userId !== this.initialUserId
       ) {
         const db = getFirestore()
+        // ID重複回避
+        const userList = await getDoc(doc(db, 'users', 'admin'))
+        if (Object.keys(userList.data().users).includes(this.userId)) {
+          this.$errorDialog(
+            this.$buefy,
+            'このIDは他のユーザーが使用済みのため利用できません。'
+          )
+          return
+        }
+        // ユーザー名、ID更新
         const userId = this.$store.getters['auth/uid']
         await updateDoc(doc(db, 'users', userId), {
           displayName: this.name,
           user: this.userId,
         })
+        // ID一覧更新
         const oldMapKey = 'users.' + this.initialUserId
         await updateDoc(doc(db, 'users', 'admin'), {
           [oldMapKey]: deleteField(),
@@ -136,6 +145,8 @@ export default {
           [newMapKey]: userId,
         })
       }
+      this.editButton = true
+      this.formDisabled = true
     },
     resetColor() {
       this.letterColor = '#ffffff'

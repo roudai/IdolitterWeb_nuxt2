@@ -30,9 +30,9 @@ export const mutations = {
 }
 
 export const actions = {
-  login({ commit }) {
+  async login({ commit }) {
     const auth = getAuth()
-    getRedirectResult(auth)
+    await getRedirectResult(auth)
       .then(async (result) => {
         if (result === null) {
           return

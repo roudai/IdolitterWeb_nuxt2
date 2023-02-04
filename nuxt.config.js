@@ -89,7 +89,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/firebase',
-    '@nuxtjs/google-adsense',
+    // '@nuxtjs/google-adsense',
     'is-url',
     'nuxt-clipboard2',
   ],
@@ -103,7 +103,7 @@ export default {
   firebase: {
     config: {
       apiKey: 'AIzaSyAKYSs2c7mrtmESfvcE0TQAVCAy3YtKaV8',
-      authDomain: 'idolitter.net',
+      authDomain: 'auth.idolitter.net',
       projectId: 'idolitter-373101',
       storageBucket: 'idolitter-373101.appspot.com',
       messagingSenderId: '553829081488',
@@ -116,10 +116,10 @@ export default {
     },
   },
 
-  'google-adsense': {
-    id: 'ca-pub-3099989327540541',
-    pageLevelAds: true,
-  },
+  // 'google-adsense': {
+  //   id: 'ca-pub-3099989327540541',
+  //   pageLevelAds: true,
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},

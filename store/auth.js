@@ -46,7 +46,7 @@ export const actions = {
           displayName = result.user.displayName
         } else if (result.providerId === 'google.com') {
           uid = result.user.uid
-          user = result.user.tokenResponse.screenName
+          user = result.user._tokenResponse.email.split('@')[0]
           displayName = result.user.displayName
         } else if (result.providerId === 'github.com') {
           uid = result.user.uid

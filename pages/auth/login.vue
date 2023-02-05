@@ -50,6 +50,14 @@ import {
 } from 'firebase/auth'
 
 export default {
+  beforeCreate() {
+    setTimeout(() => {
+      const isLoggedIn = this.$store.getters['auth/isLoggedIn']
+      if (isLoggedIn) {
+        this.$router.push('/mypage')
+      }
+    }, 0)
+  },
   methods: {
     toRedirectTwitter() {
       const auth = getAuth()

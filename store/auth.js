@@ -34,6 +34,7 @@ export const actions = {
     const auth = getAuth()
     await getRedirectResult(auth)
       .then(async (result) => {
+        console.log(result)
         if (result === null) {
           return
         }
@@ -45,7 +46,7 @@ export const actions = {
           displayName = result.user.displayName
         } else if (result.providerId === 'google.com') {
           uid = result.user.uid
-          user = result.user.email.split('@')[0]
+          user = result.user.tokenResponse.screenName
           displayName = result.user.displayName
         } else if (result.providerId === 'github.com') {
           uid = result.user.uid

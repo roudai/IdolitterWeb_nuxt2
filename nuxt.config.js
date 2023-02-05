@@ -103,7 +103,7 @@ export default {
   firebase: {
     config: {
       apiKey: 'AIzaSyAKYSs2c7mrtmESfvcE0TQAVCAy3YtKaV8',
-      authDomain: 'auth.idolitter.net',
+      authDomain: 'idolitter.net',
       projectId: 'idolitter-373101',
       storageBucket: 'idolitter-373101.appspot.com',
       messagingSenderId: '553829081488',

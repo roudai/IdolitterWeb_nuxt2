@@ -60,6 +60,7 @@ export default {
     toRedirectGoogle() {
       const auth = getAuth()
       const provider = new GoogleAuthProvider()
+      provider.addScope('email')
       signInWithRedirect(auth, provider)
       this.$router.push('/auth/redirect/google')
     },

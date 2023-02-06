@@ -30,28 +30,34 @@ export const mutations = {
 }
 
 export const actions = {
-  async login({ commit }) {
+  async login({ commit }, payload) {
     const auth = getAuth()
     await getRedirectResult(auth)
       .then(async (result) => {
-        console.log(result)
-        if (result === null) {
+        if (typeof payload === 'undefined' && result === null) {
           return
         }
         let uid, user, displayName
-        // プロバイダーによる判定
-        if (result.providerId === 'twitter.com') {
-          uid = result.user.uid
-          user = result.user.reloadUserInfo.screenName
-          displayName = result.user.displayName
-        } else if (result.providerId === 'google.com') {
-          uid = result.user.uid
-          user = result._tokenResponse.email.split('@')[0]
-          displayName = result.user.displayName
-        } else if (result.providerId === 'github.com') {
-          uid = result.user.uid
-          user = result._tokenResponse.screenName
-          displayName = result.user.displayName
+        if (typeof payload === 'undefined') {
+          // プロバイダーによる判定
+          if (result.providerId === 'twitter.com') {
+            uid = result.user.uid
+            user = result.user.reloadUserInfo.screenName
+            displayName = result.user.displayName
+          } else if (result.providerId === 'google.com') {
+            uid = result.user.uid
+            user = result._tokenResponse.email.split('@')[0]
+            displayName = result.user.displayName
+          } else if (result.providerId === 'github.com') {
+            uid = result.user.uid
+            user = result._tokenResponse.screenName
+            displayName = result.user.displayName
+          }
+        } else {
+          // メールアドレス登録
+          uid = payload.userCredential.user.uid
+          user = payload.userCredential.user.email.split('@')[0]
+          displayName = payload.userCredential.user.email.split('@')[0]
         }
         const db = getFirestore(this.$firebase)
         // ID重複回避
@@ -98,7 +104,11 @@ export const actions = {
             [mapKey]: uid,
           })
         }
-        this.$router.push('/mypage')
+        if (typeof payload === 'undefined' || userData.exists()) {
+          this.$router.push('/mypage')
+        } else {
+          this.$router.push('/auth/edit')
+        }
       })
       .catch((error) => {
         const errorCode = error.code
@@ -106,6 +116,28 @@ export const actions = {
         // eslint-disable-next-line no-console
         console.log(errorCode, errorMessage)
       })
+  },
+  async signupMail({ _commit }, payload) {
+    uid = payload.user.uid
+    user = payload.user.email.split('@')[0]
+    displayName = payload.user.email.split('@')[0]
+
+    const db = getFirestore(this.$firebase)
+    // ID重複回避
+    const userList = await getDoc(doc(db, 'users', 'admin'))
+    if (Object.keys(userList.data().users).includes(user)) {
+      for (let i = 2; i < 100; i++) {
+        user = user + i
+        displayName = user
+        if (!Object.keys(userList.data().users).includes(user)) {
+          break
+        }
+      }
+    }
+    commit('setLoginState', true)
+    commit('setUid', uid)
+    commit('setUser', user)
+    commit('setName', displayName)
   },
   async logout({ commit }) {
     const auth = getAuth()

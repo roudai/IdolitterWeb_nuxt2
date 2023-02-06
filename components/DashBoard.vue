@@ -89,7 +89,7 @@
             </span>
             <apex-charts
               :options="options_pi"
-              :series="series_month"
+              :series="series_pi"
               height="350"
             ></apex-charts>
           </b-collapse>
@@ -280,7 +280,7 @@ export default {
         colors: [],
         labels: [],
       },
-      series_month: [],
+      series_pi: [],
       options_bar: {
         chart: {
           type: 'bar',
@@ -392,7 +392,7 @@ export default {
           if (typeof doc.data().instax_totalling[setMonth] !== 'undefined') {
             if (doc.data().instax_totalling[setMonth] !== 0) {
               this.options_pi.labels.push(doc.data().name)
-              this.series_month.push(doc.data().instax_totalling[setMonth])
+              this.series_pi.push(doc.data().instax_totalling[setMonth])
             }
           }
           // 棒グラフ
@@ -412,7 +412,10 @@ export default {
           this.series_bar.push({ name: doc.data().name, data })
         }
       })
-      if (this.series_month.length === 0) {
+      // Piグラフの並び替え
+      this.piDataSort()
+
+      if (this.series_pi.length === 0) {
         this.options_pi.noData = {
           text: 'データなし',
         }
@@ -528,9 +531,23 @@ export default {
       }
       return group
     },
+    piDataSort() {
+      const piData = []
+      for (let i = 0; i < this.options_pi.labels.length; i++) {
+        piData.push({
+          key: this.options_pi.labels[i],
+          value: this.series_pi[i],
+        })
+      }
+      piData.sort((a, b) => b.value - a.value)
+      this.options_pi.labels = []
+      this.series_pi = []
+      piData.forEach((element) => this.options_pi.labels.push(element.key))
+      piData.forEach((element) => this.series_pi.push(element.value))
+    },
     prevClick() {
       this.options_pi.labels = []
-      this.series_month = []
+      this.series_pi = []
       if (this.viewMonth === '01') {
         this.viewMonth = '12'
         this.viewYear = String(parseInt(this.viewYear) - 1)
@@ -541,7 +558,7 @@ export default {
     },
     nextClick() {
       this.options_pi.labels = []
-      this.series_month = []
+      this.series_pi = []
       if (this.viewMonth === '12') {
         this.viewMonth = '01'
         this.viewYear = String(parseInt(this.viewYear) + 1)
@@ -563,7 +580,7 @@ export default {
       this.barGraphRedraw()
     },
     piGarphRedraw() {
-      const labels = []
+      this.options_pi.labels = []
       const setMonth = 'm' + this.viewYear + this.viewMonth
       this.querySnapshot.forEach((doc) => {
         if (
@@ -572,12 +589,13 @@ export default {
         ) {
           if (typeof doc.data().instax_totalling[setMonth] !== 'undefined') {
             if (doc.data().instax_totalling[setMonth] !== 0) {
-              labels.push(doc.data().name)
-              this.series_month.push(doc.data().instax_totalling[setMonth])
+              this.options_pi.labels.push(doc.data().name)
+              this.series_pi.push(doc.data().instax_totalling[setMonth])
             }
           }
         }
       })
+      this.piDataSort()
       this.options_pi = {
         plotOptions: {
           pie: {
@@ -595,15 +613,15 @@ export default {
         chart: {
           type: 'donut',
         },
-        labels,
+        labels: this.options_pi.labels,
       }
-      if (this.series_month.length === 0) {
+      if (this.series_pi.length === 0) {
         this.options_pi.noData = {
           text: 'データなし',
         }
       }
       this.options_pi.colors = this.userData.data().colors
-      this.series_month.length === 0
+      this.series_pi.length === 0
         ? (this.monthData = false)
         : (this.monthData = true)
     },

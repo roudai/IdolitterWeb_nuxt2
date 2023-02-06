@@ -50,7 +50,7 @@
       </b-field>
 
       <b-field label="URL">
-        <b-input v-model="url" placeholder="https://"></b-input>
+        <b-input v-model="url" type="url" placeholder="https://"></b-input>
       </b-field>
     </div>
 

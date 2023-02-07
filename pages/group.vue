@@ -38,6 +38,16 @@
       @on-cell-click="onCellClick"
       @on-per-page-change="onPerPageChange"
     />
+    <div class="mt-3">
+      <button
+        class="button"
+        style="color: #ffffff; background-color: #1da1f2"
+        @click="linkTweet"
+      >
+        <b-icon icon="twitter" />
+        <span>ツイート</span>
+      </button>
+    </div>
     <a8-group-under></a8-group-under>
   </div>
 </template>
@@ -166,6 +176,13 @@ export default {
         return 'スリジエ：'
       }
       return group
+    },
+    linkTweet() {
+      const url = new URL('https://twitter.com/intent/tweet')
+      url.searchParams.append('text', 'グループ一覧')
+      url.searchParams.append('url', 'https://idolitter.net/group')
+      url.searchParams.append('hashtags', 'アイドリッター')
+      window.open(url, '_blank')
     },
   },
 }

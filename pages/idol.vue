@@ -38,6 +38,17 @@
       @on-cell-click="onCellClick"
       @on-per-page-change="onPerPageChange"
     />
+    <div class="mt-3">
+      <button
+        class="button"
+        style="color: #ffffff; background-color: #1da1f2"
+        @click="linkTweet"
+      >
+        <b-icon icon="twitter" />
+        <span>ツイート</span>
+      </button>
+    </div>
+
     <a8-idol-under></a8-idol-under>
   </div>
 </template>
@@ -280,6 +291,13 @@ export default {
       forSearch += ' @' + idol[5]
       forSearch += ' ' + idol[0].replace(/\s+/g, '')
       return forSearch
+    },
+    linkTweet() {
+      const url = new URL('https://twitter.com/intent/tweet')
+      url.searchParams.append('text', 'アイドル一覧')
+      url.searchParams.append('url', 'https://idolitter.net/idol')
+      url.searchParams.append('hashtags', 'アイドリッター')
+      window.open(url, '_blank')
     },
   },
 }

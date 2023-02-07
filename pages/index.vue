@@ -12,6 +12,16 @@
     <div class="m-3 is-size-5">
       グループ <b>{{ groupNum }} 組</b>
     </div>
+    <div>
+      <button
+        class="button"
+        style="color: #ffffff; background-color: #1da1f2"
+        @click="linkTweet"
+      >
+        <b-icon icon="twitter" />
+        <span>ツイート</span>
+      </button>
+    </div>
 
     <h3><nuxt-link to="idol" class="is-underlined">アイドル一覧</nuxt-link></h3>
     <div>登録されているアイドルを確認できます。</div>
@@ -118,6 +128,22 @@ export default {
   created() {
     this.idolNum = parseInt(this.$data.values[0])
     this.groupNum = parseInt(this.$data.values[1])
+  },
+  methods: {
+    linkTweet() {
+      const url = new URL('https://twitter.com/intent/tweet')
+      url.searchParams.append(
+        'text',
+        'アイドリッターの現在の登録データ数は、アイドル' +
+          this.idolNum +
+          '名、グループ' +
+          this.groupNum +
+          '組です。 @idol_itter'
+      )
+      url.searchParams.append('url', 'https://idolitter.net')
+      url.searchParams.append('hashtags', 'アイドリッター')
+      window.open(url, '_blank')
+    },
   },
 }
 </script>

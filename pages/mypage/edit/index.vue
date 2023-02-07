@@ -7,9 +7,6 @@
           <b-field label="名前" horizontal>
             <b-input v-model="name" :disabled="formDisabled"></b-input>
           </b-field>
-          <b-field label="ID" horizontal>
-            <b-input v-model="userId" :disabled="formDisabled"></b-input>
-          </b-field>
         </div>
       </div>
       <h5>公開用ダッシュボード</h5>
@@ -17,16 +14,21 @@
         <div class="column is-4">
           <b-field>
             <p class="control">
-              <b-button icon-left="content-copy" @click="linkCopy" />
-            </p>
-            <p class="control">
-              <b-button icon-left="open-in-new" @click="linkOpen" />
+              <b-button
+                icon-left="twitter"
+                style="color: #ffffff; background-color: #1da1f2"
+                @click="linkTweet"
+              />
             </p>
             <b-input v-model="myUrl" expanded disabled></b-input>
           </b-field>
         </div>
+        <div class="buttons mb-3">
+          <b-button type="is-primary is-light" @click="clickEdit"
+            >共有</b-button
+          >
+        </div>
       </div>
-
       <div v-if="editButton">
         <b-button type="is-link is-light" @click="clickEdit">編集</b-button>
       </div>
@@ -166,17 +168,12 @@ export default {
       this.editButton = true
       this.formDisabled = true
     },
-    linkCopy() {
-      this.$copyText(this.myUrl)
-      this.$buefy.notification.open({
-        message: 'コピーしました。',
-        type: 'is-info',
-        position: 'is-top',
-        pauseOnHover: true,
-      })
-    },
-    linkOpen() {
-      this.$router.push('/' + this.userId)
+    linkTweet() {
+      const url = new URL('https://twitter.com/intent/tweet')
+      url.searchParams.append('text', this.name + 'のチェキ記録 @idol_itter')
+      url.searchParams.append('url', this.myUrl)
+      url.searchParams.append('hashtags', 'アイドリッター')
+      window.open(url, '_blank')
     },
     resetColor() {
       this.letterColor = '#ffffff'

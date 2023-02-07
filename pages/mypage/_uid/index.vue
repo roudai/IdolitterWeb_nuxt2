@@ -20,25 +20,22 @@
       </div>
     </div>
 
+    <b-pagination
+      v-model="current"
+      :total="total"
+      :per-page="perPage"
+      :simple="isSimple"
+      @change="changePage"
+    >
+    </b-pagination>
+
     <vue-good-table
       ref="idol-table"
       :columns="columns"
       :rows="rows"
-      :compact-mode="compactMode"
       :sort-options="{
-        enabled: true,
+        enabled: false,
         initialSortBy: { field: 'date', type: 'desc' },
-      }"
-      :pagination-options="{
-        enabled: true,
-        perPage: perPage,
-        setCurrentPage: currentPage,
-        perPageDropdown: [5, 10, 30, 100],
-        dropdownAllowAll: false,
-        nextLabel: '次',
-        prevLabel: '前',
-        rowsPerPageLabel: '表示数',
-        infoFn: (params) => `${params.currentPage} / ${params.totalPage}`,
       }"
       style-class="vgt-table striped condensed"
       @on-cell-click="onCellClick"
@@ -64,29 +61,36 @@
 import {
   getFirestore,
   collection,
+  getCountFromServer,
   getDocs,
   doc,
   getDoc,
   deleteDoc,
   setDoc,
+  query,
+  orderBy,
+  limit,
+  limitToLast,
+  startAfter,
+  endBefore,
 } from 'firebase/firestore'
 
 export default {
   data() {
     return {
       created: false,
+      total: 100,
+      perPage: 10,
+      current: 1,
+      pastCurrent: 1,
+      isSimple: true,
+      querySnapshot: null,
       show: true,
       profileShow: true,
       name: '',
       group: '',
       twitterId: '',
       instax_totalling: [],
-      perPage: 10,
-      perPageChangeFlag: false,
-      totalPage: '',
-      currentPage: '',
-      windowWidth: '',
-      compactMode: false,
       columns: [
         {
           label: '',
@@ -142,10 +146,21 @@ export default {
         this.show = false
       }
 
-      const querySnapshot = await getDocs(
+      // ページネーション
+      const totalCount = await getCountFromServer(
         collection(db, 'users', userId, 'idol', idolId, 'instax')
       )
-      querySnapshot.forEach((doc) => {
+      this.total = totalCount.data().count
+      this.current = 1
+      this.querySnapshot = await getDocs(
+        query(
+          collection(db, 'users', userId, 'idol', idolId, 'instax'),
+          orderBy('date', 'desc'),
+          limit(this.perPage)
+        )
+      )
+
+      this.querySnapshot.forEach((doc) => {
         this.rows.push({
           edit: '編集',
           date: this.$dayjs(doc.data().date.toDate()).format('YYYY/MM/DD'),
@@ -156,6 +171,7 @@ export default {
           docId: doc.id,
         })
       })
+      this.pastCurrent = this.current
       this.created = true
     }, 0)
   },
@@ -168,6 +184,48 @@ export default {
           '/mypage/' + this.$route.params.uid + '/' + params.row.docId
         )
       }
+    },
+    async changePage() {
+      const db = getFirestore()
+      const userId = this.$store.getters['auth/uid']
+      const idolId = this.$route.params.uid
+      const pageShift = this.current - this.pastCurrent
+      if (pageShift > 0) {
+        const lastVisible =
+          this.querySnapshot.docs[this.querySnapshot.docs.length - 1]
+        this.querySnapshot = await getDocs(
+          query(
+            collection(db, 'users', userId, 'idol', idolId, 'instax'),
+            orderBy('date', 'desc'),
+            startAfter(lastVisible),
+            limit(this.perPage)
+          )
+        )
+      } else {
+        const firstVisible = this.querySnapshot.docs[0]
+        this.querySnapshot = await getDocs(
+          query(
+            collection(db, 'users', userId, 'idol', idolId, 'instax'),
+            orderBy('date', 'desc'),
+            endBefore(firstVisible),
+            limitToLast(this.perPage)
+          )
+        )
+      }
+
+      this.rows = []
+      this.querySnapshot.forEach((doc) => {
+        this.rows.push({
+          edit: '編集',
+          date: this.$dayjs(doc.data().date.toDate()).format('YYYY/MM/DD'),
+          number: doc.data().number,
+          url: doc.data().url,
+          place: doc.data().place,
+          event: doc.data().event,
+          docId: doc.id,
+        })
+      })
+      this.pastCurrent = this.current
     },
     clickEdit() {
       this.profileShow = false
@@ -199,4 +257,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.content ul {
+  margin-left: 0em;
+  margin-top: 0em;
+}
+</style>

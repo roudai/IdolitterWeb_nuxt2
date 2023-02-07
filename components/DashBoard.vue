@@ -116,8 +116,8 @@
       </div>
     </div>
 
-    <div v-if="created">
-      <div v-show="view === ''">
+    <div>
+      <div>
         <div class="mt-3 has-text-right">
           <b-button
             label="ログアウトする"

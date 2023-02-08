@@ -116,7 +116,7 @@ export default {
       range: '統計!B1:B2',
     }
     const queryParams = new URLSearchParams(params)
-    const response = await $axios.$get(baseUrl + queryParams)
+    const response = await $axios.$get(encodeURI(baseUrl) + queryParams)
     return response
   },
   data() {

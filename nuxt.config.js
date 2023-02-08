@@ -1,7 +1,4 @@
 export default {
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
-
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -60,10 +57,10 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/vue-good-table', ssr: false },
-    '~/plugins/day.js',
-    '~/plugins/localStorage.js',
+    { src: '~/plugins/vue-good-table', mode: 'client' },
+    { src: '~/plugins/localStorage.js', mode: 'client' },
     { src: '~/plugins/apex-chart.js', mode: 'client' },
+    '~/plugins/day.js',
     '~/plugins/common.js',
   ],
 

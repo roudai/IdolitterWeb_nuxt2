@@ -23,11 +23,6 @@
             <b-input v-model="myUrl" expanded disabled></b-input>
           </b-field>
         </div>
-        <div class="buttons mb-3">
-          <b-button type="is-primary is-light" @click="clickEdit"
-            >共有</b-button
-          >
-        </div>
       </div>
       <div v-if="editButton">
         <b-button type="is-link is-light" @click="clickEdit">編集</b-button>

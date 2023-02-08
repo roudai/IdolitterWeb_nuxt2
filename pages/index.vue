@@ -110,14 +110,19 @@
 <script>
 export default {
   async asyncData({ $axios, $config }) {
-    const baseUrl = $axios.defaults.baseURL + '統計?'
-    const params = {
-      key: $config.apiKey,
-      range: '統計!B1:B2',
+    try {
+      const baseUrl = $axios.defaults.baseURL + '統計?'
+      const params = {
+        key: $config.apiKey,
+        range: '統計!B1:B2',
+      }
+      const queryParams = new URLSearchParams(params)
+      const response = await $axios.$get(encodeURI(baseUrl) + queryParams)
+      return response
+    } catch (err) {
+      console.log(err.response.status)
+      console.log(err.response.data.message)
     }
-    const queryParams = new URLSearchParams(params)
-    const response = await $axios.$get(encodeURI(baseUrl) + queryParams)
-    return response
   },
   data() {
     return {

@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/mypage/edit/event", {data:[{}],fetch:{},mutations:[]});

@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/mypage/edit/place", {data:[{}],fetch:{},mutations:[]});

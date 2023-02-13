@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[13],{381:function(t,n,e){"use strict";e.r(n);var o={created:function(){this.$store.dispatch("auth/logout")}},c=e(38),component=Object(c.a)(o,(function(){return(0,this._self._c)("div",[this._v("ログアウトします。")])}),[],!1,null,null,null);n.default=component.exports}}]);

@@ -66,29 +66,34 @@
 <script>
 export default {
   async asyncData({ $axios, $config }) {
-    const baseUrl = $axios.defaults.baseURL + '取得差分?'
-    const params0 = {
-      key: $config.apiKey,
-      range: '取得差分!W1',
-    }
-    const queryParams0 = new URLSearchParams(params0)
-    const response0 = await $axios.$get(encodeURI(baseUrl) + queryParams0)
+    try {
+      const baseUrl = $axios.defaults.baseURL + '取得差分?'
+      const params0 = {
+        key: $config.apiKey,
+        range: '取得差分!W1',
+      }
+      const queryParams0 = new URLSearchParams(params0)
+      const response0 = await $axios.$get(encodeURI(baseUrl) + queryParams0)
 
-    const params1 = {
-      key: $config.apiKey,
-      range: '取得差分!I2:N301',
-    }
-    const queryParams1 = new URLSearchParams(params1)
-    const response1 = await $axios.$get(encodeURI(baseUrl) + queryParams1)
+      const params1 = {
+        key: $config.apiKey,
+        range: '取得差分!I2:N301',
+      }
+      const queryParams1 = new URLSearchParams(params1)
+      const response1 = await $axios.$get(encodeURI(baseUrl) + queryParams1)
 
-    const params2 = {
-      key: $config.apiKey,
-      range: '取得差分!P2:U301',
-    }
-    const queryParams2 = new URLSearchParams(params2)
-    const response2 = await $axios.$get(encodeURI(baseUrl) + queryParams2)
+      const params2 = {
+        key: $config.apiKey,
+        range: '取得差分!P2:U301',
+      }
+      const queryParams2 = new URLSearchParams(params2)
+      const response2 = await $axios.$get(encodeURI(baseUrl) + queryParams2)
 
-    return { process: response0, follower: response1, tweet: response2 }
+      return { process: response0, follower: response1, tweet: response2 }
+    } catch (err) {
+      console.log(err.response.status)
+      console.log(err.response.data.message)
+    }
   },
   data() {
     return {

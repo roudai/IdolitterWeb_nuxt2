@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/", {data:[{range:"'統計'!B1:B2",majorDimension:"ROWS",values:[["6812"],["1522"]]}],fetch:{},mutations:[]});

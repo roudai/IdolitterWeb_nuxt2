@@ -147,10 +147,13 @@ export default {
   },
   beforeCreate() {
     setTimeout(async () => {
-      const db = getFirestore()
-      const userId = this.$store.getters['auth/uid']
-      const docSnap = await getDoc(doc(db, 'users', userId))
-      this.idolList = docSnap.data().idol_list
+      const isLoggedIn = this.$store.getters['auth/isLoggedIn']
+      if (isLoggedIn) {
+        const db = getFirestore()
+        const userId = this.$store.getters['auth/uid']
+        const docSnap = await getDoc(doc(db, 'users', userId))
+        this.idolList = docSnap.data().idol_list
+      }
     }, 0)
   },
   created() {

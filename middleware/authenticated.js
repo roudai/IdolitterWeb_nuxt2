@@ -1,7 +1,12 @@
-export default function ({ store, route, redirect }) {
-  if (!store.getters['auth/LoggedIn']) {
+import { getAuth } from 'firebase/auth'
+
+export default function ({ route, redirect }) {
+  const auth = getAuth()
+  if (!auth.onAuthStateChanged) {
     // ログインされていない場合
-    redirect('/auth/login')
+    if (route.path.match(/\/mypage/)) {
+      redirect('/auth/login')
+    }
   } else if (route.path.match(/\/login/)) {
     // ログインしている場合
     redirect('/mypage')
